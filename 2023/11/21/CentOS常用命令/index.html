@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.2b13c.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、软链接1 创建软链接1ln -s 【目标目录】 【软链接地址】  【目标目录】指软链接指向的目标目录，【软链接地址】指“快捷键”文件名称，该文件是指被指令创建的。 2 删除软连接1rm -rf 【软链接地址】  上述指令中，软链接地址最后不能含有“&#x2F;”，当含有“&#x2F;”时，删除的是软链接目标目录下的资源，而不是软链接本身。 3 修改软连接1ln -snf 【新目标目录】 【软链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS常用命令">
+<meta property="og:url" content="http://blog.2b13c.com/2023/11/21/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="逍遥谷">
+<meta property="og:description" content="一、软链接1 创建软链接1ln -s 【目标目录】 【软链接地址】  【目标目录】指软链接指向的目标目录，【软链接地址】指“快捷键”文件名称，该文件是指被指令创建的。 2 删除软连接1rm -rf 【软链接地址】  上述指令中，软链接地址最后不能含有“&#x2F;”，当含有“&#x2F;”时，删除的是软链接目标目录下的资源，而不是软链接本身。 3 修改软连接1ln -snf 【新目标目录】 【软链">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.2b13c.com/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C01.png">
+<meta property="og:image" content="http://blog.2b13c.com/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C02.png">
+<meta property="og:image" content="http://blog.2b13c.com/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C03.png">
+<meta property="og:image" content="http://blog.2b13c.com/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C04.png">
+<meta property="article:published_time" content="2023-11-21T05:53:20.000Z">
+<meta property="article:modified_time" content="2023-11-21T14:23:30.366Z">
+<meta property="article:author" content="微风">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="CentOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.2b13c.com/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C01.png">
+
+<link rel="canonical" href="http://blog.2b13c.com/2023/11/21/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CentOS常用命令 | 逍遥谷</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">逍遥谷</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">加油吧，慢慢就会好起来的</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/21/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CentOS常用命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-21 13:53:20 / 修改时间：22:23:30" itemprop="dateCreated datePublished" datetime="2023-11-21T13:53:20+08:00">2023-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/CentOS/" itemprop="url" rel="index"><span itemprop="name">CentOS</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一、软链接"><a href="#一、软链接" class="headerlink" title="一、软链接"></a>一、软链接</h1><h2 id="1-创建软链接"><a href="#1-创建软链接" class="headerlink" title="1 创建软链接"></a>1 创建软链接</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s 【目标目录】 【软链接地址】</span><br></pre></td></tr></table></figure>
+
+<p>【目标目录】指软链接指向的目标目录，【软链接地址】指“快捷键”文件名称，该文件是指被指令创建的。</p>
+<h2 id="2-删除软连接"><a href="#2-删除软连接" class="headerlink" title="2 删除软连接"></a>2 删除软连接</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf 【软链接地址】</span><br></pre></td></tr></table></figure>
+
+<p>上述指令中，软链接地址最后不能含有“&#x2F;”，当含有“&#x2F;”时，删除的是软链接目标目录下的资源，而不是软链接本身。</p>
+<h2 id="3-修改软连接"><a href="#3-修改软连接" class="headerlink" title="3 修改软连接"></a>3 修改软连接</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -snf 【新目标目录】 【软链接地址】</span><br></pre></td></tr></table></figure>
+
+<p>这里修改是指修改软链接的目标目录</p>
+<h1 id="二、修改主机名"><a href="#二、修改主机名" class="headerlink" title="二、修改主机名"></a>二、修改主机名</h1><h2 id="1-临时方法"><a href="#1-临时方法" class="headerlink" title="1 临时方法"></a>1 临时方法</h2><p>hostname 主机名 &#x2F;&#x2F;只能临时修改主机名，当重启机器后，主机名称又变回来了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname xxx</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-永久生效"><a href="#2-永久生效" class="headerlink" title="2 永久生效"></a>2 永久生效</h2><p>永久修改主机名称，重启后能保持修改。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hostnamectl set-hostname xxx</span><br><span class="line">//删除hostname</span><br><span class="line">hostnamectl set-hostname <span class="string">&quot;&quot;</span></span><br><span class="line">hostnamectl set-hostname <span class="string">&quot;&quot;</span> --static</span><br><span class="line">hostnamectl set-hostname <span class="string">&quot;&quot;</span> --pretty</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-永久生效"><a href="#3-永久生效" class="headerlink" title="3 永久生效"></a>3 永久生效</h2><p>修改配置文件&#x2F;etc&#x2F;hostname来实现主机名的修改。把该文件内容hostname name中的name替换成自己想要的主机名重启即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br><span class="line">hostname xxx</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="三、安装基础服务"><a href="#三、安装基础服务" class="headerlink" title="三、安装基础服务"></a>三、安装基础服务</h1><p> 出现-bash: ***: command not found</p>
+<h2 id="1-安装telnet"><a href="#1-安装telnet" class="headerlink" title="1 安装telnet"></a>1 安装telnet</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum list telnet*</span><br><span class="line">yum install -y telnet-server</span><br><span class="line">yum install -y telnet.*</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-安装wget"><a href="#2-安装wget" class="headerlink" title="2 安装wget"></a>2 安装wget</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y wget</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-安装rzsz"><a href="#3-安装rzsz" class="headerlink" title="3 安装rzsz"></a>3 安装rzsz</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y lrzsz</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="四、CentOS7硬盘分区，删除分区，格式化分区硬盘，支持4T硬盘，fdisk，parted简单用法"><a href="#四、CentOS7硬盘分区，删除分区，格式化分区硬盘，支持4T硬盘，fdisk，parted简单用法" class="headerlink" title="四、CentOS7硬盘分区，删除分区，格式化分区硬盘，支持4T硬盘，fdisk，parted简单用法"></a>四、CentOS7硬盘分区，删除分区，格式化分区硬盘，支持4T硬盘，fdisk，parted简单用法</h1><h2 id="1-查看分区表状态"><a href="#1-查看分区表状态" class="headerlink" title="1 查看分区表状态"></a>1 查看分区表状态</h2><p>先查看是否有磁盘没有分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-用fdisk对-dev-sdb进行分区（注意：超过2T硬盘要使用Parted分区）"><a href="#2-用fdisk对-dev-sdb进行分区（注意：超过2T硬盘要使用Parted分区）" class="headerlink" title="2 用fdisk对&#x2F;dev&#x2F;sdb进行分区（注意：超过2T硬盘要使用Parted分区）"></a>2 用fdisk对&#x2F;dev&#x2F;sdb进行分区（注意：超过2T硬盘要使用Parted分区）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+
+<p>输入m，或者help可以查看命令操作</p>
+<p><img src="/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C01.png" alt="01"></p>
+<p>输入p 可查看当前硬盘分区状态</p>
+<p><img src="/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C02.png" alt="01"></p>
+<p>输入n新建一个分区，输入p 建立分区，输入分区编号 1</p>
+<p><img src="/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C03.png" alt="01"></p>
+<p>然后会让你设置开始扇区,我填的是开始扇区2048，结束，20480</p>
+<p><img src="/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%5C04.png" alt="01"></p>
+<p><strong>最后输入w,回车进行保存，分的区才会生效（切记！）</strong></p>
+<p>退出：quit</p>
+<h2 id="3-Parted分区"><a href="#3-Parted分区" class="headerlink" title="3 Parted分区"></a>3 Parted分区</h2><h3 id="3-1-将磁盘上原有的分区删除掉"><a href="#3-1-将磁盘上原有的分区删除掉" class="headerlink" title="3.1 将磁盘上原有的分区删除掉"></a>3.1 将磁盘上原有的分区删除掉</h3><p>进入：parted &#x2F;dev&#x2F;sdb</p>
+<p>查看：(parted) p</p>
+<p>删除：(parted) rm 1</p>
+<p>​			(parted) rm 2</p>
+<h3 id="3-2-将磁盘格式变成gpt格式（因为parted只能针对gpt格式的磁盘进行操作）"><a href="#3-2-将磁盘格式变成gpt格式（因为parted只能针对gpt格式的磁盘进行操作）" class="headerlink" title="3.2 将磁盘格式变成gpt格式（因为parted只能针对gpt格式的磁盘进行操作）"></a>3.2 将磁盘格式变成gpt格式（因为parted只能针对gpt格式的磁盘进行操作）</h3><p>转换：(parted) mklabel gpt</p>
+<p>设置单位：(parted) unit MB(GB, TB)</p>
+<p>分区：(parted) mkpart primary 1 -1</p>
+<p>查看：(parted) p</p>
+<p>退出：(parted) quit（parted分区自动保存，不用手动保存）</p>
+<h3 id="3-3-格式化已经分好的区"><a href="#3-3-格式化已经分好的区" class="headerlink" title="3.3 格式化已经分好的区"></a>3.3 格式化已经分好的区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs.xfs -f /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-挂载"><a href="#3-4-挂载" class="headerlink" title="3.4 挂载"></a>3.4 挂载</h3><p>目标：分区<code>/dev/sdb1</code>挂载至<code>/data</code>目录。</p>
+<p>创建目录，<strong>如果目录中存在内容，请先备份，在挂载完成后重新复制回来。</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建目录</span></span><br><span class="line"><span class="built_in">mkdir</span> /data</span><br><span class="line"><span class="comment">#挂载目录</span></span><br><span class="line">mount -t xfs /dev/sdb1 /data</span><br><span class="line"><span class="comment">#查看挂载情况</span></span><br><span class="line"><span class="built_in">df</span> -Th</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-5-开机自动挂载"><a href="#3-5-开机自动挂载" class="headerlink" title="3.5 开机自动挂载"></a>3.5 开机自动挂载</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;/dev/sdb1 /data xfs defaults 0 0&quot;</span> &gt;&gt; /etc/fstab</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="五、Linux文件系统"><a href="#五、Linux文件系统" class="headerlink" title="五、Linux文件系统"></a>五、Linux文件系统</h1><ul>
+<li><code>/var</code>：包含在正常操作中被改变的文件、假脱机文件、记录文件、加锁文件、临时文件和页格式化文件等。</li>
+<li><code>/home</code>：包含用户的文件：参数设置文件、个性化文件、文档、数据、EMALL、缓存数据等，每增加一个用户，系统就会根据其用户名在 home 目录下新建和其他用户同名的文件夹，用于保存其用户配置。</li>
+<li><code>/proc</code>：包含虚幻的文件，他们实际上并不存在于磁盘上，也不占用任何空间（用 ls-l 可以显示它们的大小）当查看这些文件时，实际上是在访问存在内存中的信息，这些信息用于访问系统。</li>
+<li><code>/bin</code>：包含系统启动时需要的执行文件（二进制），这些文件可以被普通用户使用。</li>
+<li><code>/etc</code>：为操作系统的配置文件目录（防火墙、启动项）</li>
+<li><code>/root</code>：为系统管理员（也叫超级用户或根用户）的 Home 目录。</li>
+<li><code>/dev</code>：为设备目录，Linux 下设备被当成文件，这样一来硬件被抽象化、便于读写、网络共享以及需要临时装载到文件系统中，正常情况下，设备会有一个独立的子目录，这些设备的内容会出现在独立的子目录下。</li>
+</ul>
+<h1 id="六、Linux命令操作"><a href="#六、Linux命令操作" class="headerlink" title="六、Linux命令操作"></a>六、Linux命令操作</h1><ul>
+<li><p><strong>查看当前目录命令：<code>pwd</code></strong></p>
+</li>
+<li><p><strong>打开文件夹命令：<code>cd</code></strong></p>
+<ul>
+<li>打开指定文件夹：<code>cd [目录名称]</code></li>
+<li>打开当前用户的根目录：<code>cd ~</code></li>
+<li>返回上级目录：<code>cd …</code></li>
+<li>返回进入目录：<code>cd -</code></li>
+<li>打开根目录：<code>cd /</code></li>
+</ul>
+</li>
+<li><p><strong>浏览目录下的文件列表命令：<code>ls</code></strong></p>
+<ul>
+<li>以列的方式查看当前目录下的文件列表：<code>ls -l</code></li>
+<li>查看当前目录下所有的文件（包括隐藏文件）：<code>ls -a</code></li>
+<li>以列表的方式查看当前目录下的所有文件：<code>ls -la</code></li>
+</ul>
+</li>
+<li><p><strong>创建文件目录命令：<code>mkdir</code></strong></p>
+<ul>
+<li>新建文件目录：<code>mkdir 文件夹名称</code></li>
+<li>递归新建多级目录：<code>mkdir -p 文件夹名称</code></li>
+<li>例如在用户目录下新建 test 目录，命令这样写：<code>mkdir -p test/test1/test2/test3</code> 递归新建多级目录的写法</li>
+</ul>
+</li>
+<li><p><strong>删除文件目录命令：<code>rmkdir</code></strong></p>
+<ul>
+<li><p>删除指定目录：<code>rmkdir 目录名称</code></p>
+</li>
+<li><p>递归删除指定目录及中间目录：<code>rmdir -p 目录名称</code> 这里没有写错，没有字母 k</p>
+</li>
+</ul>
+</li>
+<li><p><strong>删除文件或者目录命令：<code>rm</code></strong></p>
+<ul>
+<li>常用命令：<code>rm -rf [目录或文件]</code> <code>rm -ri [目录或文件]</code></li>
+<li>强制删除文件或目录：<code>rm -rf 目录或者文件</code></li>
+<li>在删除前询问是否确认删除：<code>rm -ri 目录或文件</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>因为强制删除的后果不太好，一般不建议使用 <code>rm -rf</code> 进行文件删除</p>
+<p>rm 命令中不跟 r 参数，无法删除目录，只能删除文件</p>
+</blockquote>
+<ul>
+<li><p><strong>复制文件或目录命令：<code>cp</code></strong></p>
+<ul>
+<li>递归复制目录1下的所有的文件和文件夹到目录2：<code>cp -r [目录1][目录2]</code></li>
+<li>执行复制操作时覆盖原有目录前询问用户：<code>cp -ri [目录1][目录2]</code></li>
+</ul>
+</li>
+<li><p><strong>移动文件、修改文件名命令：<code>mv</code></strong></p>
+<ul>
+<li>将文件夹1名称更改为文件夹2：<code>mv 文件1 文件2</code> (给文件更名)</li>
+<li>将目录1的文件移动到目录2：<code>mv 目录2 目录2</code> (将目录1的文件移动到目录2)</li>
+</ul>
+</li>
+<li><p><strong>创建文件命令：<code>touch</code></strong></p>
+<ul>
+<li>touch 文件名称</li>
+</ul>
+</li>
+<li><p><strong>查看、编辑文件命令：<code>vi</code></strong></p>
+<ul>
+<li>vi 命令为 UNIX 操作系统或者类 UNIX 操作系统都有具有的功能强大的文件编辑命令，用户输入 vi ++ 文件名，便可以进入 vi 模式进行文件内容的查看和编辑，如果文件已经存在，则直接打开文件，如果文件不存在，则系统将打开一个全新的空文件。</li>
+</ul>
+</li>
+</ul>
+<p>vi的三种模式：</p>
+<ol>
+<li>命令模式</li>
+</ol>
+<p>当用户使用 vi 命令打开文件后，则进入命令模式，用户可以输入命令来执行各种功能。</p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>L</td>
+<td>光标移至屏幕最后一行</td>
+</tr>
+<tr>
+<td>space</td>
+<td>光标右移一个字符</td>
+</tr>
+<tr>
+<td>backspace</td>
+<td>光标左移一个字符</td>
+</tr>
+<tr>
+<td>N+</td>
+<td>光标向上移动N行</td>
+</tr>
+<tr>
+<td>n+</td>
+<td>光标向下移n行</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>输入模式</li>
+</ol>
+<p>如果用户要对文件做修改，则可以使用下面几种命令，进入输入模式，用户进入输入模式之后，可以任意修改文件，除了 Esc 键外，用户输入的任何字符都会被作为内容写入文件中，用户输入 Esc 可以对文件进行相关操作。</p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a、i、r、o、A、I、R、O</td>
+<td>编辑模式</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>删除当前光标</td>
+</tr>
+<tr>
+<td>ndd</td>
+<td>删除n行</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>末行模式</li>
+</ol>
+<p>如果用户完成编辑命令，则可以按照 esc + “:” 进入末行模式，用户可以对文件内容继续进行搜索，也可以输入 “:wq!” 进行文件保存并退出，或者输入 “:q!” 强制退出文件编辑。</p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:wq!</td>
+<td>保存并退出</td>
+</tr>
+<tr>
+<td>:q!</td>
+<td>强制退出</td>
+</tr>
+<tr>
+<td>:s&#x2F;字符串 1&#x2F;字符串 2</td>
+<td>将文件中出现的字符串1替换为字符串2</td>
+</tr>
+<tr>
+<td>:set nu</td>
+<td>显示所有行号</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>查看、编辑文件命令：<code>cat</code></strong></p>
+<ul>
+<li>显示一个小的文件的内容：<code>cat 文件名称</code></li>
+<li>创建并打开一个新的文件：<code>cat &gt; 文件名称</code></li>
+</ul>
+</li>
+<li><p><strong>查看文件开头内容命令：<code>head</code></strong></p>
+<ul>
+<li><code>head [参数] [文件名]</code></li>
+</ul>
+</li>
+</ul>
+<p>例如，使用 head 命令显示某个文件开始的 n 行数据：<code>head -n 文件名称</code></p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-n</td>
+<td>&lt;行数&gt;显示的行数</td>
+</tr>
+<tr>
+<td>默认</td>
+<td>默认显示文件前10行数据</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>查看文件结尾内容命令：<code>tail</code></strong></p>
+<ul>
+<li>动态加载某个文件的内容（常用于查看日志文件）：<code>tail -f 文件名称</code></li>
+<li>展示文件最后几行的数据：<code>tail -n 行数文件名称</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="七、Linux用户操作命令"><a href="#七、Linux用户操作命令" class="headerlink" title="七、Linux用户操作命令"></a>七、Linux用户操作命令</h1><ul>
+<li><p><strong>切换用户命令：<code>su</code></strong></p>
+</li>
+<li><ul>
+<li><code>su [用户名]</code> 或者 <code>su -[用户名]</code></li>
+<li><code>su[用户名]</code>和 <code>su -[用户名]</code>都可以切换用户，前者类似于临时切换用户，当使用该命令进行切换新用户时，用户配置仍然沿用原来的用户配置，如环境变量、系统变量等。而后者进行切换用户时，环境变量、系统设置全部切换成新用户的用户配置。</li>
+</ul>
+</li>
+<li><p><strong>查看当前登陆用户命令：<code>whoami</code></strong></p>
+</li>
+<li><p><strong>查看当前用户所属分组命令：<code>groups</code></strong></p>
+</li>
+<li><p><strong>查看当前用户 UID 和 GID 命令：<code>id</code></strong></p>
+</li>
+<li><p><strong>添加新用户命令：<code>useradd</code></strong></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>代表comment指定一段注释性描述</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>指定用户主目录</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>指定用户所属的用户组</td>
+</tr>
+<tr>
+<td>-G</td>
+<td>指定用户所属的附加组</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>指定用户的用户号</td>
+</tr>
+<tr>
+<td>缺省</td>
+<td>直接添加用户</td>
+</tr>
+</tbody></table>
+<p>在 Linux 操作系统中添加用户：<code>useradd 用户名</code></p>
+<p>在 Linux 操作系统中添加用户并指定用户 UID：<code>useradd -u</code> 指定的 UID 用户名</p>
+<ul>
+<li>**修改用户密码命令：<code>passwd</code>**例如：修改当前用户名为 sang 的用户密码：<code>passwd sang</code></li>
+</ul>
+<p>在添加用户之后，只有为其设置密码，用户才能登陆</p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-d</td>
+<td>删除密码，仅有系统管理员才能使用</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>强制执行</td>
+</tr>
+<tr>
+<td>-k</td>
+<td>设置只有密码过期后才能更新</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>锁着密码</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>列出相关信息，仅有系统管理员才能使用</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>解开已上锁的账号</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>删除用户命令：<code>userdel</code></strong></p>
+</li>
+<li><ul>
+<li>删除用户：<code>userdel 用户名</code></li>
+<li>删除用户并同时删除其登陆信息：<code>userdel -r 用户名</code></li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-r</td>
+<td>删除用户以及其登录日志等信息</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>强制删除用户，即使用户已经登录</td>
+</tr>
+<tr>
+<td>缺省</td>
+<td>直接删除用户</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>修改用户信息命令：<code>usermod</code></strong></p>
+</li>
+<li><ul>
+<li>语法：<code>usermod [选项] [参数] [用户名]</code></li>
+<li>修改用户登录名：<code>usermod -l 新用户名 旧用户名</code></li>
+<li>修改用户所属分组：<code>usermod -g 新组名称 用户名</code></li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>修改用户账号的备注文字</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>修改用户登录时的目录</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>修改账号的有效期</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>修改密码过期后多少天关闭账号</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>修改用户所属的群组</td>
+</tr>
+<tr>
+<td>-G</td>
+<td>修改用户所属附加组</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>修改用户账号名称</td>
+</tr>
+<tr>
+<td>-L</td>
+<td>锁定用户密码，使密码无效</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>修改用户id</td>
+</tr>
+<tr>
+<td>-U</td>
+<td>解除密码锁定</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>添加用户组命令：<code>groupadd</code></strong></p>
+</li>
+<li><ul>
+<li>语法：<code>groupadd [选项] [组名称]</code></li>
+<li>修改用户登陆名：<code>groupadd 组名</code></li>
+<li>修改用户所属分组：<code>groupadd -g 组 GID 组名</code></li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-g</td>
+<td>指定工作组的id</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>创建系统工作组</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>允许添加组ID不唯一的工作组</td>
+</tr>
+<tr>
+<td>缺省</td>
+<td>添加用户分组</td>
+</tr>
+</tbody></table>
+<h1 id="八、Linux权限操作"><a href="#八、Linux权限操作" class="headerlink" title="八、Linux权限操作"></a>八、Linux权限操作</h1><p>Linux 操作系统为文件定义了读、写、执行三种权限，不同的用户或者用户组可以具有不同的权限，系统采用 “r”、“w”、“x” 来分别表示文件的读、写、执行权限。使用 ls -l 命令可以查看到用户在当前目录或者文件的操作权限。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drwxr -xr -x. 2 root root 4096 Sep 23 2011 bin</span><br></pre></td></tr></table></figure>
+
+<p>从左至右分别表示如下含义：</p>
+<ul>
+<li><code>d</code>：代表 bin 数目目录而不是文件</li>
+<li><code>rwx</code>：代表拥有者具有读、写、执行的权限</li>
+<li><code>r -x</code>：代表同组用户具有读、执行的权限，但是没有写权限</li>
+<li><code>r -x</code>：代表其他组用户具有读、执行权限，没有写权限</li>
+</ul>
+<p>常用的变更权限命令为：<code>chmod</code></p>
+<p>语法：<code>chmod [选项] [参数]</code></p>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>显示指令执行过程，但只返回更改的部分</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>不显示错误信息</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>递归授权</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示指令执行过程</td>
+</tr>
+</tbody></table>
+<p>chmod 的参数可以分为两种，分别是权限模式和数字模式。</p>
+<ol>
+<li>权限模式</li>
+</ol>
+<p>权限模式使用 u、g、o 分别代表拥有者、同组用户、其他组用户，使用 + 和一代表赋予和收回权限，使用 r、w、x 代表读、写、执行权限。</p>
+<p>例如：将文件01的执行权限给当前用户，写权限赋给用户所在的用户组和其他用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -r U+X,G+W F01</span><br></pre></td></tr></table></figure>
+
+<p>例如：将文件 f01 的读、写、执行的权限赋给当前用户，将读、写权限赋给用户所在的用户组和其他用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> -r u=rwx,g=rw,o=rw f01</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>数字模式</li>
+</ol>
+<p>为了简化授权步骤，用户也可以采用数字模式进行授权，使用二进制的形式代表 r、w、x 三种权限，如 <code>101 (5) =r -x</code>，<code>111 (7) =rwx</code>，<code>100 (3) =r- -</code></p>
+<p>例如：将文件 f01 的读、写、执行的权限赋给当前用户，将读和执行权限赋给用户组、将写和执行权限赋给其他用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 753 -r f01</span><br></pre></td></tr></table></figure>
+
+<p>例如：将文件 f01 的读、写、执行权限赋给所有用户。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 777 -r f01</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="九、Linux进程管理"><a href="#九、Linux进程管理" class="headerlink" title="九、Linux进程管理"></a>九、Linux进程管理</h1><p>在 Linux 的应用中，我们需要对进程进行管理，如查看某个进程是否启动、以及在必要的时刻，杀掉某个线程。</p>
+<ul>
+<li><strong>查看进程命令：ps</strong></li>
+</ul>
+<p>ps 命令是 Linux 操作系统中查看进程的命令，通过 ps 命令我们可以查看 Linux 操作系统中正在运行的过程，并可以获得进程的 PID（进程的唯一标识），通过 PID 可以对进程进行相应的管理。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep [进程关键字]</span><br></pre></td></tr></table></figure>
+
+<p>根据进程关键词查看进程命令显示如下，显示的进程列表中第一列表示开启进程的用户，第二列表示进程唯一标识 PID，第三列表示父进程 PPID，第四列表示 CPU 占用资源比列，最后一列表示进程所执行程序的具体位置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ ps -ef|grep sshd</span><br><span class="line">root 1829 1  0 May24 ?   00:00:00 /usr/sbin/sshd</span><br><span class="line">shang 24166 24100  0   20:17 pts/2  00:00:00      grep  sshd</span><br><span class="line">[root@localhost ~]$</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>杀掉进程命令：kill</strong></li>
+</ul>
+<p>当系统中有进程进入死循环，或者需要被关闭时，我们可以使用 kill 命令对其关闭。</p>
+<p><code>kill -9 [PID]</code> PID 为 Linux 操作系统中进程的标识</p>
+<h1 id="十、Linux其他常用命令大全"><a href="#十、Linux其他常用命令大全" class="headerlink" title="十、Linux其他常用命令大全"></a>十、Linux其他常用命令大全</h1><ul>
+<li>清屏命令：clear</li>
+<li>查询命令详细参数命令：man</li>
+<li>挂载命令：mnt</li>
+<li>远程连接服务 SSH 相关命令：</li>
+<li>启动 SSH 服务命令：<code>service sshd start</code></li>
+<li>重启 SSH 服务命令：<code>service sshd restart</code></li>
+<li>关闭 SSH 服务命令：<code>service sshd stop</code></li>
+</ul>
+<p>Linux 大多数情况下都是远程服务器，开发者通过远程工具连接 Linux ，启动了某个项目的 JAR，一旦窗口关闭，JAR 也就停止运行了，因此一般通过如下命令启动 JAR：<code>nohup java -jar jar-0.0.1-SNAPSHOT.jar &amp;</code></p>
+<p>这里多了 nohup ，表示当前窗口关闭时服务不挂起，继续在后台运行</p>
+<h1 id="十一、Linux系统软件安装"><a href="#十一、Linux系统软件安装" class="headerlink" title="十一、Linux系统软件安装"></a>十一、Linux系统软件安装</h1><p><strong>常用软件安装</strong></p>
+<p>Linux 下常用的软件安装方式有3种。</p>
+<ul>
+<li><strong>tar 安装</strong>：如果开发商提供的是 tar、tar.gz、tar.bz 格式的包（其中 tar 格式的为打包后没有压缩的包，gz 结尾的是按照 gzip 打包并压缩的软件包，tar.bz 是按照二进制方式打包并压缩的软件包），可以采用 tar 包安装，tar 安装方式本质上是解压软件开发商提供的软件包，之后在通过相应配置，完成软件的安装。</li>
+<li><strong>rpm 安装</strong>：rpm 安装方式是 redhat Linux 系列推出的一个软件包管理器，类似于 Windows 下的 exe 安装程序，可以直接使用 rpm 命令安装。</li>
+<li><strong>yum 安装</strong>：yum 安装本质上依然是 rpm 包安装，和 rpm 安装方式的不同之处是用户可以通过 yum 参数，指定安装的软件包，系统将自动从互联网上下载相应的 rpm 软件包。而无须用户关心软件包的下载地址，以及软件包的依赖关系。</li>
+</ul>
+<p>软件安装常用命令</p>
+<ul>
+<li>解压压缩命令：<code>tar</code></li>
+<li>语法：<code>tar [选项] [压缩包]</code></li>
+<li>解压 gzip 包：<code>tar -zxvf [包名]</code></li>
+<li>解压 bz 包：<code>tar -jxvf [包名]</code></li>
+<li>解压普通包：<code>tar -xvf [包名]</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>指定特定目录压缩</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>从备份文件中还原文件</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>列出备份文件的内容</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>添加文件到已经压缩的文件</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>有gzip属性的（后缀是gz的）</td>
+</tr>
+<tr>
+<td>-j</td>
+<td>有bz2属性的（后缀是bz的）</td>
+</tr>
+<tr>
+<td>-Z</td>
+<td>有cpmpress属性的</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示所有进程</td>
+</tr>
+<tr>
+<td>-O</td>
+<td>将文件解压到标准输出</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>使用档案名称</td>
+</tr>
+</tbody></table>
+<p><strong>安装卸载命令：rpm</strong></p>
+<ul>
+<li>语法：<code>rpm [选项] [软件包]</code></li>
+<li>查询是否已经安装了某软件包：<code>rpm -qa|grep [软件包关键词]</code></li>
+<li>卸载已经安装的软件包：<code>rpm -e 软件包全名</code></li>
+<li>安装软件包并查看进度：<code>rpm -ivh 软件包路径</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>取值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-ivh</td>
+<td>安装显示安装进度</td>
+</tr>
+<tr>
+<td>-Uvh</td>
+<td>升级软件包</td>
+</tr>
+<tr>
+<td>-qpl</td>
+<td>列出rpm软件包内的文件信息</td>
+</tr>
+<tr>
+<td>-qpi</td>
+<td>列出rpm软件包的描述信息</td>
+</tr>
+<tr>
+<td>-qf</td>
+<td>查找指定文件属于哪个rpm软件包</td>
+</tr>
+<tr>
+<td>-Va</td>
+<td>校验所有的rpm软件包，查找丢失的文件</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>删除包</td>
+</tr>
+<tr>
+<td>-qa</td>
+<td>查找已经安装的rpm包</td>
+</tr>
+</tbody></table>
+<h1 id="十二、Linux操作系统优化"><a href="#十二、Linux操作系统优化" class="headerlink" title="十二、Linux操作系统优化"></a>十二、Linux操作系统优化</h1><h2 id="1-防火墙-firewalld"><a href="#1-防火墙-firewalld" class="headerlink" title="1 防火墙-firewalld"></a>1 防火墙-firewalld</h2><ul>
+<li>启动防火墙</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start firewalld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重启防火墙</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart firewalld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭防火墙</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看防火墙的状态</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置开机启动</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> firewalld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置开机不启动</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">disable</span> firewalld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看防火墙服务是否设置开机启动</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl is-enabled firewalld</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-关闭-Selinux"><a href="#2-关闭-Selinux" class="headerlink" title="2 关闭-Selinux"></a>2 关闭-Selinux</h2><ul>
+<li>查看Selinux</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ sestatus</span><br><span class="line">或者</span><br><span class="line">[root@localhost ~]$ getenforce</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>临时关闭</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ setenforce 0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>永久关闭</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#编辑配置文件</span></span><br><span class="line">vim /etc/sysconfig/selinux</span><br><span class="line"><span class="comment">#修改为以下配置：</span></span><br><span class="line">SELINUX=disabled</span><br><span class="line"><span class="comment">#重复服务器生效</span></span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-关闭透明大页-THP"><a href="#3-关闭透明大页-THP" class="headerlink" title="3 关闭透明大页-THP"></a>3 关闭透明大页-THP</h2><ul>
+<li>查看透明大页情况</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /sys/kernel/mm/transparent_hugepage/defrag</span><br><span class="line"><span class="built_in">cat</span> /sys/kernel/mm/transparent_hugepage/enabled</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>关闭透明大页</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ vim /etc/rc.d/rc.local</span><br><span class="line"><span class="comment">#添加如下配置</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -f /sys/kernel/mm/transparent_hugepage/enabled; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> -f /sys/kernel/mm/transparent_hugepage/defrag; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="comment">#保存文件</span></span><br><span class="line">:wq</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>保存退出，然后赋予rc.local文件的执行权限</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ <span class="built_in">chmod</span> +x /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重启服务器生效</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ reboot</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-修改文件句柄数-open-files"><a href="#4-修改文件句柄数-open-files" class="headerlink" title="4 修改文件句柄数-open files"></a>4 修改文件句柄数-open files</h2><ul>
+<li>查看</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -a</span><br><span class="line">open files (-n) 1024</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>临时修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -n 4096</span><br><span class="line">open files (-n) 4096</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>永久修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/security/limits.conf</span><br><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 65536</span><br><span class="line">* 代表所有用户，如果指定具体的用户，把*换成具体的工具名称</span><br><span class="line">zhangsan soft nofile 65536</span><br><span class="line">zhangsan hard nofile 65536</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重新连接生效</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br><span class="line">reconnect</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -a</span><br><span class="line">open files (-n) 65536</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-修改进程数-max-user-processes"><a href="#5-修改进程数-max-user-processes" class="headerlink" title="5 修改进程数-max user processes"></a>5 修改进程数-max user processes</h2><ul>
+<li>查看</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -a</span><br><span class="line">max user processes (-u) 15656</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>临时修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -u 20000</span><br><span class="line">max user processes (-u) 20000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>永久修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/security/limits.conf</span><br><span class="line">* soft <span class="built_in">nproc</span> 65536</span><br><span class="line">* hard <span class="built_in">nproc</span> 65536</span><br><span class="line">* 代表所有用户，如果指定具体的用户，把*换成具体的工具名称</span><br><span class="line">zhangsan soft <span class="built_in">nproc</span> 65536</span><br><span class="line">zhangsan hard <span class="built_in">nproc</span> 65536</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重新连接生效</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br><span class="line">reconnect</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ulimit</span> -a</span><br><span class="line">max user processes (-u) 65536</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-修改-vm-max-map-count"><a href="#6-修改-vm-max-map-count" class="headerlink" title="6 修改-vm.max_map_count"></a>6 修改-vm.max_map_count</h2><p>max_map_count文件包含限制一个进程可以拥有的VMA(虚拟内存区域)的数量</p>
+<ul>
+<li>查看当前值</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl -a | grep vm.max_map_count</span><br><span class="line">vm.max_map_count = 65530</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>临时修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w vm.max_map_count=200000</span><br><span class="line">vm.max_map_count = 200000</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>永久修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysctl.conf</span><br><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生效</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br><span class="line">vm.max_map_count = 262144</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-修改-fs-file-max"><a href="#7-修改-fs-file-max" class="headerlink" title="7 修改-fs.file-max"></a>7 修改-fs.file-max</h2><p>设置系统所有进程一共可以打开的文件数量 。同时一些程序可以通过setrlimit调用，设置每个进程的限制。如果得到大量使用完文件句柄的错误信息，是应该增加这个值。</p>
+<ul>
+<li>查看系统当前值</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl -a | grep fs.file-max</span><br><span class="line">fs.file-max = 396183</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>临时修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w fs.file-max=6553560</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>永久修改</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysctl.conf</span><br><span class="line">fs.file-max=6553560</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>生效</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br><span class="line">fs.file-max = 6553560</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="十三、【Linux】centos创建用户以及赋予sudo权限"><a href="#十三、【Linux】centos创建用户以及赋予sudo权限" class="headerlink" title="十三、【Linux】centos创建用户以及赋予sudo权限"></a>十三、【Linux】centos创建用户以及赋予sudo权限</h1><h2 id="1-创建用户"><a href="#1-创建用户" class="headerlink" title="1 创建用户"></a>1 创建用户</h2><p>用户名为：test</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adduser <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>为该用户创建密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>输入密码</p>
+<h2 id="2-授权"><a href="#2-授权" class="headerlink" title="2 授权"></a>2 授权</h2><p>个人用户的权限只可以在本home下有完整权限，其他目录要看别人授权。而经常需要root用户的权限，这时候sudo可以化身为root来操作。<br>新创建的用户并不能使用sudo命令，需要给他添加授权。<br>sudo命令的授权管理是在sudoers文件里的。可以看看sudoers：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]$ sudoers</span><br></pre></td></tr></table></figure>
+
+<p>找到这个文件(&#x2F;etc&#x2F;sudoers)位置之后，查看权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -l /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<p>只有读权限，将此文件增加写权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 640 /etc/sudoers</span><br><span class="line"><span class="built_in">ls</span> -l /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<p>修改&#x2F;etc&#x2F;sudoers文件：添加一个新用户</p>
+<p>找到 root	ALL&#x3D;(ALL)		ALL在后面添加一行</p>
+<p>test	ALL&#x3D;(ALL)		ALL</p>
+<p>注：可以在sudoers添加下面四行中的任意一条</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">youuser    ALL=(ALL)      ALL</span><br><span class="line">%youuser   ALL=(ALL)      ALL</span><br><span class="line">youuser    ALL=(ALL)      NOPASSWD: ALL</span><br><span class="line">%youuser   ALL=(ALL)      NOPASSWD: ALL</span><br><span class="line"></span><br><span class="line">第一行: 允许用户youuser执行sudo命令(需要输入密码).</span><br><span class="line">第二行: 允许用户组youuser里面的用户执行sudo命令(需要输入密码).</span><br><span class="line">第三行: 允许用户youuser执行sudo命令,并且在执行的时候不输入密码.</span><br><span class="line">第四行: 允许用户组youuser里面的用户执行sudo命令,并且在执行的时候不输入密码.</span><br></pre></td></tr></table></figure>
+
+<p>保存，退出后，将文件权限改回去：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 440 /etc/sudoers</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以使用新用户登录，并使用sudo权限了</p>
+<h2 id="3-删除用户命令"><a href="#3-删除用户命令" class="headerlink" title="3 删除用户命令"></a>3 删除用户命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">userdel -r <span class="built_in">test</span></span><br><span class="line"><span class="comment">#测试删除是否成功</span></span><br><span class="line">su <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="十四、CentOS7集群配置免密登录"><a href="#十四、CentOS7集群配置免密登录" class="headerlink" title="十四、CentOS7集群配置免密登录"></a>十四、CentOS7集群配置免密登录</h1><h2 id="1-分别修改三台机器的hosts，配置主机影射关系"><a href="#1-分别修改三台机器的hosts，配置主机影射关系" class="headerlink" title="1 分别修改三台机器的hosts，配置主机影射关系"></a>1 分别修改三台机器的hosts，配置主机影射关系</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p>文件中输入以下内容：ip hostname</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">192.168.10.131 node1 node1</span><br><span class="line">192.168.10.132 node2 node2</span><br><span class="line">192.168.10.133 node3 node3</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-配置三台虚拟机免密登录"><a href="#2-配置三台虚拟机免密登录" class="headerlink" title="2 配置三台虚拟机免密登录"></a>2 配置三台虚拟机免密登录</h2><h3 id="2-1-切换到用户根目录"><a href="#2-1-切换到用户根目录" class="headerlink" title="2.1 切换到用户根目录"></a>2.1 切换到用户根目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-生成公钥和私钥，分别在三台机器执行命令，执行命令后直接三次回车"><a href="#2-2-生成公钥和私钥，分别在三台机器执行命令，执行命令后直接三次回车" class="headerlink" title="2.2 生成公钥和私钥，分别在三台机器执行命令，执行命令后直接三次回车"></a>2.2 生成公钥和私钥，分别在三台机器执行命令，执行命令后直接三次回车</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-在用户根目录下-ssh目录中生成了两个文件，id-rsa-私钥-、id-rsa-pub-公钥"><a href="#2-3-在用户根目录下-ssh目录中生成了两个文件，id-rsa-私钥-、id-rsa-pub-公钥" class="headerlink" title="2.3 在用户根目录下.ssh目录中生成了两个文件，id_rsa(私钥)、id_rsa.pub(公钥)"></a>2.3 在用户根目录下.ssh目录中生成了两个文件，id_rsa(私钥)、id_rsa.pub(公钥)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-将公钥复制到同一台机器，分别在三台机器执行以下命令"><a href="#2-4-将公钥复制到同一台机器，分别在三台机器执行以下命令" class="headerlink" title="2.4 将公钥复制到同一台机器，分别在三台机器执行以下命令"></a>2.4 将公钥复制到同一台机器，分别在三台机器执行以下命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id node1</span><br><span class="line">ssh-copy-id node2</span><br><span class="line">ssh-copy-id node3</span><br><span class="line"><span class="comment">#分别输入密码</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5验证免密是否成功"><a href="#2-5验证免密是否成功" class="headerlink" title="2.5验证免密是否成功"></a>2.5验证免密是否成功</h3><h1 id="十五、远程执行Linux命令"><a href="#十五、远程执行Linux命令" class="headerlink" title="十五、远程执行Linux命令"></a>十五、远程执行Linux命令</h1><h2 id="1-执行简单的命令"><a href="#1-执行简单的命令" class="headerlink" title="1 执行简单的命令"></a>1 执行简单的命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@host <span class="string">&quot;df -Th&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>一次执行多条命令，使用分号把不同的命令隔起来就OK了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@host <span class="string">&quot;df -Th;pwd&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>添加-t参数后，ssh会保持登录状态，直到退出需要交互的命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -t root@host <span class="string">&quot;df -Th&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-保存远程执行命令结果"><a href="#2-保存远程执行命令结果" class="headerlink" title="2 保存远程执行命令结果"></a>2 保存远程执行命令结果</h2><p>赋值的方式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result=`ssh root@host <span class="string">&quot;df -Th&quot;</span>`</span><br></pre></td></tr></table></figure>
+
+<p>追加到文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@host <span class="string">&quot;df -Th&quot;</span> &gt;&gt; ./log</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-执行本地脚本"><a href="#3-执行本地脚本" class="headerlink" title="3 执行本地脚本"></a>3 执行本地脚本</h2><p>本地创建一个脚本文件 <code>test.sh</code></p>
+<p>然后执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@host &lt; test.sh</span><br></pre></td></tr></table></figure>
+
+<p>通过重定向stdin，本地脚本test.sh在远程服务器上被执行。</p>
+<p>为脚本<code>test.sh</code> 传递一个参数，执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh root@host &lt; test.sh helloworld</span><br><span class="line">ssh root@host &lt; <span class="string">&quot;test.sh helloworld&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>显示了执行的结果：方法都无法为脚本传递参数。</p>
+<p>想要在这种情况下（远程执行本地脚本）执行带有参数的脚本，需为bash指定-s参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@host <span class="string">&#x27;bash -s&#x27;</span> &lt; test.sh helloword</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-执行远程服务器上的脚本"><a href="#4-执行远程服务器上的脚本" class="headerlink" title="4 执行远程服务器上的脚本"></a>4 执行远程服务器上的脚本</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#执行命令</span></span><br><span class="line">ssh root@host <span class="string">&quot;/home/test.sh&quot;</span></span><br><span class="line"><span class="comment">#执行带参数命令</span></span><br><span class="line">ssh root@host /home/test.sh helloworld</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="十六、解压缩"><a href="#十六、解压缩" class="headerlink" title="十六、解压缩"></a>十六、解压缩</h1><h2 id="1-tar"><a href="#1-tar" class="headerlink" title="1 tar"></a>1 tar</h2><p>-c 建立一个压缩文件的参数指令（相当于create ）</p>
+<p>-x 解压缩一个文件的参数指令</p>
+<p>-z 是否同时具有gzip属性，所以也要用gzip属性来解压</p>
+<p>-f 使用档名，注意在f 后面要立即接档名</p>
+<p>-v 压缩过程显示文档</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#把根目录下的etc文件压缩在当前文件夹，并命名为ect.tar</span></span><br><span class="line">tar -cvf ./ect.tar /etc</span><br><span class="line"><span class="comment">#把根目录下的etc文件压缩在当前文件夹，并命名为ect.tar.gz</span></span><br><span class="line">tar -zcvf ./ect.tar.gz /etc</span><br><span class="line"><span class="comment">#解压ect.tar到当前目录</span></span><br><span class="line">tar -xvf ect.tar</span><br><span class="line"><span class="comment">#解压ect.tar.gz到当前目录</span></span><br><span class="line">tar -zxvf ect.tar.gz</span><br><span class="line"><span class="comment">#解压ect.tar到指定目录</span></span><br><span class="line">tar -xvf ect.tar -C 路径</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-zip"><a href="#2-zip" class="headerlink" title="2 zip"></a>2 zip</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#把根目录下的etc文件压缩在当前文件夹，并命名为ect.zip</span></span><br><span class="line">zip -r etc.zip /etc</span><br><span class="line"><span class="comment">#解压ect.zip到当前目录</span></span><br><span class="line">unzip etc.zip</span><br><span class="line"><span class="comment">#解压ect.zip到指定目录,不提示的情况下</span></span><br><span class="line">unzip -o -d 指定目录 etc.zip</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="十七、端口占用查询"><a href="#十七、端口占用查询" class="headerlink" title="十七、端口占用查询"></a>十七、端口占用查询</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:端口号</span><br><span class="line">netstat -lntpu|grep 端口号</span><br><span class="line">netstat -tunlp用于显示tcp，udp的端口和进程等相关情况</span><br><span class="line">命令里的t,u,n,l,p均有不同含义：</span><br><span class="line">-t 仅显示和tcp相关的</span><br><span class="line">-u 仅显示和udp相关的</span><br><span class="line">-n 不限时别名，能显示数字的全部转换为数字</span><br><span class="line">-l 仅显示出于Listen(监听)状态的</span><br><span class="line">-p 显示建立</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="十八、创建指定大小的文件"><a href="#十八、创建指定大小的文件" class="headerlink" title="十八、创建指定大小的文件"></a>十八、创建指定大小的文件</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#创建一个20M，文件名为test</span></span><br><span class="line">fallocate -l 20M <span class="built_in">test</span></span><br><span class="line"><span class="comment">#创建50个1M的文件</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=filename bs=1M count=50</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="十九、查找文件命令find"><a href="#十九、查找文件命令find" class="headerlink" title="十九、查找文件命令find"></a>十九、查找文件命令find</h1><p>find 目录 +定义类型 + f&#x2F;d（文件或者目录）+ 行为（name，size等）+其他条件</p>
+<p>find .&#x2F; -type f -size +10M :f表示文件类型，“+”表示大于，“-”表示小于，命令意思为，找到当下目录下及其所有子目录，大&#x2F;小于10M的文件（M要大写）</p>
+<p>find .&#x2F; -type d -empty|xargs rm -rf 删除当前路径下，所有为空的目录</p>
+<p>find .&#x2F; -mtime -3 :找到3天内的文件</p>
+<p>find .&#x2F; -mtime +3 :找到3天以前的文件</p>
+<p>find .&#x2F; -name ‘<em>test</em>‘ ：查找包含test的文件</p>
+<p>find .|xargs grep abc :找到包含“abc”内容的文件</p>
+<h1 id="二十、查看文件里面内容"><a href="#二十、查看文件里面内容" class="headerlink" title="二十、查看文件里面内容"></a>二十、查看文件里面内容</h1><p>cat passwd 查看文件的内容</p>
+<p>cat -n passwd 显示行号</p>
+<p>tail -200 日志文件 ，查看日志文件后200行</p>
+<p>tail -f 日志文件 ，查看动态日志边操作，边看日志文件</p>
+<p>head -200 前200行</p>
+<p>head -200 access_log|cat -n 查看前200后，并且显示行号</p>
+<p>more,less 分页查看文件的内容</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>微风
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.2b13c.com/2023/11/21/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="CentOS常用命令">http://blog.2b13c.com/2023/11/21/CentOS常用命令/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/21/JSON%E5%B7%A5%E5%85%B7%E7%B1%BB/" rel="prev" title="JSON工具类">
+      <i class="fa fa-chevron-left"></i> JSON工具类
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">1.</span> <span class="nav-text">一、软链接</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">1.1.</span> <span class="nav-text">1 创建软链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%88%A0%E9%99%A4%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.</span> <span class="nav-text">2 删除软连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BF%AE%E6%94%B9%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.3.</span> <span class="nav-text">3 修改软连接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="nav-number">2.</span> <span class="nav-text">二、修改主机名</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%B8%B4%E6%97%B6%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">1 临时方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%B0%B8%E4%B9%85%E7%94%9F%E6%95%88"><span class="nav-number">2.2.</span> <span class="nav-text">2 永久生效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%B0%B8%E4%B9%85%E7%94%9F%E6%95%88"><span class="nav-number">2.3.</span> <span class="nav-text">3 永久生效</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">三、安装基础服务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85telnet"><span class="nav-number">3.1.</span> <span class="nav-text">1 安装telnet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85wget"><span class="nav-number">3.2.</span> <span class="nav-text">2 安装wget</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%89%E8%A3%85rzsz"><span class="nav-number">3.3.</span> <span class="nav-text">3 安装rzsz</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81CentOS7%E7%A1%AC%E7%9B%98%E5%88%86%E5%8C%BA%EF%BC%8C%E5%88%A0%E9%99%A4%E5%88%86%E5%8C%BA%EF%BC%8C%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%88%86%E5%8C%BA%E7%A1%AC%E7%9B%98%EF%BC%8C%E6%94%AF%E6%8C%814T%E7%A1%AC%E7%9B%98%EF%BC%8Cfdisk%EF%BC%8Cparted%E7%AE%80%E5%8D%95%E7%94%A8%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">四、CentOS7硬盘分区，删除分区，格式化分区硬盘，支持4T硬盘，fdisk，parted简单用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9F%A5%E7%9C%8B%E5%88%86%E5%8C%BA%E8%A1%A8%E7%8A%B6%E6%80%81"><span class="nav-number">4.1.</span> <span class="nav-text">1 查看分区表状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%94%A8fdisk%E5%AF%B9-dev-sdb%E8%BF%9B%E8%A1%8C%E5%88%86%E5%8C%BA%EF%BC%88%E6%B3%A8%E6%84%8F%EF%BC%9A%E8%B6%85%E8%BF%872T%E7%A1%AC%E7%9B%98%E8%A6%81%E4%BD%BF%E7%94%A8Parted%E5%88%86%E5%8C%BA%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">2 用fdisk对&#x2F;dev&#x2F;sdb进行分区（注意：超过2T硬盘要使用Parted分区）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Parted%E5%88%86%E5%8C%BA"><span class="nav-number">4.3.</span> <span class="nav-text">3 Parted分区</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%B0%86%E7%A3%81%E7%9B%98%E4%B8%8A%E5%8E%9F%E6%9C%89%E7%9A%84%E5%88%86%E5%8C%BA%E5%88%A0%E9%99%A4%E6%8E%89"><span class="nav-number">4.3.1.</span> <span class="nav-text">3.1 将磁盘上原有的分区删除掉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%B0%86%E7%A3%81%E7%9B%98%E6%A0%BC%E5%BC%8F%E5%8F%98%E6%88%90gpt%E6%A0%BC%E5%BC%8F%EF%BC%88%E5%9B%A0%E4%B8%BAparted%E5%8F%AA%E8%83%BD%E9%92%88%E5%AF%B9gpt%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%A3%81%E7%9B%98%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C%EF%BC%89"><span class="nav-number">4.3.2.</span> <span class="nav-text">3.2 将磁盘格式变成gpt格式（因为parted只能针对gpt格式的磁盘进行操作）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%B7%B2%E7%BB%8F%E5%88%86%E5%A5%BD%E7%9A%84%E5%8C%BA"><span class="nav-number">4.3.3.</span> <span class="nav-text">3.3 格式化已经分好的区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%8C%82%E8%BD%BD"><span class="nav-number">4.3.4.</span> <span class="nav-text">3.4 挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD"><span class="nav-number">4.3.5.</span> <span class="nav-text">3.5 开机自动挂载</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">5.</span> <span class="nav-text">五、Linux文件系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81Linux%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text">六、Linux命令操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81Linux%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">七、Linux用户操作命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81Linux%E6%9D%83%E9%99%90%E6%93%8D%E4%BD%9C"><span class="nav-number">8.</span> <span class="nav-text">八、Linux权限操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="nav-number">9.</span> <span class="nav-text">九、Linux进程管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E3%80%81Linux%E5%85%B6%E4%BB%96%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8"><span class="nav-number">10.</span> <span class="nav-text">十、Linux其他常用命令大全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81Linux%E7%B3%BB%E7%BB%9F%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="nav-number">11.</span> <span class="nav-text">十一、Linux系统软件安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96"><span class="nav-number">12.</span> <span class="nav-text">十二、Linux操作系统优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%98%B2%E7%81%AB%E5%A2%99-firewalld"><span class="nav-number">12.1.</span> <span class="nav-text">1 防火墙-firewalld</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%85%B3%E9%97%AD-Selinux"><span class="nav-number">12.2.</span> <span class="nav-text">2 关闭-Selinux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%85%B3%E9%97%AD%E9%80%8F%E6%98%8E%E5%A4%A7%E9%A1%B5-THP"><span class="nav-number">12.3.</span> <span class="nav-text">3 关闭透明大页-THP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E5%8F%A5%E6%9F%84%E6%95%B0-open-files"><span class="nav-number">12.4.</span> <span class="nav-text">4 修改文件句柄数-open files</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BF%AE%E6%94%B9%E8%BF%9B%E7%A8%8B%E6%95%B0-max-user-processes"><span class="nav-number">12.5.</span> <span class="nav-text">5 修改进程数-max user processes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BF%AE%E6%94%B9-vm-max-map-count"><span class="nav-number">12.6.</span> <span class="nav-text">6 修改-vm.max_map_count</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E4%BF%AE%E6%94%B9-fs-file-max"><span class="nav-number">12.7.</span> <span class="nav-text">7 修改-fs.file-max</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E3%80%90Linux%E3%80%91centos%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E4%BB%A5%E5%8F%8A%E8%B5%8B%E4%BA%88sudo%E6%9D%83%E9%99%90"><span class="nav-number">13.</span> <span class="nav-text">十三、【Linux】centos创建用户以及赋予sudo权限</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7"><span class="nav-number">13.1.</span> <span class="nav-text">1 创建用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%8E%88%E6%9D%83"><span class="nav-number">13.2.</span> <span class="nav-text">2 授权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7%E5%91%BD%E4%BB%A4"><span class="nav-number">13.3.</span> <span class="nav-text">3 删除用户命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81CentOS7%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="nav-number">14.</span> <span class="nav-text">十四、CentOS7集群配置免密登录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%88%86%E5%88%AB%E4%BF%AE%E6%94%B9%E4%B8%89%E5%8F%B0%E6%9C%BA%E5%99%A8%E7%9A%84hosts%EF%BC%8C%E9%85%8D%E7%BD%AE%E4%B8%BB%E6%9C%BA%E5%BD%B1%E5%B0%84%E5%85%B3%E7%B3%BB"><span class="nav-number">14.1.</span> <span class="nav-text">1 分别修改三台机器的hosts，配置主机影射关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AE%E4%B8%89%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95"><span class="nav-number">14.2.</span> <span class="nav-text">2 配置三台虚拟机免密登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%88%87%E6%8D%A2%E5%88%B0%E7%94%A8%E6%88%B7%E6%A0%B9%E7%9B%AE%E5%BD%95"><span class="nav-number">14.2.1.</span> <span class="nav-text">2.1 切换到用户根目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E7%94%9F%E6%88%90%E5%85%AC%E9%92%A5%E5%92%8C%E7%A7%81%E9%92%A5%EF%BC%8C%E5%88%86%E5%88%AB%E5%9C%A8%E4%B8%89%E5%8F%B0%E6%9C%BA%E5%99%A8%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%EF%BC%8C%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E5%90%8E%E7%9B%B4%E6%8E%A5%E4%B8%89%E6%AC%A1%E5%9B%9E%E8%BD%A6"><span class="nav-number">14.2.2.</span> <span class="nav-text">2.2 生成公钥和私钥，分别在三台机器执行命令，执行命令后直接三次回车</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%9C%A8%E7%94%A8%E6%88%B7%E6%A0%B9%E7%9B%AE%E5%BD%95%E4%B8%8B-ssh%E7%9B%AE%E5%BD%95%E4%B8%AD%E7%94%9F%E6%88%90%E4%BA%86%E4%B8%A4%E4%B8%AA%E6%96%87%E4%BB%B6%EF%BC%8Cid-rsa-%E7%A7%81%E9%92%A5-%E3%80%81id-rsa-pub-%E5%85%AC%E9%92%A5"><span class="nav-number">14.2.3.</span> <span class="nav-text">2.3 在用户根目录下.ssh目录中生成了两个文件，id_rsa(私钥)、id_rsa.pub(公钥)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E5%B0%86%E5%85%AC%E9%92%A5%E5%A4%8D%E5%88%B6%E5%88%B0%E5%90%8C%E4%B8%80%E5%8F%B0%E6%9C%BA%E5%99%A8%EF%BC%8C%E5%88%86%E5%88%AB%E5%9C%A8%E4%B8%89%E5%8F%B0%E6%9C%BA%E5%99%A8%E6%89%A7%E8%A1%8C%E4%BB%A5%E4%B8%8B%E5%91%BD%E4%BB%A4"><span class="nav-number">14.2.4.</span> <span class="nav-text">2.4 将公钥复制到同一台机器，分别在三台机器执行以下命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5%E9%AA%8C%E8%AF%81%E5%85%8D%E5%AF%86%E6%98%AF%E5%90%A6%E6%88%90%E5%8A%9F"><span class="nav-number">14.2.5.</span> <span class="nav-text">2.5验证免密是否成功</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%BA%94%E3%80%81%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8CLinux%E5%91%BD%E4%BB%A4"><span class="nav-number">15.</span> <span class="nav-text">十五、远程执行Linux命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%89%A7%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">15.1.</span> <span class="nav-text">1 执行简单的命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BF%9D%E5%AD%98%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E7%BB%93%E6%9E%9C"><span class="nav-number">15.2.</span> <span class="nav-text">2 保存远程执行命令结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%89%A7%E8%A1%8C%E6%9C%AC%E5%9C%B0%E8%84%9A%E6%9C%AC"><span class="nav-number">15.3.</span> <span class="nav-text">3 执行本地脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%89%A7%E8%A1%8C%E8%BF%9C%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84%E8%84%9A%E6%9C%AC"><span class="nav-number">15.4.</span> <span class="nav-text">4 执行远程服务器上的脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E5%85%AD%E3%80%81%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="nav-number">16.</span> <span class="nav-text">十六、解压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-tar"><span class="nav-number">16.1.</span> <span class="nav-text">1 tar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-zip"><span class="nav-number">16.2.</span> <span class="nav-text">2 zip</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B8%83%E3%80%81%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E6%9F%A5%E8%AF%A2"><span class="nav-number">17.</span> <span class="nav-text">十七、端口占用查询</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E5%85%AB%E3%80%81%E5%88%9B%E5%BB%BA%E6%8C%87%E5%AE%9A%E5%A4%A7%E5%B0%8F%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">18.</span> <span class="nav-text">十八、创建指定大小的文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B9%9D%E3%80%81%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4find"><span class="nav-number">19.</span> <span class="nav-text">十九、查找文件命令find</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E5%8D%81%E3%80%81%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E9%87%8C%E9%9D%A2%E5%86%85%E5%AE%B9"><span class="nav-number">20.</span> <span class="nav-text">二十、查看文件里面内容</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">微风</p>
+  <div class="site-description" itemprop="description">收集日常的点点滴滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bejson.com/" title="https:&#x2F;&#x2F;www.bejson.com&#x2F;" rel="noopener" target="_blank">JSON格式化</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微风</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">65k</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div> -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
