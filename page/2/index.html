@@ -193,6 +193,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2019/09/12/maven%E9%A1%B9%E7%9B%AE%E6%88%96%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8F%91%E5%B8%83%E5%88%B0%E7%A7%81%E6%9C%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/12/maven%E9%A1%B9%E7%9B%AE%E6%88%96%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8F%91%E5%B8%83%E5%88%B0%E7%A7%81%E6%9C%8D/" class="post-title-link" itemprop="url">Maven项目或第三方jar发布到私服</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-12 16:06:09" itemprop="dateCreated datePublished" datetime="2019-09-12T16:06:09+08:00">2019-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-20 23:43:36" itemprop="dateModified" datetime="2023-11-20T23:43:36+08:00">2023-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/Maven/" itemprop="url" rel="index"><span itemprop="name">Maven</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.6k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="第三方jar发布"><a href="#第三方jar发布" class="headerlink" title="第三方jar发布"></a>第三方jar发布</h2><p> 打开命令行进入到maven安装目录下的bin目录，敲入如下指令，具体参考根据情况修改，下面有参数详细说明。   </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mvn deploy:</span><br><span class="line">deploy-file </span><br><span class="line">-DgroupId=hw.vedioicon </span><br><span class="line">-DartifactId=vedioicon </span><br><span class="line">-Dversion=1.0 </span><br><span class="line">-Dpackaging=jar </span><br><span class="line">-Dfile=D:\workspace\web-mooc\src\main\webapp\WEB-INF\lib\vedioicon.jar </span><br><span class="line">-Durl=http://host:port/nexus/content/repositories/thirdparty/ </span><br><span class="line">-DrepositoryId=thirdparty</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>DgroupId和DartifactId构成了该jar包在pom.xml的坐标，项目就是依靠这两个属性定位。自己起名字也行。</li>
+<li>Dfile表示需要上传的jar包的绝对路径。</li>
+<li>Durl私服上仓库的位置，打开nexus——&gt;repositories菜单，可以看到该路径。</li>
+<li>DrepositoryId服务器的表示id，在nexus的configuration可以看到。</li>
+<li>上传成功后，在nexus界面点击3rd party仓库可以看到这包。</li>
+</ul>
+<h2 id="项目发布"><a href="#项目发布" class="headerlink" title="项目发布"></a>项目发布</h2><p>  pom配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">distributionManagement</span>&gt;</span> </span><br><span class="line">	<span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>releases<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://host:port/nexus/content/repositories/releases/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">snapshotRepository</span>&gt;</span>  </span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span>  </span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>nexus distribution snapshot repository<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://host:port/nexus/content/repositories/snapshots/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">snapshotRepository</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">distributionManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>项目右键 run-maven-build 在goal中填写deploy直接运行即可</p>
+<p>权限配置：在用户或maven的配置settings.xml，注意如果用户下.m2中配置了settings，以.m2中的为主</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servers</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>releases<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">username</span>&gt;</span>deployment<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">password</span>&gt;</span>******<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">username</span>&gt;</span>deployment<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">password</span>&gt;</span>******<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>thirdparty<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">      	<span class="tag">&lt;<span class="name">username</span>&gt;</span>deployment<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">      	<span class="tag">&lt;<span class="name">password</span>&gt;</span>******<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servers</span>&gt;</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/09/12/maven%E9%A1%B9%E7%9B%AE%E6%88%96%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8F%91%E5%B8%83%E5%88%B0%E7%A7%81%E6%9C%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2019/03/28/Postgresql%E8%A1%8C%E5%88%97%E8%BD%AC%E6%8D%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -246,7 +353,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>83</span>
+              <span>386</span>
             </span>
 
         </div>
@@ -352,7 +459,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>30</span>
+              <span>120</span>
             </span>
 
         </div>
@@ -449,7 +556,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>136</span>
+              <span>376</span>
             </span>
 
         </div>
@@ -546,7 +653,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>398</span>
+              <span>918</span>
             </span>
 
         </div>
@@ -651,7 +758,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>17</span>
+              <span>72</span>
             </span>
 
         </div>
@@ -742,7 +849,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>49</span>
+              <span>198</span>
             </span>
 
         </div>
@@ -840,7 +947,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>36</span>
+              <span>199</span>
             </span>
 
         </div>
@@ -939,7 +1046,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>392</span>
+              <span>1k</span>
             </span>
 
         </div>
@@ -1043,7 +1150,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>787</span>
+              <span>2k</span>
             </span>
 
         </div>
@@ -1078,119 +1185,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/03/07/%E6%9C%AC%E5%9C%B0%E7%AE%A1%E7%90%86%E5%92%8C%E5%88%87%E6%8D%A2%E5%A4%9A%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2015/09/27/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="微风">
-      <meta itemprop="description" content="收集日常的点点滴滴">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="逍遥谷">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2015/09/27/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">Java环境变量配置</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2015-09-27 17:02:42" itemprop="dateCreated datePublished" datetime="2015-09-27T17:02:42+08:00">2015-09-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-11-20 23:32:07" itemprop="dateModified" datetime="2023-11-20T23:32:07+08:00">2023-11-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/" itemprop="url" rel="index"><span itemprop="name">环境变量</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>433</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>官网下载适用版本JDK安装包，进行安装（下载过程，和安装过程此处忽略截图配置）</p>
-<p>接下来按照以下几个操作步骤：</p>
-<ol>
-<li>我的电脑→右键→属性</li>
-<li>点击高级系统设置</li>
-</ol>
-<img src="/2015/09/27/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE/windows%E9%AB%98%E7%BA%A7%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE.jpg" class title="windows高级系统设置">
-
-<ol start="3">
-<li>点击系统属性→环境变量</li>
-</ol>
-<img src="/2015/09/27/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE/windows%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F.jpg" class title="环境变量">
-
-<ol start="4">
-<li>打开之后，我们在下方的系统变量中，找到新建按钮，点击打开</li>
-</ol>
-<img src="/2015/09/27/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE/windows%E6%96%B0%E5%BB%BA.jpg" class title="环境变量">
-
-<ol start="5">
-<li>新建一个系统变量“JAVA_HOME”，然后手动选择你JDK安装的位置，点击确定</li>
-<li>新建一个叫做“CLASSPATH”的环境变量，变量值输入“;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;”</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/09/27/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1279,20 +1273,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1338,7 +1332,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">19k</span>
+    <span title="站点总字数">69k</span>
 </div>
 
 <!--

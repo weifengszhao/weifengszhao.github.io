@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.2b13c.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、配置防火墙，开启FTP服务需要的端口12systemctl stop firewalld #停止firewallsystemctl disable firewalld #禁止firewall开机启动  二、关闭SELINUX1234567891011vi &#x2F;etc&#x2F;selinux&#x2F;config#SELINUX&#x3D;enforcing #注释掉#SELINUXTYPE&#x3D;targeted #注释掉SE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FTP服务搭建（虚拟用户访问FTP服务）">
+<meta property="og:url" content="http://blog.2b13c.com/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/index.html">
+<meta property="og:site_name" content="逍遥谷">
+<meta property="og:description" content="一、配置防火墙，开启FTP服务需要的端口12systemctl stop firewalld #停止firewallsystemctl disable firewalld #禁止firewall开机启动  二、关闭SELINUX1234567891011vi &#x2F;etc&#x2F;selinux&#x2F;config#SELINUX&#x3D;enforcing #注释掉#SELINUXTYPE&#x3D;targeted #注释掉SE">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-21T14:48:53.000Z">
+<meta property="article:modified_time" content="2023-11-21T15:01:10.916Z">
+<meta property="article:author" content="微风">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="FTP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.2b13c.com/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>FTP服务搭建（虚拟用户访问FTP服务） | 逍遥谷</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">逍遥谷</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">加油吧，慢慢就会好起来的</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          FTP服务搭建（虚拟用户访问FTP服务）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-21 22:48:53 / 修改时间：23:01:10" itemprop="dateCreated datePublished" datetime="2023-11-21T22:48:53+08:00">2023-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/FTP/" itemprop="url" rel="index"><span itemprop="name">FTP</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.7k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="一、配置防火墙，开启FTP服务需要的端口"><a href="#一、配置防火墙，开启FTP服务需要的端口" class="headerlink" title="一、配置防火墙，开启FTP服务需要的端口"></a>一、配置防火墙，开启FTP服务需要的端口</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld <span class="comment">#停止firewall</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld <span class="comment">#禁止firewall开机启动</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二、关闭SELINUX"><a href="#二、关闭SELINUX" class="headerlink" title="二、关闭SELINUX"></a>二、关闭SELINUX</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/selinux/config</span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUX=enforcing #注释掉</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUXTYPE=targeted #注释掉</span></span><br><span class="line"></span><br><span class="line">SELINUX=disabled <span class="comment">#增加</span></span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br><span class="line"></span><br><span class="line">setenforce 0 <span class="comment">#使配置立即生效</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="三、安装vsftpd"><a href="#三、安装vsftpd" class="headerlink" title="三、安装vsftpd"></a>三、安装vsftpd</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rpm -qc vsftpd <span class="comment">#查询vsftpd是否安装</span></span><br><span class="line"></span><br><span class="line">yum install -y vsftpd <span class="comment">#安装vsftpd</span></span><br><span class="line"></span><br><span class="line">yum install -y psmisc net-tools systemd-devel libdb-devel perl-DBI  <span class="comment">#安装vsftpd虚拟用户配置依赖包</span></span><br><span class="line"></span><br><span class="line">systemctl start vsftpd.service <span class="comment">#启动</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">enable</span> vsftpd.service <span class="comment">#设置vsftpd开机启动</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="四、新建系统用户vsftpd"><a href="#四、新建系统用户vsftpd" class="headerlink" title="四、新建系统用户vsftpd"></a>四、新建系统用户vsftpd</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd vsftpd -d /home/wwwroot -s /bin/false <span class="comment">#用户目录为/home/wwwroot, 用户登录终端设为/bin/false(即使之不能登录系统)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">chown</span> vsftpd:vsftpd /home/wwwroot -R</span><br></pre></td></tr></table></figure>
+
+<h1 id="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"><a href="#五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限" class="headerlink" title="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"></a>五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">touch</span> web1  <span class="comment">#这里创建虚拟用户配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/wwwroot/web1/http/mydic</span><br><span class="line">　<span class="comment">#设置FTP上传文件新增权限，最新的vsftpd要求对主目录不能有写的权限所以ftp为755，主目录下面的子目录再设置777权限  </span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">chmod</span> -R 755 /home/wwwroot/web1/http</span><br><span class="line">  <span class="built_in">chmod</span> R 777 /home/wwwroot/web1/http/mydic</span><br><span class="line"></span><br><span class="line">vi web1 <span class="comment">#编辑用户web1配置文件，其他的跟这个配置文件类似，输入下面红色内容</span></span><br><span class="line">　local_root=/home/wwwroot/web1/http/　　<span class="comment">#设置FTP账号根目录</span></span><br><span class="line"></span><br><span class="line">　write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_world_readable_only=NO</span><br><span class="line"></span><br><span class="line">  anon_upload_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_mkdir_write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_other_write_enable=YES</span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="六、配置vsftpd服务器"><a href="#六、配置vsftpd服务器" class="headerlink" title="六、配置vsftpd服务器"></a>六、配置vsftpd服务器</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf-bak <span class="comment">#备份默认配置文件</span></span><br></pre></td></tr></table></figure>
+
+<p>执行以下命令进行设置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&quot;s/anonymous_enable=YES/anonymous_enable=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#anon_upload_enable=YES/anon_upload_enable=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#anon_mkdir_write_enable=YES/anon_mkdir_write_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#chown_uploads=YES/chown_uploads=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#async_abor_enable=YES/async_abor_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ascii_upload_enable=YES/ascii_upload_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ascii_download_enable=YES/ascii_download_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ftpd_banner=Welcome to blah FTP service./ftpd_banner=Welcome to FTP service./g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;use_localtime=YES\nlisten_port=21\nchroot_local_user=YES\nidle_session_timeout=300</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\ndata_connection_timeout=1\nguest_enable=YES\nguest_username=vsftpd  #此处要和刚刚创建的用户名一直</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\nuser_config_dir=/etc/vsftpd/vconf\nvirtual_use_local_privs=YES</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\npasv_min_port=10060\npasv_max_port=10090</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\naccept_timeout=5\nconnect_timeout=1&quot;</span> &gt;&gt; /etc/vsftpd/vsftpd.conf</span><br></pre></td></tr></table></figure>
+
+<p>配置文件说明：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">anonymous_enable</span>=<span class="string">NO //设定不允许匿名访问</span></span><br><span class="line"><span class="attr">local_enable</span>=<span class="string">YES //设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问</span></span><br><span class="line"><span class="attr">chroot_list_enable</span>=<span class="string">YES //使用户不能离开主目录</span></span><br><span class="line"><span class="attr">ascii_upload_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">ascii_download_enable</span>=<span class="string">YES //设定支持ASCII模式的上传和下载功能</span></span><br><span class="line"><span class="attr">pam_service_name</span>=<span class="string">vsftpd   //PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#以下这些是关于vsftpd虚拟用户支持的重要配置项，默认vsftpd.conf中不包含这些设定项目，需要自己手动添加</span></span><br><span class="line"><span class="attr">guest_enable</span>=<span class="string">YES //设定启用虚拟用户功能</span></span><br><span class="line"><span class="attr">guest_username</span>=<span class="string">vsftpd //指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了,通过映射到vsftpd</span></span><br><span class="line"><span class="attr">user_config_dir</span>=<span class="string">/etc/vsftpd/vuser_conf //设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名)</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="七、建立虚拟用户名单文件"><a href="#七、建立虚拟用户名单文件" class="headerlink" title="七、建立虚拟用户名单文件"></a>七、建立虚拟用户名单文件</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> /etc/vsftpd/virtusers</span><br></pre></td></tr></table></figure>
+
+<p>编辑虚拟用户名单文件：（第一行账号，第二行密码，注意：不能使用root做用户名，系统保留）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/vsftpd/virtusers</span><br><span class="line">web1</span><br><span class="line">123456</span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="八、生成虚拟用户数据文件"><a href="#八、生成虚拟用户数据文件" class="headerlink" title="八、生成虚拟用户数据文件"></a>八、生成虚拟用户数据文件</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db_load -T -t <span class="built_in">hash</span> -f /etc/vsftpd/virtusers /etc/vsftpd/virtusers.db</span><br><span class="line"></span><br><span class="line"><span class="built_in">chmod</span> 600 /etc/vsftpd/virtusers.db <span class="comment">#设定PAM验证文件，并指定对虚拟用户数据库文件进行读取</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="九、在-etc-pam-d-vsftpd的文件头部加入以下信息（在后面加入无效）"><a href="#九、在-etc-pam-d-vsftpd的文件头部加入以下信息（在后面加入无效）" class="headerlink" title="九、在&#x2F;etc&#x2F;pam.d&#x2F;vsftpd的文件头部加入以下信息（在后面加入无效）"></a>九、在&#x2F;etc&#x2F;pam.d&#x2F;vsftpd的文件头部加入以下信息（在后面加入无效）</h1><p>修改前先备份</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/pam.d/vsftpd /etc/pam.d/vsftpdbak</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/pam.d/vsftpd <span class="comment">#先注释到vsftpd所有配置，加入下面红色部分</span></span><br><span class="line"></span><br><span class="line">auth    sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers</span><br><span class="line">account sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers</span><br></pre></td></tr></table></figure>
+
+<p>注意：如果系统为32位，上面改为lib，否则配置失败；</p>
+<p>十、最后重启vsftpd服务器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart vsftpd.service</span><br></pre></td></tr></table></figure>
+
+<p>可通过  tail -f &#x2F;var&#x2F;log&#x2F;secure 指令，查看服务器安全日志，便于分析错误问题，设置操作效果一定要仔细…..</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>微风
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.2b13c.com/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/" title="FTP服务搭建（虚拟用户访问FTP服务）">http://blog.2b13c.com/2023/11/21/FTP服务搭建（虚拟用户访问FTP服务）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/FTP/" rel="tag"># FTP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/21/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="CentOS常用命令">
+      <i class="fa fa-chevron-left"></i> CentOS常用命令
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99%EF%BC%8C%E5%BC%80%E5%90%AFFTP%E6%9C%8D%E5%8A%A1%E9%9C%80%E8%A6%81%E7%9A%84%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.</span> <span class="nav-text">一、配置防火墙，开启FTP服务需要的端口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%85%B3%E9%97%ADSELINUX"><span class="nav-number">2.</span> <span class="nav-text">二、关闭SELINUX</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E8%A3%85vsftpd"><span class="nav-number">3.</span> <span class="nav-text">三、安装vsftpd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%96%B0%E5%BB%BA%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7vsftpd"><span class="nav-number">4.</span> <span class="nav-text">四、新建系统用户vsftpd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%BB%BA%E7%AB%8B%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E4%B8%AA%E4%BA%BAvsftpd%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%92%8C%E5%AD%90%E8%B4%A6%E5%8F%B7FTP%E6%9D%83%E9%99%90"><span class="nav-number">5.</span> <span class="nav-text">五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E9%85%8D%E7%BD%AEvsftpd%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">6.</span> <span class="nav-text">六、配置vsftpd服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%BB%BA%E7%AB%8B%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E5%90%8D%E5%8D%95%E6%96%87%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">七、建立虚拟用户名单文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E7%94%9F%E6%88%90%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="nav-number">8.</span> <span class="nav-text">八、生成虚拟用户数据文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E5%9C%A8-etc-pam-d-vsftpd%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B4%E9%83%A8%E5%8A%A0%E5%85%A5%E4%BB%A5%E4%B8%8B%E4%BF%A1%E6%81%AF%EF%BC%88%E5%9C%A8%E5%90%8E%E9%9D%A2%E5%8A%A0%E5%85%A5%E6%97%A0%E6%95%88%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">九、在&#x2F;etc&#x2F;pam.d&#x2F;vsftpd的文件头部加入以下信息（在后面加入无效）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">微风</p>
+  <div class="site-description" itemprop="description">收集日常的点点滴滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bejson.com/" title="https:&#x2F;&#x2F;www.bejson.com&#x2F;" rel="noopener" target="_blank">JSON格式化</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微风</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">69k</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div> -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -193,6 +193,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/" class="post-title-link" itemprop="url">FTP服务搭建（虚拟用户访问FTP服务）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-21 22:48:53 / 修改时间：23:01:10" itemprop="dateCreated datePublished" datetime="2023-11-21T22:48:53+08:00">2023-11-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/FTP/" itemprop="url" rel="index"><span itemprop="name">FTP</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.7k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="一、配置防火墙，开启FTP服务需要的端口"><a href="#一、配置防火墙，开启FTP服务需要的端口" class="headerlink" title="一、配置防火墙，开启FTP服务需要的端口"></a>一、配置防火墙，开启FTP服务需要的端口</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld <span class="comment">#停止firewall</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld <span class="comment">#禁止firewall开机启动</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二、关闭SELINUX"><a href="#二、关闭SELINUX" class="headerlink" title="二、关闭SELINUX"></a>二、关闭SELINUX</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/selinux/config</span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUX=enforcing #注释掉</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUXTYPE=targeted #注释掉</span></span><br><span class="line"></span><br><span class="line">SELINUX=disabled <span class="comment">#增加</span></span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br><span class="line"></span><br><span class="line">setenforce 0 <span class="comment">#使配置立即生效</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="三、安装vsftpd"><a href="#三、安装vsftpd" class="headerlink" title="三、安装vsftpd"></a>三、安装vsftpd</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">rpm -qc vsftpd <span class="comment">#查询vsftpd是否安装</span></span><br><span class="line"></span><br><span class="line">yum install -y vsftpd <span class="comment">#安装vsftpd</span></span><br><span class="line"></span><br><span class="line">yum install -y psmisc net-tools systemd-devel libdb-devel perl-DBI  <span class="comment">#安装vsftpd虚拟用户配置依赖包</span></span><br><span class="line"></span><br><span class="line">systemctl start vsftpd.service <span class="comment">#启动</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">enable</span> vsftpd.service <span class="comment">#设置vsftpd开机启动</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="四、新建系统用户vsftpd"><a href="#四、新建系统用户vsftpd" class="headerlink" title="四、新建系统用户vsftpd"></a>四、新建系统用户vsftpd</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd vsftpd -d /home/wwwroot -s /bin/false <span class="comment">#用户目录为/home/wwwroot, 用户登录终端设为/bin/false(即使之不能登录系统)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">chown</span> vsftpd:vsftpd /home/wwwroot -R</span><br></pre></td></tr></table></figure>
+
+<h1 id="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"><a href="#五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限" class="headerlink" title="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"></a>五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">touch</span> web1  <span class="comment">#这里创建虚拟用户配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/wwwroot/web1/http/mydic</span><br><span class="line">　<span class="comment">#设置FTP上传文件新增权限，最新的vsftpd要求对主目录不能有写的权限所以ftp为755，主目录下面的子目录再设置777权限  </span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">chmod</span> -R 755 /home/wwwroot/web1/http</span><br><span class="line">  <span class="built_in">chmod</span> R 777 /home/wwwroot/web1/http/mydic</span><br><span class="line"></span><br><span class="line">vi web1 <span class="comment">#编辑用户web1配置文件，其他的跟这个配置文件类似，输入下面红色内容</span></span><br><span class="line">　local_root=/home/wwwroot/web1/http/　　<span class="comment">#设置FTP账号根目录</span></span><br><span class="line"></span><br><span class="line">　write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_world_readable_only=NO</span><br><span class="line"></span><br><span class="line">  anon_upload_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_mkdir_write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_other_write_enable=YES</span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/21/CentOS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -240,7 +334,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.7k</span>
+              <span>12k</span>
             </span>
 
         </div>
@@ -334,7 +428,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>402</span>
+              <span>5.3k</span>
             </span>
 
         </div>
@@ -424,7 +518,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>372</span>
+              <span>3.1k</span>
             </span>
 
         </div>
@@ -524,7 +618,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>894</span>
+              <span>9.9k</span>
             </span>
 
         </div>
@@ -622,7 +716,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.1k</span>
+              <span>5.8k</span>
             </span>
 
         </div>
@@ -718,7 +812,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>234</span>
+              <span>2k</span>
             </span>
 
         </div>
@@ -814,7 +908,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>365</span>
+              <span>3.3k</span>
             </span>
 
         </div>
@@ -909,7 +1003,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
+              <span>11k</span>
             </span>
 
         </div>
@@ -1016,7 +1110,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.1k</span>
+              <span>3.4k</span>
             </span>
 
         </div>
@@ -1045,113 +1139,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/06/12/presto%E6%90%AD%E5%BB%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2019/09/12/maven%E9%A1%B9%E7%9B%AE%E6%88%96%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8F%91%E5%B8%83%E5%88%B0%E7%A7%81%E6%9C%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="微风">
-      <meta itemprop="description" content="收集日常的点点滴滴">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="逍遥谷">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/09/12/maven%E9%A1%B9%E7%9B%AE%E6%88%96%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8F%91%E5%B8%83%E5%88%B0%E7%A7%81%E6%9C%8D/" class="post-title-link" itemprop="url">Maven项目或第三方jar发布到私服</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-09-12 16:06:09" itemprop="dateCreated datePublished" datetime="2019-09-12T16:06:09+08:00">2019-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-11-20 23:43:36" itemprop="dateModified" datetime="2023-11-20T23:43:36+08:00">2023-11-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/Maven/" itemprop="url" rel="index"><span itemprop="name">Maven</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>343</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="第三方jar发布"><a href="#第三方jar发布" class="headerlink" title="第三方jar发布"></a>第三方jar发布</h2><p> 打开命令行进入到maven安装目录下的bin目录，敲入如下指令，具体参考根据情况修改，下面有参数详细说明。   </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mvn deploy:</span><br><span class="line">deploy-file </span><br><span class="line">-DgroupId=hw.vedioicon </span><br><span class="line">-DartifactId=vedioicon </span><br><span class="line">-Dversion=1.0 </span><br><span class="line">-Dpackaging=jar </span><br><span class="line">-Dfile=D:\workspace\web-mooc\src\main\webapp\WEB-INF\lib\vedioicon.jar </span><br><span class="line">-Durl=http://host:port/nexus/content/repositories/thirdparty/ </span><br><span class="line">-DrepositoryId=thirdparty</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>DgroupId和DartifactId构成了该jar包在pom.xml的坐标，项目就是依靠这两个属性定位。自己起名字也行。</li>
-<li>Dfile表示需要上传的jar包的绝对路径。</li>
-<li>Durl私服上仓库的位置，打开nexus——&gt;repositories菜单，可以看到该路径。</li>
-<li>DrepositoryId服务器的表示id，在nexus的configuration可以看到。</li>
-<li>上传成功后，在nexus界面点击3rd party仓库可以看到这包。</li>
-</ul>
-<h2 id="项目发布"><a href="#项目发布" class="headerlink" title="项目发布"></a>项目发布</h2><p>  pom配置：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">distributionManagement</span>&gt;</span> </span><br><span class="line">	<span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>releases<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://host:port/nexus/content/repositories/releases/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">snapshotRepository</span>&gt;</span>  </span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span>  </span><br><span class="line">		<span class="tag">&lt;<span class="name">name</span>&gt;</span>nexus distribution snapshot repository<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">		<span class="tag">&lt;<span class="name">url</span>&gt;</span>http://host:port/nexus/content/repositories/snapshots/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">snapshotRepository</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">distributionManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>项目右键 run-maven-build 在goal中填写deploy直接运行即可</p>
-<p>权限配置：在用户或maven的配置settings.xml，注意如果用户下.m2中配置了settings，以.m2中的为主</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servers</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>releases<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">username</span>&gt;</span>deployment<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">password</span>&gt;</span>******<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">username</span>&gt;</span>deployment<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">password</span>&gt;</span>******<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">server</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">id</span>&gt;</span>thirdparty<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">      	<span class="tag">&lt;<span class="name">username</span>&gt;</span>deployment<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">      	<span class="tag">&lt;<span class="name">password</span>&gt;</span>******<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">server</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servers</span>&gt;</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/12/maven%E9%A1%B9%E7%9B%AE%E6%88%96%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8F%91%E5%B8%83%E5%88%B0%E7%A7%81%E6%9C%8D/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1240,20 +1227,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1299,7 +1286,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">19k</span>
+    <span title="站点总字数">69k</span>
 </div>
 
 <!--
