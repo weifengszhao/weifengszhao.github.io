@@ -25,27 +25,27 @@
   <meta name="description" content="收集日常的点点滴滴">
 <meta property="og:type" content="website">
 <meta property="og:title" content="逍遥谷">
-<meta property="og:url" content="http://blog.2b13c.com/tags/java/index.html">
+<meta property="og:url" content="http://blog.2b13c.com/page/3/index.html">
 <meta property="og:site_name" content="逍遥谷">
 <meta property="og:description" content="收集日常的点点滴滴">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="微风">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://blog.2b13c.com/tags/java/">
+<link rel="canonical" href="http://blog.2b13c.com/page/3/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: java | 逍遥谷</title>
+  <title>逍遥谷</title>
   
 
 
@@ -187,52 +187,116 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2015/06/16/Hexo-Github-Pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
 
-  
-  
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">java
-          <small>标签</small>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2015/06/16/Hexo-Github-Pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">Hexo Github Pages搭建博客</a>
         </h2>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2015-06-16 14:25:06" itemprop="dateCreated datePublished" datetime="2015-06-16T14:25:06+08:00">2015-06-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-20 23:35:17" itemprop="dateModified" datetime="2023-11-20T23:35:17+08:00">2023-11-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/Github/" itemprop="url" rel="index"><span itemprop="name">Github</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>745</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2015</span>
+          <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
+<li>开通githubpage</li>
+<li>本地安装git、node.js、hexo</li>
+<li>添加域名解析，指向githubpage</li>
+</ol>
+<h3 id="开通githubpage"><a href="#开通githubpage" class="headerlink" title="开通githubpage"></a>开通githubpage</h3><p>在github上创建一个新的repo，命名为username&lt;github的username&gt;.github.io</p>
+<p>进入repo，点击setting，找到Github Pages，将source改为master，并点击save保存</p>
+<img src="/2015/06/16/Hexo-Github-Pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/gitpages.jpg" class title="gitpages">
+
+<h3 id="安装git、node、hexo"><a href="#安装git、node、hexo" class="headerlink" title="安装git、node、hexo"></a>安装git、node、hexo</h3><p>git和node没什么好说的，必须先装好</p>
+<p>重点说下hexo部分</p>
+<p>本地新建一个文件夹，打开该目录的命令行，安装hexo-cli：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2015/06/16/Hexo-Github-Pages%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2015-09-27T17:02:42+08:00"
-              content="2015-09-27">
-          09-27
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2015/09/27/Java%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE/" itemprop="url">
-            <span itemprop="name">Java环境变量配置</span>
-          </a>
-      </div>
-
-    </header>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
-
-    </div>
-  </div>
   
   
   
 
+
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 
 
