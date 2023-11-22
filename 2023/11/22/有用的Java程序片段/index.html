@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.2b13c.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="字符串整型相互转换12String a &#x3D; String.valueOf(2);&#x2F;&#x2F;integer to numeric stringint i &#x3D; Integer.parseInt(a);&#x2F;&#x2F;numeric string to an int    向文件末尾添加内容1234567891011BufferedWriter out &#x3D; null;try &#123;	out &#x3D; new Buffer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有用的Java程序片段">
+<meta property="og:url" content="http://blog.2b13c.com/2023/11/22/%E6%9C%89%E7%94%A8%E7%9A%84Java%E7%A8%8B%E5%BA%8F%E7%89%87%E6%AE%B5/index.html">
+<meta property="og:site_name" content="逍遥谷">
+<meta property="og:description" content="字符串整型相互转换12String a &#x3D; String.valueOf(2);&#x2F;&#x2F;integer to numeric stringint i &#x3D; Integer.parseInt(a);&#x2F;&#x2F;numeric string to an int    向文件末尾添加内容1234567891011BufferedWriter out &#x3D; null;try &#123;	out &#x3D; new Buffer">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-22T06:15:58.000Z">
+<meta property="article:modified_time" content="2023-11-22T06:50:51.806Z">
+<meta property="article:author" content="微风">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="代码片段">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.2b13c.com/2023/11/22/%E6%9C%89%E7%94%A8%E7%9A%84Java%E7%A8%8B%E5%BA%8F%E7%89%87%E6%AE%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>有用的Java程序片段 | 逍遥谷</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">逍遥谷</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">加油吧，慢慢就会好起来的</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/22/%E6%9C%89%E7%94%A8%E7%9A%84Java%E7%A8%8B%E5%BA%8F%E7%89%87%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          有用的Java程序片段
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-22 14:15:58 / 修改时间：14:50:51" itemprop="dateCreated datePublished" datetime="2023-11-22T14:15:58+08:00">2023-11-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" itemprop="url" rel="index"><span itemprop="name">代码片段</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="字符串整型相互转换"><a href="#字符串整型相互转换" class="headerlink" title="字符串整型相互转换"></a>字符串整型相互转换</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">a</span> <span class="operator">=</span> String.valueOf(<span class="number">2</span>);<span class="comment">//integer to numeric string</span></span><br><span class="line"><span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> Integer.parseInt(a);<span class="comment">//numeric string to an int</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="向文件末尾添加内容"><a href="#向文件末尾添加内容" class="headerlink" title="向文件末尾添加内容"></a>向文件末尾添加内容</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">BufferedWriter</span> <span class="variable">out</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	out = <span class="keyword">new</span> <span class="title class_">BufferedWriter</span>(<span class="keyword">new</span> <span class="title class_">FileWriter</span>(”filename”, <span class="literal">true</span>));</span><br><span class="line">	out.write(”aString”);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">	<span class="comment">// error processing code</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (out != <span class="literal">null</span>) &#123;</span><br><span class="line">		out.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="得到当前方法名"><a href="#得到当前方法名" class="headerlink" title="得到当前方法名"></a>得到当前方法名</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">methodName</span> <span class="operator">=</span> Thread.currentThread().getStackTrace()[<span class="number">1</span>].getMethodName();</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="字符串转换为日期"><a href="#字符串转换为日期" class="headerlink" title="字符串转换为日期"></a>字符串转换为日期</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">SimpleDateFormat</span> <span class="variable">format</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>( <span class="string">&quot;dd.MM.yyyy&quot;</span> );</span><br><span class="line"><span class="type">Date</span> <span class="variable">date</span> <span class="operator">=</span> format.parse( myString );</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="使用JDBC访问Oracle"><a href="#使用JDBC访问Oracle" class="headerlink" title="使用JDBC访问Oracle"></a>使用JDBC访问Oracle</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> z```s</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> java8</span></span><br><span class="line"><span class="comment"> * 2023-11-22 14:23</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OracleJdbcTest</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="type">String</span> <span class="variable">driverClass</span> <span class="operator">=</span> <span class="string">&quot;oracle.jdbc.driver.OracleDriver&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    Connection connection;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(FileInputStream fs)</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException, IOException &#123;</span><br><span class="line">        <span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">        props.load(fs);</span><br><span class="line">        <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> props.getProperty(<span class="string">&quot;db.url&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">userName</span> <span class="operator">=</span> props.getProperty(<span class="string">&quot;db.user&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> props.getProperty(<span class="string">&quot;db.password&quot;</span>);</span><br><span class="line">        Class.forName(driverClass);</span><br><span class="line">        connection = DriverManager.getConnection(url, userName, password);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fetch</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">        <span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> connection.prepareStatement(<span class="string">&quot;select SYSDATE from dual&quot;</span>);</span><br><span class="line">        <span class="type">ResultSet</span> <span class="variable">rs</span> <span class="operator">=</span> ps.executeQuery();</span><br><span class="line">        <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">            <span class="comment">// do the thing you do  </span></span><br><span class="line">        &#125;</span><br><span class="line">        rs.close();</span><br><span class="line">        ps.close();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException, IOException, ClassNotFoundException &#123;</span><br><span class="line">        <span class="type">OracleJdbcTest</span> <span class="variable">test</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OracleJdbcTest</span>();</span><br><span class="line">        test.init(<span class="literal">null</span>);</span><br><span class="line">        test.fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="把Java-util-Date转成sql-Date"><a href="#把Java-util-Date转成sql-Date" class="headerlink" title="把Java util.Date转成sql.Date"></a>把Java util.Date转成sql.Date</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java.util.<span class="type">Date</span> <span class="variable">utilDate</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.util.Date();</span><br><span class="line">java.sql.<span class="type">Date</span> <span class="variable">sqlDate</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.sql.Date(utilDate.getTime());</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="使用NIO进行快速文件拷贝"><a href="#使用NIO进行快速文件拷贝" class="headerlink" title="使用NIO进行快速文件拷贝"></a>使用NIO进行快速文件拷贝</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">fileCopy</span><span class="params">(File in, File out)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">    <span class="type">FileChannel</span> <span class="variable">inChannel</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(in).getChannel();</span><br><span class="line">    <span class="type">FileChannel</span> <span class="variable">outChannel</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(out).getChannel();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//inChannel.transferTo(0, inChannel.size(), outChannel);// original -- apparently has trouble copying large files on Windows</span></span><br><span class="line">        <span class="comment">// magic number for Windows, 64Mb - 32Kb)  </span></span><br><span class="line">        <span class="type">int</span> <span class="variable">maxCount</span> <span class="operator">=</span> (<span class="number">64</span> * <span class="number">1024</span> * <span class="number">1024</span>) - (<span class="number">32</span> * <span class="number">1024</span>);</span><br><span class="line">        <span class="type">long</span> <span class="variable">size</span> <span class="operator">=</span> inChannel.size();</span><br><span class="line">        <span class="type">long</span> <span class="variable">position</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (position &lt; size) &#123;</span><br><span class="line">            position += inChannel.transferTo(position, maxCount, outChannel);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (inChannel != <span class="literal">null</span>) &#123;</span><br><span class="line">            inChannel.close();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (outChannel != <span class="literal">null</span>) &#123;</span><br><span class="line">            outChannel.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="创建图片的缩略图"><a href="#创建图片的缩略图" class="headerlink" title="创建图片的缩略图"></a>创建图片的缩略图</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">createThumbnail</span><span class="params">(String filename, <span class="type">int</span> thumbWidth, <span class="type">int</span> thumbHeight, <span class="type">int</span> quality, String outFilename)</span> <span class="keyword">throws</span> InterruptedException, IOException &#123;</span><br><span class="line">    <span class="comment">// load image from filename  </span></span><br><span class="line">    <span class="type">Image</span> <span class="variable">image</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getImage(filename);</span><br><span class="line">    <span class="type">MediaTracker</span> <span class="variable">mediaTracker</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MediaTracker</span>(<span class="keyword">new</span> <span class="title class_">Container</span>());</span><br><span class="line">    mediaTracker.addImage(image, <span class="number">0</span>);</span><br><span class="line">    mediaTracker.waitForID(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">// use this to test for errors at this point: System.out.println(mediaTracker.isErrorAny());</span></span><br><span class="line">    <span class="comment">// determine thumbnail size from WIDTH and HEIGHT  </span></span><br><span class="line">    <span class="type">double</span> <span class="variable">thumbRatio</span> <span class="operator">=</span> (<span class="type">double</span>) thumbWidth / (<span class="type">double</span>) thumbHeight;</span><br><span class="line">    <span class="type">int</span> <span class="variable">imageWidth</span> <span class="operator">=</span> image.getWidth(<span class="literal">null</span>);</span><br><span class="line">    <span class="type">int</span> <span class="variable">imageHeight</span> <span class="operator">=</span> image.getHeight(<span class="literal">null</span>);</span><br><span class="line">    <span class="type">double</span> <span class="variable">imageRatio</span> <span class="operator">=</span> (<span class="type">double</span>) imageWidth / (<span class="type">double</span>) imageHeight;</span><br><span class="line">    <span class="keyword">if</span> (thumbRatio &lt; imageRatio) &#123;</span><br><span class="line">        thumbHeight = (<span class="type">int</span>) (thumbWidth / imageRatio);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        thumbWidth = (<span class="type">int</span>) (thumbHeight * imageRatio);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// draw original image to thumbnail image object and  </span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// scale it to the new size on-the-fly  </span></span><br><span class="line">    <span class="type">BufferedImage</span> <span class="variable">thumbImage</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedImage</span>(thumbWidth, thumbHeight, BufferedImage.TYPE_INT_RGB);</span><br><span class="line">    <span class="type">Graphics2D</span> <span class="variable">graphics2D</span> <span class="operator">=</span> thumbImage.createGraphics();</span><br><span class="line">    graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);</span><br><span class="line">    graphics2D.drawImage(image, <span class="number">0</span>, <span class="number">0</span>, thumbWidth, thumbHeight, <span class="literal">null</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// save thumbnail image to outFilename  </span></span><br><span class="line">    <span class="type">BufferedOutputStream</span> <span class="variable">out</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(outFilename));</span><br><span class="line">    <span class="type">JPEGImageEncoder</span> <span class="variable">encoder</span> <span class="operator">=</span> JPEGCodec.createJPEGEncoder(out);</span><br><span class="line">    <span class="type">JPEGEncodeParam</span> <span class="variable">param</span> <span class="operator">=</span> encoder.getDefaultJPEGEncodeParam(thumbImage);</span><br><span class="line">    quality = Math.max(<span class="number">0</span>, Math.min(quality, <span class="number">100</span>));</span><br><span class="line">    param.setQuality((<span class="type">float</span>) quality / <span class="number">100.0f</span>, <span class="literal">false</span>);</span><br><span class="line">    encoder.setJPEGEncodeParam(param);</span><br><span class="line">    encoder.encode(thumbImage);</span><br><span class="line">    out.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="使用iText-JAR生成PDF"><a href="#使用iText-JAR生成PDF" class="headerlink" title="使用iText JAR生成PDF"></a>使用iText JAR生成PDF</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.lowagie.text.Document;</span><br><span class="line"><span class="keyword">import</span> com.lowagie.text.Paragraph;</span><br><span class="line"><span class="keyword">import</span> com.lowagie.text.pdf.PdfWriter;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GeneratePDF</span> &#123;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="type">OutputStream</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;C:\\Test.pdf&quot;</span>));</span><br><span class="line">			<span class="type">Document</span> <span class="variable">document</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Document</span>();</span><br><span class="line">			PdfWriter.getInstance(document, file);</span><br><span class="line">			document.open();</span><br><span class="line">			document.add(<span class="keyword">new</span> <span class="title class_">Paragraph</span>(<span class="string">&quot;Hello Kiran&quot;</span>));</span><br><span class="line">			document.add(<span class="keyword">new</span> <span class="title class_">Paragraph</span>(<span class="keyword">new</span> <span class="title class_">Date</span>().toString()));</span><br><span class="line">			document.close();</span><br><span class="line">			file.close();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="HTTP代理设置"><a href="#HTTP代理设置" class="headerlink" title="HTTP代理设置"></a>HTTP代理设置</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.getProperties().put(<span class="string">&quot;http.proxyHost&quot;</span>, <span class="string">&quot;someProxyURL&quot;</span>);</span><br><span class="line">System.getProperties().put(<span class="string">&quot;http.proxyPort&quot;</span>, <span class="string">&quot;someProxyPort&quot;</span>);</span><br><span class="line">System.getProperties().put(<span class="string">&quot;http.proxyUser&quot;</span>, <span class="string">&quot;someUserName&quot;</span>);</span><br><span class="line">System.getProperties().put(<span class="string">&quot;http.proxyPassword&quot;</span>, <span class="string">&quot;somePassword&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="单实例Singleton-示例"><a href="#单实例Singleton-示例" class="headerlink" title="单实例Singleton 示例"></a>单实例Singleton 示例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleSingleton</span> &#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="type">SimpleSingleton</span> <span class="variable">singleInstance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleSingleton</span>();</span><br><span class="line">	<span class="comment">//Marking default constructor private</span></span><br><span class="line">	<span class="comment">//to avoid direct instantiation.</span></span><br><span class="line">	<span class="keyword">private</span> <span class="title function_">SimpleSingleton</span><span class="params">()</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//Get instance for class SimpleSingleton</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> SimpleSingleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> singleInstance;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另一种实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">SimpleSingleton</span> &#123;</span><br><span class="line">	INSTANCE;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doSomething</span><span class="params">()</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Call the method from Singleton:</span></span><br><span class="line">SimpleSingleton.INSTANCE.doSomething();</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="抓屏程序"><a href="#抓屏程序" class="headerlink" title="抓屏程序"></a>抓屏程序</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.awt.Dimension;</span><br><span class="line"><span class="keyword">import</span> java.awt.Rectangle;</span><br><span class="line"><span class="keyword">import</span> java.awt.Robot;</span><br><span class="line"><span class="keyword">import</span> java.awt.Toolkit;</span><br><span class="line"><span class="keyword">import</span> java.awt.image.BufferedImage;</span><br><span class="line"><span class="keyword">import</span> javax.imageio.ImageIO;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"> </span><br><span class="line">...</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">captureScreen</span><span class="params">(String fileName)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">	<span class="type">Dimension</span> <span class="variable">screenSize</span> <span class="operator">=</span> Toolkit.getDefaultToolkit().getScreenSize();</span><br><span class="line">	<span class="type">Rectangle</span> <span class="variable">screenRectangle</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Rectangle</span>(screenSize);</span><br><span class="line">	<span class="type">Robot</span> <span class="variable">robot</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Robot</span>();</span><br><span class="line">	<span class="type">BufferedImage</span> <span class="variable">image</span> <span class="operator">=</span> robot.createScreenCapture(screenRectangle);</span><br><span class="line">	ImageIO.write(image, <span class="string">&quot;png&quot;</span>, <span class="keyword">new</span> <span class="title class_">File</span>(fileName));</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="列出文件和目录"><a href="#列出文件和目录" class="headerlink" title="列出文件和目录"></a>列出文件和目录</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">File</span> <span class="variable">dir</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;directoryName&quot;</span>);</span><br><span class="line">String[] children = dir.list();</span><br><span class="line"><span class="keyword">if</span> (children == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// Either dir does not exist or is not a directory  </span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i &lt; children.length; i++) &#123;</span><br><span class="line">        <span class="comment">// Get filename of file or directory  </span></span><br><span class="line">        <span class="type">String</span> <span class="variable">filename</span> <span class="operator">=</span> children[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// It is also possible to filter the list of returned files.  </span></span><br><span class="line"><span class="comment">// This example does not return any files that start with `.&#x27;.  </span></span><br><span class="line"><span class="type">FilenameFilter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FilenameFilter</span>() &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">accept</span><span class="params">(File dir, String name)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> !name.startsWith(<span class="string">&quot;.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">children = dir.list(filter);</span><br><span class="line"><span class="comment">// The list of files can also be retrieved as File objects  </span></span><br><span class="line">File[] files = dir.listFiles();</span><br><span class="line"><span class="comment">// This filter only returns directories  </span></span><br><span class="line"><span class="type">FileFilter</span> <span class="variable">fileFilter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileFilter</span>() &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">accept</span><span class="params">(File file)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> file.isDirectory();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">files = dir.listFiles(fileFilter);</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="创建zip和jar文件"><a href="#创建zip和jar文件" class="headerlink" title="创建zip和jar文件"></a>创建zip和jar文件</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.BufferedInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.CRC32;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.ZipEntry;</span><br><span class="line"><span class="keyword">import</span> java.util.zip.ZipOutputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> z```s</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@since</span> java8</span></span><br><span class="line"><span class="comment"> * 2023-11-22 14:36</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ZipUtils</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">if</span> (args.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            System.err.println(<span class="string">&quot;usage: java ZipIt Zip.zip file1 file2 file3&quot;</span>);</span><br><span class="line">            System.exit(-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">File</span> <span class="variable">zipFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(args[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">if</span> (zipFile.exists()) &#123;</span><br><span class="line">            System.err.println(<span class="string">&quot;Zip file already exists, please try another&quot;</span>);</span><br><span class="line">            System.exit(-<span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(zipFile);</span><br><span class="line">        <span class="type">ZipOutputStream</span> <span class="variable">zos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ZipOutputStream</span>(fos);</span><br><span class="line">        <span class="type">int</span> bytesRead;</span><br><span class="line">        <span class="type">byte</span>[] buffer = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">1024</span>];</span><br><span class="line">        <span class="type">CRC32</span> <span class="variable">crc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CRC32</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>, n=args.length; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> args[i];</span><br><span class="line">            <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(name);</span><br><span class="line">            <span class="keyword">if</span> (!file.exists()) &#123;</span><br><span class="line">                System.err.println(<span class="string">&quot;Skipping: &quot;</span> + name);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(file));</span><br><span class="line">            crc.reset();</span><br><span class="line">            <span class="keyword">while</span> ((bytesRead = bis.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                crc.update(buffer, <span class="number">0</span>, bytesRead);</span><br><span class="line">            &#125;</span><br><span class="line">            bis.close();</span><br><span class="line">            <span class="comment">// Reset to beginning of input stream  </span></span><br><span class="line">            bis = <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(file));</span><br><span class="line">            <span class="type">ZipEntry</span> <span class="variable">entry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ZipEntry</span>(name);</span><br><span class="line">            entry.setMethod(ZipEntry.STORED);</span><br><span class="line">            entry.setCompressedSize(file.length());</span><br><span class="line">            entry.setSize(file.length());</span><br><span class="line">            entry.setCrc(crc.getValue());</span><br><span class="line">            zos.putNextEntry(entry);</span><br><span class="line">            <span class="keyword">while</span> ((bytesRead = bis.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                zos.write(buffer, <span class="number">0</span>, bytesRead);</span><br><span class="line">            &#125;</span><br><span class="line">            bis.close();</span><br><span class="line">        &#125;</span><br><span class="line">        zos.close();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="解析-读取XML文件"><a href="#解析-读取XML文件" class="headerlink" title="解析&#x2F;读取XML文件"></a>解析&#x2F;读取XML文件</h1><p>XML文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span>?&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">students</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">student</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>John<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">grade</span>&gt;</span>B<span class="tag">&lt;/<span class="name">grade</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>12<span class="tag">&lt;/<span class="name">age</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">student</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">student</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>Mary<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">grade</span>&gt;</span>A<span class="tag">&lt;/<span class="name">grade</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>11<span class="tag">&lt;/<span class="name">age</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">student</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">student</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>Simon<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">grade</span>&gt;</span>A<span class="tag">&lt;/<span class="name">grade</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>18<span class="tag">&lt;/<span class="name">age</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">student</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">students</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Java代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;  </span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.DocumentBuilder;  </span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.DocumentBuilderFactory;  </span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Document;  </span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Element;  </span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Node;  </span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.NodeList;  </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">XMLParser</span> &#123;  </span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getAllUserNames</span><span class="params">(String fileName)</span> &#123;  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            <span class="type">DocumentBuilderFactory</span> <span class="variable">dbf</span> <span class="operator">=</span> DocumentBuilderFactory.newInstance();  </span><br><span class="line">            <span class="type">DocumentBuilder</span> <span class="variable">db</span> <span class="operator">=</span> dbf.newDocumentBuilder();  </span><br><span class="line">            <span class="type">File</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(fileName);  </span><br><span class="line">            <span class="keyword">if</span> (file.exists()) &#123;  </span><br><span class="line">                <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> db.parse(file);  </span><br><span class="line">                <span class="type">Element</span> <span class="variable">docEle</span> <span class="operator">=</span> doc.getDocumentElement();  </span><br><span class="line"> </span><br><span class="line">                <span class="comment">// Print root element of the document  </span></span><br><span class="line">                System.out.println(<span class="string">&quot;Root element of the document: &quot;</span></span><br><span class="line">                        + docEle.getNodeName());  </span><br><span class="line"> </span><br><span class="line">                <span class="type">NodeList</span> <span class="variable">studentList</span> <span class="operator">=</span> docEle.getElementsByTagName(<span class="string">&quot;student&quot;</span>);  </span><br><span class="line"> </span><br><span class="line">                <span class="comment">// Print total student elements in document  </span></span><br><span class="line">                System.out  </span><br><span class="line">                        .println(<span class="string">&quot;Total students: &quot;</span> + studentList.getLength());  </span><br><span class="line"> </span><br><span class="line">                <span class="keyword">if</span> (studentList != <span class="literal">null</span> &amp;&amp; studentList.getLength() &gt; <span class="number">0</span>) &#123;  </span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; studentList.getLength(); i++) &#123;  </span><br><span class="line"> </span><br><span class="line">                        <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span> studentList.item(i);  </span><br><span class="line"> </span><br><span class="line">                        <span class="keyword">if</span> (node.getNodeType() == Node.ELEMENT_NODE) &#123;  </span><br><span class="line"> </span><br><span class="line">                            System.out  </span><br><span class="line">                                    .println(<span class="string">&quot;=====================&quot;</span>);  </span><br><span class="line"> </span><br><span class="line">                            <span class="type">Element</span> <span class="variable">e</span> <span class="operator">=</span> (Element) node;  </span><br><span class="line">                            <span class="type">NodeList</span> <span class="variable">nodeList</span> <span class="operator">=</span> e.getElementsByTagName(<span class="string">&quot;name&quot;</span>);  </span><br><span class="line">                            System.out.println(<span class="string">&quot;Name: &quot;</span></span><br><span class="line">                                    + nodeList.item(<span class="number">0</span>).getChildNodes().item(<span class="number">0</span>)  </span><br><span class="line">                                            .getNodeValue());  </span><br><span class="line"> </span><br><span class="line">                            nodeList = e.getElementsByTagName(<span class="string">&quot;grade&quot;</span>);  </span><br><span class="line">                            System.out.println(<span class="string">&quot;Grade: &quot;</span></span><br><span class="line">                                    + nodeList.item(<span class="number">0</span>).getChildNodes().item(<span class="number">0</span>)  </span><br><span class="line">                                            .getNodeValue());  </span><br><span class="line"> </span><br><span class="line">                            nodeList = e.getElementsByTagName(<span class="string">&quot;age&quot;</span>);  </span><br><span class="line">                            System.out.println(<span class="string">&quot;Age: &quot;</span></span><br><span class="line">                                    + nodeList.item(<span class="number">0</span>).getChildNodes().item(<span class="number">0</span>)  </span><br><span class="line">                                            .getNodeValue());  </span><br><span class="line">                        &#125;  </span><br><span class="line">                    &#125;  </span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line">                    System.exit(<span class="number">1</span>);  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            System.out.println(e);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;  </span><br><span class="line"> </span><br><span class="line">        <span class="type">XMLParser</span> <span class="variable">parser</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XMLParser</span>();  </span><br><span class="line">        parser.getAllUserNames(<span class="string">&quot;c:\\test.xml&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="发送邮件"><a href="#发送邮件" class="headerlink" title="发送邮件"></a>发送邮件</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.mail.*;  </span><br><span class="line"><span class="keyword">import</span> javax.mail.internet.*;  </span><br><span class="line"><span class="keyword">import</span> java.util.*;  </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postMail</span><span class="params">( String recipients[ ], String subject, String message , String from)</span> <span class="keyword">throws</span> MessagingException  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="type">boolean</span> <span class="variable">debug</span> <span class="operator">=</span> <span class="literal">false</span>;  </span><br><span class="line"> </span><br><span class="line">     <span class="comment">//Set the host smtp address  </span></span><br><span class="line">     <span class="type">Properties</span> <span class="variable">props</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();  </span><br><span class="line">     props.put(<span class="string">&quot;mail.smtp.host&quot;</span>, <span class="string">&quot;smtp.example.com&quot;</span>);  </span><br><span class="line"> </span><br><span class="line">    <span class="comment">// create some properties and get the default Session  </span></span><br><span class="line">    <span class="type">Session</span> <span class="variable">session</span> <span class="operator">=</span> Session.getDefaultInstance(props, <span class="literal">null</span>);  </span><br><span class="line">    session.setDebug(debug);  </span><br><span class="line"> </span><br><span class="line">    <span class="comment">// create a message  </span></span><br><span class="line">    <span class="type">Message</span> <span class="variable">msg</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MimeMessage</span>(session);  </span><br><span class="line"> </span><br><span class="line">    <span class="comment">// set the from and to address  </span></span><br><span class="line">    <span class="type">InternetAddress</span> <span class="variable">addressFrom</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InternetAddress</span>(from);  </span><br><span class="line">    msg.setFrom(addressFrom);  </span><br><span class="line"> </span><br><span class="line">    InternetAddress[] addressTo = <span class="keyword">new</span> <span class="title class_">InternetAddress</span>[recipients.length];  </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; recipients.length; i++)  </span><br><span class="line">    &#123;  </span><br><span class="line">        addressTo[i] = <span class="keyword">new</span> <span class="title class_">InternetAddress</span>(recipients[i]);  </span><br><span class="line">    &#125;  </span><br><span class="line">    msg.setRecipients(Message.RecipientType.TO, addressTo);  </span><br><span class="line"> </span><br><span class="line">    <span class="comment">// Optional : You can also set your custom headers in the Email if you Want  </span></span><br><span class="line">    msg.addHeader(<span class="string">&quot;MyHeaderName&quot;</span>, <span class="string">&quot;myHeaderValue&quot;</span>);  </span><br><span class="line"> </span><br><span class="line">    <span class="comment">// Setting the Subject and Content Type  </span></span><br><span class="line">    msg.setSubject(subject);  </span><br><span class="line">    msg.setContent(message, <span class="string">&quot;text/plain&quot;</span>);  </span><br><span class="line">    Transport.send(msg);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>微风
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.2b13c.com/2023/11/22/%E6%9C%89%E7%94%A8%E7%9A%84Java%E7%A8%8B%E5%BA%8F%E7%89%87%E6%AE%B5/" title="有用的Java程序片段">http://blog.2b13c.com/2023/11/22/有用的Java程序片段/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" rel="tag"># 代码片段</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/22/CentOS7-KVM%E5%AE%89%E8%A3%85/" rel="prev" title="CentOS7 KVM安装">
+      <i class="fa fa-chevron-left"></i> CentOS7 KVM安装
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%95%B4%E5%9E%8B%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.</span> <span class="nav-text">字符串整型相互转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%91%E6%96%87%E4%BB%B6%E6%9C%AB%E5%B0%BE%E6%B7%BB%E5%8A%A0%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">向文件末尾添加内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E5%BD%93%E5%89%8D%E6%96%B9%E6%B3%95%E5%90%8D"><span class="nav-number">3.</span> <span class="nav-text">得到当前方法名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%97%A5%E6%9C%9F"><span class="nav-number">4.</span> <span class="nav-text">字符串转换为日期</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8JDBC%E8%AE%BF%E9%97%AEOracle"><span class="nav-number">5.</span> <span class="nav-text">使用JDBC访问Oracle</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%8AJava-util-Date%E8%BD%AC%E6%88%90sql-Date"><span class="nav-number">6.</span> <span class="nav-text">把Java util.Date转成sql.Date</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8NIO%E8%BF%9B%E8%A1%8C%E5%BF%AB%E9%80%9F%E6%96%87%E4%BB%B6%E6%8B%B7%E8%B4%9D"><span class="nav-number">7.</span> <span class="nav-text">使用NIO进行快速文件拷贝</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%9B%BE%E7%89%87%E7%9A%84%E7%BC%A9%E7%95%A5%E5%9B%BE"><span class="nav-number">8.</span> <span class="nav-text">创建图片的缩略图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8iText-JAR%E7%94%9F%E6%88%90PDF"><span class="nav-number">9.</span> <span class="nav-text">使用iText JAR生成PDF</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP%E4%BB%A3%E7%90%86%E8%AE%BE%E7%BD%AE"><span class="nav-number">10.</span> <span class="nav-text">HTTP代理设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%95%E5%AE%9E%E4%BE%8BSingleton-%E7%A4%BA%E4%BE%8B"><span class="nav-number">11.</span> <span class="nav-text">单实例Singleton 示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%93%E5%B1%8F%E7%A8%8B%E5%BA%8F"><span class="nav-number">12.</span> <span class="nav-text">抓屏程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%97%E5%87%BA%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="nav-number">13.</span> <span class="nav-text">列出文件和目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E5%BB%BAzip%E5%92%8Cjar%E6%96%87%E4%BB%B6"><span class="nav-number">14.</span> <span class="nav-text">创建zip和jar文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90-%E8%AF%BB%E5%8F%96XML%E6%96%87%E4%BB%B6"><span class="nav-number">15.</span> <span class="nav-text">解析&#x2F;读取XML文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6"><span class="nav-number">16.</span> <span class="nav-text">发送邮件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">微风</p>
+  <div class="site-description" itemprop="description">收集日常的点点滴滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bejson.com/" title="https:&#x2F;&#x2F;www.bejson.com&#x2F;" rel="noopener" target="_blank">JSON格式化</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微风</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">86k</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div> -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
