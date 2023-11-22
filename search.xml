@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>CentOS安装一些基础的命令</title>
-    <url>/2018/10/17/Centos%E5%AE%89%E8%A3%85%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1/</url>
-    <content><![CDATA[<p> 出现-bash: ***: command not found</p>
-<h4 id="安装telnet"><a href="#安装telnet" class="headerlink" title="安装telnet"></a>安装telnet</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum list telnet*</span><br><span class="line">yum install -y telnet-server</span><br><span class="line">yum install -y telnet.*</span><br></pre></td></tr></table></figure>
-
-<h4 id="安装wget"><a href="#安装wget" class="headerlink" title="安装wget"></a>安装wget</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install -y wget</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>CentOS</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>CentOS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CentOS7修改主机名的三种方法</title>
     <url>/2018/05/20/CentOS7%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h1 id="方法1：临时方法"><a href="#方法1：临时方法" class="headerlink" title="方法1：临时方法"></a>方法1：临时方法</h1><p>hostname 主机名 &#x2F;&#x2F;只能临时修改主机名，当重启机器后，主机名称又变回来了。</p>
@@ -38,6 +20,24 @@
       <tags>
         <tag>Linux</tag>
         <tag>Centos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CentOS安装一些基础的命令</title>
+    <url>/2018/10/17/Centos%E5%AE%89%E8%A3%85%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E6%9C%8D%E5%8A%A1/</url>
+    <content><![CDATA[<p> 出现-bash: ***: command not found</p>
+<h4 id="安装telnet"><a href="#安装telnet" class="headerlink" title="安装telnet"></a>安装telnet</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum list telnet*</span><br><span class="line">yum install -y telnet-server</span><br><span class="line">yum install -y telnet.*</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装wget"><a href="#安装wget" class="headerlink" title="安装wget"></a>安装wget</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install -y wget</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>CentOS</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>CentOS</tag>
       </tags>
   </entry>
   <entry>
@@ -1011,6 +1011,105 @@
       </tags>
   </entry>
   <entry>
+    <title>FTP服务搭建（虚拟用户访问FTP服务）</title>
+    <url>/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="一、配置防火墙，开启FTP服务需要的端口"><a href="#一、配置防火墙，开启FTP服务需要的端口" class="headerlink" title="一、配置防火墙，开启FTP服务需要的端口"></a>一、配置防火墙，开启FTP服务需要的端口</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld <span class="comment">#停止firewall</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld <span class="comment">#禁止firewall开机启动</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="二、关闭SELINUX"><a href="#二、关闭SELINUX" class="headerlink" title="二、关闭SELINUX"></a>二、关闭SELINUX</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/selinux/config</span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUX=enforcing #注释掉</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUXTYPE=targeted #注释掉</span></span><br><span class="line"></span><br><span class="line">SELINUX=disabled <span class="comment">#增加</span></span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br><span class="line"></span><br><span class="line">setenforce 0 <span class="comment">#使配置立即生效</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="三、安装vsftpd"><a href="#三、安装vsftpd" class="headerlink" title="三、安装vsftpd"></a>三、安装vsftpd</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpm -qc vsftpd <span class="comment">#查询vsftpd是否安装</span></span><br><span class="line"></span><br><span class="line">yum install -y vsftpd <span class="comment">#安装vsftpd</span></span><br><span class="line"></span><br><span class="line">yum install -y psmisc net-tools systemd-devel libdb-devel perl-DBI  <span class="comment">#安装vsftpd虚拟用户配置依赖包</span></span><br><span class="line"></span><br><span class="line">systemctl start vsftpd.service <span class="comment">#启动</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">enable</span> vsftpd.service <span class="comment">#设置vsftpd开机启动</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="四、新建系统用户vsftpd"><a href="#四、新建系统用户vsftpd" class="headerlink" title="四、新建系统用户vsftpd"></a>四、新建系统用户vsftpd</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd vsftpd -d /home/wwwroot -s /bin/false <span class="comment">#用户目录为/home/wwwroot, 用户登录终端设为/bin/false(即使之不能登录系统)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">chown</span> vsftpd:vsftpd /home/wwwroot -R</span><br></pre></td></tr></table></figure>
+
+<h1 id="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"><a href="#五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限" class="headerlink" title="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"></a>五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">touch</span> web1  <span class="comment">#这里创建虚拟用户配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/wwwroot/web1/http/mydic</span><br><span class="line">　<span class="comment">#设置FTP上传文件新增权限，最新的vsftpd要求对主目录不能有写的权限所以ftp为755，主目录下面的子目录再设置777权限  </span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">chmod</span> -R 755 /home/wwwroot/web1/http</span><br><span class="line">  <span class="built_in">chmod</span> R 777 /home/wwwroot/web1/http/mydic</span><br><span class="line"></span><br><span class="line">vi web1 <span class="comment">#编辑用户web1配置文件，其他的跟这个配置文件类似，输入下面红色内容</span></span><br><span class="line">　local_root=/home/wwwroot/web1/http/　　<span class="comment">#设置FTP账号根目录</span></span><br><span class="line"></span><br><span class="line">　write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_world_readable_only=NO</span><br><span class="line"></span><br><span class="line">  anon_upload_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_mkdir_write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_other_write_enable=YES</span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="六、配置vsftpd服务器"><a href="#六、配置vsftpd服务器" class="headerlink" title="六、配置vsftpd服务器"></a>六、配置vsftpd服务器</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf-bak <span class="comment">#备份默认配置文件</span></span><br></pre></td></tr></table></figure>
+
+<p>执行以下命令进行设置：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&quot;s/anonymous_enable=YES/anonymous_enable=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#anon_upload_enable=YES/anon_upload_enable=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#anon_mkdir_write_enable=YES/anon_mkdir_write_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#chown_uploads=YES/chown_uploads=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#async_abor_enable=YES/async_abor_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ascii_upload_enable=YES/ascii_upload_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ascii_download_enable=YES/ascii_download_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ftpd_banner=Welcome to blah FTP service./ftpd_banner=Welcome to FTP service./g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;use_localtime=YES\nlisten_port=21\nchroot_local_user=YES\nidle_session_timeout=300</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\ndata_connection_timeout=1\nguest_enable=YES\nguest_username=vsftpd  #此处要和刚刚创建的用户名一直</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\nuser_config_dir=/etc/vsftpd/vconf\nvirtual_use_local_privs=YES</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\npasv_min_port=10060\npasv_max_port=10090</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\naccept_timeout=5\nconnect_timeout=1&quot;</span> &gt;&gt; /etc/vsftpd/vsftpd.conf</span><br></pre></td></tr></table></figure>
+
+<p>配置文件说明：</p>
+<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">anonymous_enable</span>=<span class="string">NO //设定不允许匿名访问</span></span><br><span class="line"><span class="attr">local_enable</span>=<span class="string">YES //设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问</span></span><br><span class="line"><span class="attr">chroot_list_enable</span>=<span class="string">YES //使用户不能离开主目录</span></span><br><span class="line"><span class="attr">ascii_upload_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">ascii_download_enable</span>=<span class="string">YES //设定支持ASCII模式的上传和下载功能</span></span><br><span class="line"><span class="attr">pam_service_name</span>=<span class="string">vsftpd   //PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#以下这些是关于vsftpd虚拟用户支持的重要配置项，默认vsftpd.conf中不包含这些设定项目，需要自己手动添加</span></span><br><span class="line"><span class="attr">guest_enable</span>=<span class="string">YES //设定启用虚拟用户功能</span></span><br><span class="line"><span class="attr">guest_username</span>=<span class="string">vsftpd //指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了,通过映射到vsftpd</span></span><br><span class="line"><span class="attr">user_config_dir</span>=<span class="string">/etc/vsftpd/vuser_conf //设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名)</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="七、建立虚拟用户名单文件"><a href="#七、建立虚拟用户名单文件" class="headerlink" title="七、建立虚拟用户名单文件"></a>七、建立虚拟用户名单文件</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> /etc/vsftpd/virtusers</span><br></pre></td></tr></table></figure>
+
+<p>编辑虚拟用户名单文件：（第一行账号，第二行密码，注意：不能使用root做用户名，系统保留）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/vsftpd/virtusers</span><br><span class="line">web1</span><br><span class="line">123456</span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="八、生成虚拟用户数据文件"><a href="#八、生成虚拟用户数据文件" class="headerlink" title="八、生成虚拟用户数据文件"></a>八、生成虚拟用户数据文件</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">db_load -T -t <span class="built_in">hash</span> -f /etc/vsftpd/virtusers /etc/vsftpd/virtusers.db</span><br><span class="line"></span><br><span class="line"><span class="built_in">chmod</span> 600 /etc/vsftpd/virtusers.db <span class="comment">#设定PAM验证文件，并指定对虚拟用户数据库文件进行读取</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="九、在-etc-pam-d-vsftpd的文件头部加入以下信息（在后面加入无效）"><a href="#九、在-etc-pam-d-vsftpd的文件头部加入以下信息（在后面加入无效）" class="headerlink" title="九、在&#x2F;etc&#x2F;pam.d&#x2F;vsftpd的文件头部加入以下信息（在后面加入无效）"></a>九、在&#x2F;etc&#x2F;pam.d&#x2F;vsftpd的文件头部加入以下信息（在后面加入无效）</h1><p>修改前先备份</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/pam.d/vsftpd /etc/pam.d/vsftpdbak</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/pam.d/vsftpd <span class="comment">#先注释到vsftpd所有配置，加入下面红色部分</span></span><br><span class="line"></span><br><span class="line">auth    sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers</span><br><span class="line">account sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers</span><br></pre></td></tr></table></figure>
+
+<p>注意：如果系统为32位，上面改为lib，否则配置失败；</p>
+<p>十、最后重启vsftpd服务器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart vsftpd.service</span><br></pre></td></tr></table></figure>
+
+<p>可通过  tail -f &#x2F;var&#x2F;log&#x2F;secure 指令，查看服务器安全日志，便于分析错误问题，设置操作效果一定要仔细…..</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+        <category>FTP</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>FTP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker常用命令</title>
+    <url>/2017/11/20/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h3 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h3><p><strong>查看镜像列表</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看运行中的所有容器</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<p><strong>从docker hub中拉去指定镜像</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull [images]:[version]</span><br></pre></td></tr></table></figure>
+
+<p><strong>后台启动docker，并指定宿主机端口和docker映射端口</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -p 8000:80 -tdi --privileged [imageId] [<span class="built_in">command</span>]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-i：以交互模式运行容器，通常与-t同时使用；<br>-d：后台运行容器，并返回容器ID；<br>-t：为容器重新分配一个伪输入终端，通常与-i同时使用；<br>–privileged：容器将拥有访问主机所有设备的权限；<br>通常情况下[command]填写&#x2F;bin&#x2F;bash即可，特殊情况下，如需要在centos镜像中使用systemctl，则应添加–privileged并设置[command]为init；</p>
+</blockquote>
+<p><strong>进入终端交互模式</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it [containerId] /bin/bash</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>交互模式中，使用ctrl+p+q退出交互，保持运行，使用exit命令退出并停止容器</p>
+</blockquote>
+<p><strong>非交互模式下，启动&#x2F;停止已部署容器</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker start/stop [contailnerId]</span><br></pre></td></tr></table></figure>
+
+<p><strong>删除容器</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> [containerId]</span><br></pre></td></tr></table></figure>
+
+<p><strong>删除镜像</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker rmi [imageId]</span><br></pre></td></tr></table></figure>
+
+<p><strong>将宿主机内的指定文件传输至容器内部的指定地址</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> [HostFilePath] [contailnerId]:[DockerPath]</span><br></pre></td></tr></table></figure>
+
+<h3 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h3><p><strong>将修改后的容器重新打包生成镜像</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit [containerId] [ImageName]:[Version]</span><br></pre></td></tr></table></figure>
+
+<p><strong>将容器保存为新的镜像，并添加提交人信息和说明信息</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit -a <span class="string">&quot;author&quot;</span> -m <span class="string">&quot;comment&quot;</span> [contaierId] [ImageName]:[Version]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-a：提交镜像的作者；<br>-c：使用Dockerfile指令来创建镜像；<br>-m：提交时的说明文字；<br>-p：在commit时，将容器暂停；</p>
+</blockquote>
+<p><strong>提交镜像到云仓库</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker push [ImageId] [ReposityAddress]</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CentOS7 KVM安装</title>
     <url>/2023/11/22/CentOS7-KVM%E5%AE%89%E8%A3%85/</url>
     <content><![CDATA[<h1 id="KVM简介"><a href="#KVM简介" class="headerlink" title="KVM简介"></a>KVM简介</h1><p>KVM 全称是 Kernel-Based Virtual Machine。也就是说 KVM 是基于 Linux 内核实现的。<br>KVM有一个内核模块叫 kvm.ko，只用于管理虚拟 CPU 和内存。</p>
@@ -1090,105 +1189,6 @@
         <tag>Linux</tag>
         <tag>Centos</tag>
         <tag>KVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Docker常用命令</title>
-    <url>/2017/11/20/Docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h3 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h3><p><strong>查看镜像列表</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
-
-<p><strong>查看运行中的所有容器</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
-
-<p><strong>从docker hub中拉去指定镜像</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker pull [images]:[version]</span><br></pre></td></tr></table></figure>
-
-<p><strong>后台启动docker，并指定宿主机端口和docker映射端口</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -p 8000:80 -tdi --privileged [imageId] [<span class="built_in">command</span>]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>-i：以交互模式运行容器，通常与-t同时使用；<br>-d：后台运行容器，并返回容器ID；<br>-t：为容器重新分配一个伪输入终端，通常与-i同时使用；<br>–privileged：容器将拥有访问主机所有设备的权限；<br>通常情况下[command]填写&#x2F;bin&#x2F;bash即可，特殊情况下，如需要在centos镜像中使用systemctl，则应添加–privileged并设置[command]为init；</p>
-</blockquote>
-<p><strong>进入终端交互模式</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it [containerId] /bin/bash</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>交互模式中，使用ctrl+p+q退出交互，保持运行，使用exit命令退出并停止容器</p>
-</blockquote>
-<p><strong>非交互模式下，启动&#x2F;停止已部署容器</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker start/stop [contailnerId]</span><br></pre></td></tr></table></figure>
-
-<p><strong>删除容器</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> [containerId]</span><br></pre></td></tr></table></figure>
-
-<p><strong>删除镜像</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker rmi [imageId]</span><br></pre></td></tr></table></figure>
-
-<p><strong>将宿主机内的指定文件传输至容器内部的指定地址</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> [HostFilePath] [contailnerId]:[DockerPath]</span><br></pre></td></tr></table></figure>
-
-<h3 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h3><p><strong>将修改后的容器重新打包生成镜像</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit [containerId] [ImageName]:[Version]</span><br></pre></td></tr></table></figure>
-
-<p><strong>将容器保存为新的镜像，并添加提交人信息和说明信息</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit -a <span class="string">&quot;author&quot;</span> -m <span class="string">&quot;comment&quot;</span> [contaierId] [ImageName]:[Version]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>-a：提交镜像的作者；<br>-c：使用Dockerfile指令来创建镜像；<br>-m：提交时的说明文字；<br>-p：在commit时，将容器暂停；</p>
-</blockquote>
-<p><strong>提交镜像到云仓库</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker push [ImageId] [ReposityAddress]</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>FTP服务搭建（虚拟用户访问FTP服务）</title>
-    <url>/2023/11/21/FTP%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%EF%BC%88%E8%99%9A%E6%8B%9F%E7%94%A8%E6%88%B7%E8%AE%BF%E9%97%AEFTP%E6%9C%8D%E5%8A%A1%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="一、配置防火墙，开启FTP服务需要的端口"><a href="#一、配置防火墙，开启FTP服务需要的端口" class="headerlink" title="一、配置防火墙，开启FTP服务需要的端口"></a>一、配置防火墙，开启FTP服务需要的端口</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld <span class="comment">#停止firewall</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld <span class="comment">#禁止firewall开机启动</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="二、关闭SELINUX"><a href="#二、关闭SELINUX" class="headerlink" title="二、关闭SELINUX"></a>二、关闭SELINUX</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/selinux/config</span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUX=enforcing #注释掉</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#SELINUXTYPE=targeted #注释掉</span></span><br><span class="line"></span><br><span class="line">SELINUX=disabled <span class="comment">#增加</span></span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br><span class="line"></span><br><span class="line">setenforce 0 <span class="comment">#使配置立即生效</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="三、安装vsftpd"><a href="#三、安装vsftpd" class="headerlink" title="三、安装vsftpd"></a>三、安装vsftpd</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpm -qc vsftpd <span class="comment">#查询vsftpd是否安装</span></span><br><span class="line"></span><br><span class="line">yum install -y vsftpd <span class="comment">#安装vsftpd</span></span><br><span class="line"></span><br><span class="line">yum install -y psmisc net-tools systemd-devel libdb-devel perl-DBI  <span class="comment">#安装vsftpd虚拟用户配置依赖包</span></span><br><span class="line"></span><br><span class="line">systemctl start vsftpd.service <span class="comment">#启动</span></span><br><span class="line"></span><br><span class="line">systemctl <span class="built_in">enable</span> vsftpd.service <span class="comment">#设置vsftpd开机启动</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="四、新建系统用户vsftpd"><a href="#四、新建系统用户vsftpd" class="headerlink" title="四、新建系统用户vsftpd"></a>四、新建系统用户vsftpd</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">useradd vsftpd -d /home/wwwroot -s /bin/false <span class="comment">#用户目录为/home/wwwroot, 用户登录终端设为/bin/false(即使之不能登录系统)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">chown</span> vsftpd:vsftpd /home/wwwroot -R</span><br></pre></td></tr></table></figure>
-
-<h1 id="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"><a href="#五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限" class="headerlink" title="五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限"></a>五、建立虚拟用户个人vsftpd的配置文件和子账号FTP权限</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> /etc/vsftpd/vconf</span><br><span class="line"></span><br><span class="line"><span class="built_in">touch</span> web1  <span class="comment">#这里创建虚拟用户配置文件</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">mkdir</span> -p /home/wwwroot/web1/http/mydic</span><br><span class="line">　<span class="comment">#设置FTP上传文件新增权限，最新的vsftpd要求对主目录不能有写的权限所以ftp为755，主目录下面的子目录再设置777权限  </span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">chmod</span> -R 755 /home/wwwroot/web1/http</span><br><span class="line">  <span class="built_in">chmod</span> R 777 /home/wwwroot/web1/http/mydic</span><br><span class="line"></span><br><span class="line">vi web1 <span class="comment">#编辑用户web1配置文件，其他的跟这个配置文件类似，输入下面红色内容</span></span><br><span class="line">　local_root=/home/wwwroot/web1/http/　　<span class="comment">#设置FTP账号根目录</span></span><br><span class="line"></span><br><span class="line">　write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_world_readable_only=NO</span><br><span class="line"></span><br><span class="line">  anon_upload_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_mkdir_write_enable=YES</span><br><span class="line"></span><br><span class="line">  anon_other_write_enable=YES</span><br><span class="line"></span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="六、配置vsftpd服务器"><a href="#六、配置vsftpd服务器" class="headerlink" title="六、配置vsftpd服务器"></a>六、配置vsftpd服务器</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf-bak <span class="comment">#备份默认配置文件</span></span><br></pre></td></tr></table></figure>
-
-<p>执行以下命令进行设置：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -i <span class="string">&quot;s/anonymous_enable=YES/anonymous_enable=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#anon_upload_enable=YES/anon_upload_enable=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#anon_mkdir_write_enable=YES/anon_mkdir_write_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#chown_uploads=YES/chown_uploads=NO/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#async_abor_enable=YES/async_abor_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ascii_upload_enable=YES/ascii_upload_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ascii_download_enable=YES/ascii_download_enable=YES/g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&quot;s/#ftpd_banner=Welcome to blah FTP service./ftpd_banner=Welcome to FTP service./g&quot;</span> <span class="string">&#x27;/etc/vsftpd/vsftpd.conf&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;use_localtime=YES\nlisten_port=21\nchroot_local_user=YES\nidle_session_timeout=300</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\ndata_connection_timeout=1\nguest_enable=YES\nguest_username=vsftpd  #此处要和刚刚创建的用户名一直</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\nuser_config_dir=/etc/vsftpd/vconf\nvirtual_use_local_privs=YES</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\npasv_min_port=10060\npasv_max_port=10090</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">\naccept_timeout=5\nconnect_timeout=1&quot;</span> &gt;&gt; /etc/vsftpd/vsftpd.conf</span><br></pre></td></tr></table></figure>
-
-<p>配置文件说明：</p>
-<figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">anonymous_enable</span>=<span class="string">NO //设定不允许匿名访问</span></span><br><span class="line"><span class="attr">local_enable</span>=<span class="string">YES //设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问</span></span><br><span class="line"><span class="attr">chroot_list_enable</span>=<span class="string">YES //使用户不能离开主目录</span></span><br><span class="line"><span class="attr">ascii_upload_enable</span>=<span class="string">YES</span></span><br><span class="line"><span class="attr">ascii_download_enable</span>=<span class="string">YES //设定支持ASCII模式的上传和下载功能</span></span><br><span class="line"><span class="attr">pam_service_name</span>=<span class="string">vsftpd   //PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#以下这些是关于vsftpd虚拟用户支持的重要配置项，默认vsftpd.conf中不包含这些设定项目，需要自己手动添加</span></span><br><span class="line"><span class="attr">guest_enable</span>=<span class="string">YES //设定启用虚拟用户功能</span></span><br><span class="line"><span class="attr">guest_username</span>=<span class="string">vsftpd //指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了,通过映射到vsftpd</span></span><br><span class="line"><span class="attr">user_config_dir</span>=<span class="string">/etc/vsftpd/vuser_conf //设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名)</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="七、建立虚拟用户名单文件"><a href="#七、建立虚拟用户名单文件" class="headerlink" title="七、建立虚拟用户名单文件"></a>七、建立虚拟用户名单文件</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">touch</span> /etc/vsftpd/virtusers</span><br></pre></td></tr></table></figure>
-
-<p>编辑虚拟用户名单文件：（第一行账号，第二行密码，注意：不能使用root做用户名，系统保留）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/vsftpd/virtusers</span><br><span class="line">web1</span><br><span class="line">123456</span><br><span class="line">:wq! <span class="comment">#保存退出</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="八、生成虚拟用户数据文件"><a href="#八、生成虚拟用户数据文件" class="headerlink" title="八、生成虚拟用户数据文件"></a>八、生成虚拟用户数据文件</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">db_load -T -t <span class="built_in">hash</span> -f /etc/vsftpd/virtusers /etc/vsftpd/virtusers.db</span><br><span class="line"></span><br><span class="line"><span class="built_in">chmod</span> 600 /etc/vsftpd/virtusers.db <span class="comment">#设定PAM验证文件，并指定对虚拟用户数据库文件进行读取</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="九、在-etc-pam-d-vsftpd的文件头部加入以下信息（在后面加入无效）"><a href="#九、在-etc-pam-d-vsftpd的文件头部加入以下信息（在后面加入无效）" class="headerlink" title="九、在&#x2F;etc&#x2F;pam.d&#x2F;vsftpd的文件头部加入以下信息（在后面加入无效）"></a>九、在&#x2F;etc&#x2F;pam.d&#x2F;vsftpd的文件头部加入以下信息（在后面加入无效）</h1><p>修改前先备份</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> /etc/pam.d/vsftpd /etc/pam.d/vsftpdbak</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/pam.d/vsftpd <span class="comment">#先注释到vsftpd所有配置，加入下面红色部分</span></span><br><span class="line"></span><br><span class="line">auth    sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers</span><br><span class="line">account sufficient /lib64/security/pam_userdb.so db=/etc/vsftpd/virtusers</span><br></pre></td></tr></table></figure>
-
-<p>注意：如果系统为32位，上面改为lib，否则配置失败；</p>
-<p>十、最后重启vsftpd服务器</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart vsftpd.service</span><br></pre></td></tr></table></figure>
-
-<p>可通过  tail -f &#x2F;var&#x2F;log&#x2F;secure 指令，查看服务器安全日志，便于分析错误问题，设置操作效果一定要仔细…..</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-        <category>FTP</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>FTP</tag>
       </tags>
   </entry>
   <entry>
@@ -1528,6 +1528,88 @@
       </tags>
   </entry>
   <entry>
+    <title>Git操作</title>
+    <url>/2016/04/09/git%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h5 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h5><p>新建git仓库，创建新文件夹</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>添加文件到git索引</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">git add <span class="tag">&lt;<span class="name">filename</span>&gt;</span> ---单个文件添加</span><br><span class="line">git add .          ---全部文件添加</span><br></pre></td></tr></table></figure>
+
+<p>提交到本地仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;备注&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>提交到远端仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push [origin &lt;master&gt;]</span><br></pre></td></tr></table></figure>
+
+<h5 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h5><p>创建一个分支，并切换到分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>切换回master</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure>
+
+<p>把新建的分支删除</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -d &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>push分支到远端仓库（push到远端之前，该分支不被其他人所见）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="更新与合并"><a href="#更新与合并" class="headerlink" title="更新与合并"></a>更新与合并</h5><p>更新本地仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
+
+<p>合并分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>合并后需要添加</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
+
+<p>版本比对（合并前使用）</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git diff &lt;source_branch&gt; &lt;target_branch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>获取提交ID</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
+<p>创建标签</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git tag &lt;tagname&gt; [commit_id]</span><br></pre></td></tr></table></figure>
+
+<p>回退到指定版本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reset --hard &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用reset命令后log是得不到充分信息的，这时我们需要使用reflog，然后再reset</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+
+<p>彩色git输出</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config color.ui <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>查看远程分支与本地分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
+
+<p>删除远程分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin --delete &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用rm误删了文件，可以通过两步恢复</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reset HEAD &lt;file_name&gt;</span><br><span class="line">git checkout -- &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>删除文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">rm</span> &lt;file_name&gt;				<span class="comment">###同时删除工作目录与本地仓库的文件</span></span><br><span class="line">git <span class="built_in">rm</span> --cached &lt;file_name&gt;     <span class="comment">###删除本地仓库文件，并不影响工作目录</span></span><br></pre></td></tr></table></figure>
+
+<p>改变远程地址</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url origin &lt;git_origin_url&gt;</span><br></pre></td></tr></table></figure>
+
+<p>根据服务器地址创建本地git与服务器地址关联</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;git_origin_url&gt;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Git</category>
+        <category>命令行</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+        <tag>命令行</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Log4j支持同时按日期和文件大小分割日志</title>
     <url>/2023/11/20/log4j%E6%94%AF%E6%8C%81%E5%90%8C%E6%97%B6%E6%8C%89%E6%97%A5%E6%9C%9F%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%A7%E5%B0%8F%E5%88%86%E5%89%B2%E6%97%A5%E5%BF%97/</url>
     <content><![CDATA[<h2 id="log4j支持同时按日期和文件大小分割日志"><a href="#log4j支持同时按日期和文件大小分割日志" class="headerlink" title="log4j支持同时按日期和文件大小分割日志"></a>log4j支持同时按日期和文件大小分割日志</h2><p>DailyAndSizeRollingFileAppender.java</p>
@@ -1649,106 +1731,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Redis分布式锁</title>
-    <url>/2021/04/07/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
-    <content><![CDATA[<h2 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h2><p> <a href="https://redis.io/">Redis 官方</a>给出了以上两种基于 Redis 实现分布式锁的方法，详细说明可以查看：<a href="https://redis.io/topics/distlock">https://redis.io/topics/distlock</a>  </p>
-<p>Github:   <a href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> </p>
-<h2 id="自己Java实现"><a href="#自己Java实现" class="headerlink" title="自己Java实现"></a>自己Java实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> xxx;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis;</span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.params.SetParams;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Used jedis 3.1.0&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> Jedis</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisDistributedLock</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">LOCK_SUCCESS</span> <span class="operator">=</span> <span class="string">&quot;OK&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Long</span> <span class="variable">UNLOCK_SUCCESS</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">DEFAULT_MAX_LOCK_TIME</span> <span class="operator">=</span> <span class="number">300000L</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DELETE_SCRIPT</span> <span class="operator">=</span> <span class="string">&quot;if redis.call(&#x27;get&#x27;, KEYS[1]) == ARGV[1] then return redis.call(&#x27;del&#x27;, KEYS[1]) else return 0 end&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Jedis jedis;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> String key;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> lockTime;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">RedisDistributedLock</span><span class="params">(Jedis jedis, String key, <span class="type">long</span> lockTime)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.jedis = jedis;</span><br><span class="line">        <span class="built_in">this</span>.key = key;</span><br><span class="line">        <span class="built_in">this</span>.lockTime = lockTime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> RedisDistributedLock <span class="title function_">build</span><span class="params">(Jedis jedis, String key)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> build(jedis, key, DEFAULT_MAX_LOCK_TIME);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> RedisDistributedLock <span class="title function_">build</span><span class="params">(Jedis jedis, String key, <span class="type">long</span> lockTime)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RedisDistributedLockV1</span>(jedis, key, lockTime);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">lock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> lock(<span class="number">0</span>, <span class="number">0L</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">lock</span><span class="params">(<span class="type">int</span> retryTimes, <span class="type">long</span> retryIntervalTimeMillis)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">times</span> <span class="operator">=</span> retryTimes + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">            <span class="type">SetParams</span> <span class="variable">setParams</span> <span class="operator">=</span> SetParams.setParams();</span><br><span class="line">            setParams.nx().ex((<span class="type">int</span>) (lockTime / <span class="number">1000L</span>));</span><br><span class="line">            <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> jedis.set(key, String.valueOf(key.hashCode()), setParams);</span><br><span class="line">            <span class="keyword">if</span> (LOCK_SUCCESS.equals(result)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (retryIntervalTimeMillis &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(retryIntervalTimeMillis);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    System.out.println(e.getMessage());</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> jedis.eval(DELETE_SCRIPT, Collections.singletonList(key), Collections.singletonList(String.valueOf(key.hashCode())));</span><br><span class="line">        <span class="keyword">return</span> UNLOCK_SUCCESS.equals(result);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>分布式锁</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>分布式锁</tag>
-        <tag>Redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git操作</title>
-    <url>/2016/04/09/git%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h5 id="基础操作"><a href="#基础操作" class="headerlink" title="基础操作"></a>基础操作</h5><p>新建git仓库，创建新文件夹</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-
-<p>添加文件到git索引</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">git add <span class="tag">&lt;<span class="name">filename</span>&gt;</span> ---单个文件添加</span><br><span class="line">git add .          ---全部文件添加</span><br></pre></td></tr></table></figure>
-
-<p>提交到本地仓库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;备注&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>提交到远端仓库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push [origin &lt;master&gt;]</span><br></pre></td></tr></table></figure>
-
-<h5 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h5><p>创建一个分支，并切换到分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>切换回master</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure>
-
-<p>把新建的分支删除</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -d &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>push分支到远端仓库（push到远端之前，该分支不被其他人所见）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
-
-<h5 id="更新与合并"><a href="#更新与合并" class="headerlink" title="更新与合并"></a>更新与合并</h5><p>更新本地仓库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure>
-
-<p>合并分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>合并后需要添加</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add &lt;branchname&gt;</span><br></pre></td></tr></table></figure>
-
-<p>版本比对（合并前使用）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git diff &lt;source_branch&gt; &lt;target_branch&gt;</span><br></pre></td></tr></table></figure>
-
-<p>获取提交ID</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
-
-<p>创建标签</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git tag &lt;tagname&gt; [commit_id]</span><br></pre></td></tr></table></figure>
-
-<p>回退到指定版本</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reset --hard &lt;commit_id&gt;</span><br></pre></td></tr></table></figure>
-
-<p>使用reset命令后log是得不到充分信息的，这时我们需要使用reflog，然后再reset</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reflog</span><br></pre></td></tr></table></figure>
-
-<p>彩色git输出</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config color.ui <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p>查看远程分支与本地分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
-
-<p>删除远程分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin --delete &lt;branch_name&gt;</span><br></pre></td></tr></table></figure>
-
-<p>使用rm误删了文件，可以通过两步恢复</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reset HEAD &lt;file_name&gt;</span><br><span class="line">git checkout -- &lt;file_name&gt;</span><br></pre></td></tr></table></figure>
-
-<p>删除文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">rm</span> &lt;file_name&gt;				<span class="comment">###同时删除工作目录与本地仓库的文件</span></span><br><span class="line">git <span class="built_in">rm</span> --cached &lt;file_name&gt;     <span class="comment">###删除本地仓库文件，并不影响工作目录</span></span><br></pre></td></tr></table></figure>
-
-<p>改变远程地址</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote set-url origin &lt;git_origin_url&gt;</span><br></pre></td></tr></table></figure>
-
-<p>根据服务器地址创建本地git与服务器地址关联</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add origin &lt;git_origin_url&gt;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Git</category>
-        <category>命令行</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-        <tag>命令行</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>常用加解密工具类（MD5、SHA、DES、AES、RSA）</title>
     <url>/2023/11/21/%E5%B8%B8%E7%94%A8%E5%8A%A0%E8%A7%A3%E5%AF%86%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%88MD5%E3%80%81SHA%E3%80%81DES%E3%80%81AES%E3%80%81RSA%EF%BC%89/</url>
     <content><![CDATA[<h1 id="MD5-单向加密"><a href="#MD5-单向加密" class="headerlink" title="MD5 单向加密"></a>MD5 单向加密</h1><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回MD5单向加密后的十六进制字符串</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> data</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">getEncryptForHex</span><span class="params">(<span class="type">byte</span>[] data)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">byte</span>[] digestData = encrypt(data);</span><br><span class="line">    <span class="type">StringBuffer</span> <span class="variable">hex</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; digestData.length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">h</span> <span class="operator">=</span> ((<span class="type">int</span>)digestData[i]) &amp; <span class="number">0XFF</span>;</span><br><span class="line">        <span class="keyword">if</span>(h &lt; <span class="number">16</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            hex.append(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        hex.append(Integer.toHexString(h));</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> hex.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1767,6 +1749,24 @@
       <tags>
         <tag>Java</tag>
         <tag>解密解密</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Redis分布式锁</title>
+    <url>/2021/04/07/redis%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+    <content><![CDATA[<h2 id="Redisson"><a href="#Redisson" class="headerlink" title="Redisson"></a>Redisson</h2><p> <a href="https://redis.io/">Redis 官方</a>给出了以上两种基于 Redis 实现分布式锁的方法，详细说明可以查看：<a href="https://redis.io/topics/distlock">https://redis.io/topics/distlock</a>  </p>
+<p>Github:   <a href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a> </p>
+<h2 id="自己Java实现"><a href="#自己Java实现" class="headerlink" title="自己Java实现"></a>自己Java实现</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> xxx;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis;</span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.params.SetParams;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Collections;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Used jedis 3.1.0&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> Jedis</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisDistributedLock</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">LOCK_SUCCESS</span> <span class="operator">=</span> <span class="string">&quot;OK&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Long</span> <span class="variable">UNLOCK_SUCCESS</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">DEFAULT_MAX_LOCK_TIME</span> <span class="operator">=</span> <span class="number">300000L</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">DELETE_SCRIPT</span> <span class="operator">=</span> <span class="string">&quot;if redis.call(&#x27;get&#x27;, KEYS[1]) == ARGV[1] then return redis.call(&#x27;del&#x27;, KEYS[1]) else return 0 end&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Jedis jedis;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> String key;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="type">long</span> lockTime;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">RedisDistributedLock</span><span class="params">(Jedis jedis, String key, <span class="type">long</span> lockTime)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.jedis = jedis;</span><br><span class="line">        <span class="built_in">this</span>.key = key;</span><br><span class="line">        <span class="built_in">this</span>.lockTime = lockTime;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> RedisDistributedLock <span class="title function_">build</span><span class="params">(Jedis jedis, String key)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> build(jedis, key, DEFAULT_MAX_LOCK_TIME);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> RedisDistributedLock <span class="title function_">build</span><span class="params">(Jedis jedis, String key, <span class="type">long</span> lockTime)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RedisDistributedLockV1</span>(jedis, key, lockTime);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">lock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> lock(<span class="number">0</span>, <span class="number">0L</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">lock</span><span class="params">(<span class="type">int</span> retryTimes, <span class="type">long</span> retryIntervalTimeMillis)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">times</span> <span class="operator">=</span> retryTimes + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; times; i++) &#123;</span><br><span class="line">            <span class="type">SetParams</span> <span class="variable">setParams</span> <span class="operator">=</span> SetParams.setParams();</span><br><span class="line">            setParams.nx().ex((<span class="type">int</span>) (lockTime / <span class="number">1000L</span>));</span><br><span class="line">            <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> jedis.set(key, String.valueOf(key.hashCode()), setParams);</span><br><span class="line">            <span class="keyword">if</span> (LOCK_SUCCESS.equals(result)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (retryIntervalTimeMillis &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(retryIntervalTimeMillis);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    System.out.println(e.getMessage());</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> jedis.eval(DELETE_SCRIPT, Collections.singletonList(key), Collections.singletonList(String.valueOf(key.hashCode())));</span><br><span class="line">        <span class="keyword">return</span> UNLOCK_SUCCESS.equals(result);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>分布式锁</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>分布式锁</tag>
+        <tag>Redis</tag>
       </tags>
   </entry>
   <entry>
@@ -1821,7 +1821,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh -T admin</span><br></pre></td></tr></table></figure>
 
 <p>可以看到 “Hi huangyuanzhen! You’ve successfully authenticated, but GitHub does not provide shell access.” 的提示语。这表明，github 能识别这些 keys 了。</p>
-<h3 id="5、测试-clone-和-push"><a href="#5、测试-clone-和-push" class="headerlink" title="5、测试 clone 和 push"></a>5、测试 clone 和 push</h3><p>找个admin帐号下对应的正常的项目，举个例子git地址为：<a href="mailto:&#x67;&#x69;&#116;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#99;&#x6f;&#x6d;">&#x67;&#x69;&#116;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#99;&#x6f;&#x6d;</a>:xxxx(github帐号)&#x2F;hello-github.git</p>
+<h3 id="5、测试-clone-和-push"><a href="#5、测试-clone-和-push" class="headerlink" title="5、测试 clone 和 push"></a>5、测试 clone 和 push</h3><p>找个admin帐号下对应的正常的项目，举个例子git地址为：<a href="mailto:&#103;&#x69;&#x74;&#64;&#x67;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#111;&#109;">&#103;&#x69;&#x74;&#64;&#x67;&#105;&#116;&#x68;&#x75;&#98;&#x2e;&#99;&#111;&#109;</a>:xxxx(github帐号)&#x2F;hello-github.git</p>
 <p>将地址改为：git@admin:xxxx(github帐号)&#x2F;hello-github.git</p>
 <p>然后测试正常的clone和push操作</p>
 <h3 id="6、在终端上切换-github-账号"><a href="#6、在终端上切换-github-账号" class="headerlink" title="6、在终端上切换 github 账号"></a>6、在终端上切换 github 账号</h3><p>如果之前已经用 git remote add 和远程 仓库建立过连接，我们需要先清除当前连接，不然会报错：“fatal: remote origin already exists.”；清除当前连接之后，然后连接新的账号里的仓库，如：</p>
@@ -1842,39 +1842,6 @@
       <tags>
         <tag>Github</tag>
         <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>查看Gradle某jar包的依赖</title>
-    <url>/2017/07/22/%E6%9F%A5%E7%9C%8BGradle%E6%9F%90jar%E5%8C%85%E7%9A%84%E4%BE%9D%E8%B5%96/</url>
-    <content><![CDATA[<p>执行下面的命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gradle :模块:dependencyInsight --dependency 包名 --configuration compile</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Java</category>
-        <category>Gradle</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
-        <tag>Gradle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决docker pull 速度慢</title>
-    <url>/2017/04/05/%E8%A7%A3%E5%86%B3docker-pull-%E9%80%9F%E5%BA%A6%E6%85%A2/</url>
-    <content><![CDATA[<h3 id="修改为国内镜像源"><a href="#修改为国内镜像源" class="headerlink" title="修改为国内镜像源"></a>修改为国内镜像源</h3><p>在&#x2F;etc&#x2F;docker&#x2F;daemon.json文件中添加下面参数</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;registry-mirrors&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;&lt;your accelerate address&gt;&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p><em>注：如果没有该文件则自行创建</em></p>
-<h3 id="重启docker服务"><a href="#重启docker服务" class="headerlink" title="重启docker服务"></a>重启docker服务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart docker.service</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1957,6 +1924,39 @@
       <tags>
         <tag>Java</tag>
         <tag>代码片段</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>查看Gradle某jar包的依赖</title>
+    <url>/2017/07/22/%E6%9F%A5%E7%9C%8BGradle%E6%9F%90jar%E5%8C%85%E7%9A%84%E4%BE%9D%E8%B5%96/</url>
+    <content><![CDATA[<p>执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gradle :模块:dependencyInsight --dependency 包名 --configuration compile</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Java</category>
+        <category>Gradle</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+        <tag>Gradle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决docker pull 速度慢</title>
+    <url>/2017/04/05/%E8%A7%A3%E5%86%B3docker-pull-%E9%80%9F%E5%BA%A6%E6%85%A2/</url>
+    <content><![CDATA[<h3 id="修改为国内镜像源"><a href="#修改为国内镜像源" class="headerlink" title="修改为国内镜像源"></a>修改为国内镜像源</h3><p>在&#x2F;etc&#x2F;docker&#x2F;daemon.json文件中添加下面参数</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;registry-mirrors&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;&lt;your accelerate address&gt;&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><em>注：如果没有该文件则自行创建</em></p>
+<h3 id="重启docker服务"><a href="#重启docker服务" class="headerlink" title="重启docker服务"></a>重启docker服务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl restart docker.service</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
       </tags>
   </entry>
 </search>
