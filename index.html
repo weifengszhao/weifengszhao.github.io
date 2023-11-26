@@ -193,6 +193,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/26/Dinky0-7%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/26/Dinky0-7%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/" class="post-title-link" itemprop="url">Dinky0.7安装文档</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-26 16:04:42 / 修改时间：16:11:18" itemprop="dateCreated datePublished" datetime="2023-11-26T16:04:42+08:00">2023-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Dinky/" itemprop="url" rel="index"><span itemprop="name">Dinky</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.4k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Dinky部署"><a href="#Dinky部署" class="headerlink" title="Dinky部署"></a>Dinky部署</h2><p>Dinky 不依赖任何外部的 Hadoop 或者 Flink 环境，可以单独部署在 flink、 hadoop 和 K8S 集群之外，完全解耦，支持同时连接多个不同的集群实例进行运维。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf dinky-release-&#123;version&#125;.tar.gz</span><br><span class="line"><span class="built_in">mv</span> dinky-release-&#123;version&#125; dinky</span><br><span class="line"><span class="built_in">cd</span> dinky</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>创建好数据库后，修改 Dinky 连接 mysql 的配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#切换目录</span></span><br><span class="line"><span class="built_in">cd</span> /opt/dinky/config/</span><br><span class="line">vim application.yml</span><br></pre></td></tr></table></figure>
+
+<h2 id="加载依赖"><a href="#加载依赖" class="headerlink" title="加载依赖"></a>加载依赖</h2><p>Dinky 需要具备自身的 Flink 环境，该 Flink 环境的实现需要用户自己在 Dinky 根目录下 plugins&#x2F;flink${FLINK_VERSION} 文件夹并上传相关的 Flink 依赖，如 flink-dist, flink-table 等，具体见下文。当然也可在启动文件中指定 FLINK_HOME，但不建议这样做。</p>
+<blockquote>
+<p>注意事项</p>
+<p>Dinky 当前版本的 yarn 的 perjob 与 application 执行模式依赖 flink-shade-hadoop ，如果你的 Hadoop 版本为 2+ 或 3+，需要额外添加 flink-shade-hadoop-uber-3 包，请手动删除该包内部的 javax.servlet 等冲突内容。 当然如果你的 Hadoop 为 3+ 也可以自行编译对于版本的 dinky-client-hadoop.jar 以替代 uber 包</p>
+</blockquote>
+<p>将 flink-shade-hadoop 上传到到 plugins 文件目录下，使用 flink-shade-hadoop-3 地址如下：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/11/26/Dinky0-7%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/26/Flink1-18Standalone%E9%9B%86%E7%BE%A4%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -240,7 +337,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>864</span>
+              <span>2.1k</span>
             </span>
 
         </div>
@@ -335,7 +432,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>8.5k</span>
             </span>
 
         </div>
@@ -446,7 +543,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
+              <span>5.9k</span>
             </span>
 
         </div>
@@ -573,7 +670,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>282</span>
+              <span>452</span>
             </span>
 
         </div>
@@ -674,7 +771,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
+              <span>12k</span>
             </span>
 
         </div>
@@ -786,7 +883,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
+              <span>4.6k</span>
             </span>
 
         </div>
@@ -887,7 +984,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
+              <span>3.7k</span>
             </span>
 
         </div>
@@ -987,7 +1084,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.7k</span>
+              <span>12k</span>
             </span>
 
         </div>
@@ -1087,7 +1184,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>402</span>
+              <span>5.3k</span>
             </span>
 
         </div>
@@ -1107,106 +1204,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/11/21/JSON%E5%B7%A5%E5%85%B7%E7%B1%BB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/21/%E5%B8%B8%E7%94%A8%E5%8A%A0%E8%A7%A3%E5%AF%86%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%88MD5%E3%80%81SHA%E3%80%81DES%E3%80%81AES%E3%80%81RSA%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="微风">
-      <meta itemprop="description" content="收集日常的点点滴滴">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="逍遥谷">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/11/21/%E5%B8%B8%E7%94%A8%E5%8A%A0%E8%A7%A3%E5%AF%86%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%88MD5%E3%80%81SHA%E3%80%81DES%E3%80%81AES%E3%80%81RSA%EF%BC%89/" class="post-title-link" itemprop="url">常用加解密工具类（MD5、SHA、DES、AES、RSA）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-11-21 00:06:41" itemprop="dateCreated datePublished" datetime="2023-11-21T00:06:41+08:00">2023-11-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-11-26 15:49:35" itemprop="dateModified" datetime="2023-11-26T15:49:35+08:00">2023-11-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" itemprop="url" rel="index"><span itemprop="name">加密解密</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>372</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MD5-单向加密"><a href="#MD5-单向加密" class="headerlink" title="MD5 单向加密"></a>MD5 单向加密</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 返回MD5单向加密后的十六进制字符串</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> data</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">getEncryptForHex</span><span class="params">(<span class="type">byte</span>[] data)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">byte</span>[] digestData = encrypt(data);</span><br><span class="line">    <span class="type">StringBuffer</span> <span class="variable">hex</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; digestData.length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">h</span> <span class="operator">=</span> ((<span class="type">int</span>)digestData[i]) &amp; <span class="number">0XFF</span>;</span><br><span class="line">        <span class="keyword">if</span>(h &lt; <span class="number">16</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            hex.append(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        hex.append(Integer.toHexString(h));</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> hex.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="DES-对称加密"><a href="#DES-对称加密" class="headerlink" title="DES 对称加密"></a>DES 对称加密</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">byte</span>[] encrypt(<span class="type">byte</span>[] data) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">if</span>(secretKey == <span class="literal">null</span> || <span class="string">&quot;&quot;</span>.equals(secretKey)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Exception</span>(<span class="string">&quot;scretKey need to exists&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">SecretKey</span> <span class="variable">md5Key</span> <span class="operator">=</span> getKey(secretKey);</span><br><span class="line">    <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM);</span><br><span class="line">    cipher.init(Cipher.ENCRYPT_MODE, md5Key);</span><br><span class="line">    <span class="keyword">return</span> cipher.doFinal(data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">byte</span>[] decrypt(<span class="type">byte</span>[] data) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">if</span>(secretKey == <span class="literal">null</span> || <span class="string">&quot;&quot;</span>.equals(secretKey)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Exception</span>(<span class="string">&quot;scretKey need to exists&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">SecretKey</span> <span class="variable">md5Key</span> <span class="operator">=</span> getKey(secretKey);</span><br><span class="line">    <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM);</span><br><span class="line">    cipher.init(Cipher.DECRYPT_MODE, md5Key);</span><br><span class="line">    <span class="keyword">return</span> cipher.doFinal(data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="RSA-非对称加密——私钥加密-私钥解密-私钥签名"><a href="#RSA-非对称加密——私钥加密-私钥解密-私钥签名" class="headerlink" title="RSA 非对称加密——私钥加密 &amp; 私钥解密 &amp; 私钥签名"></a>RSA 非对称加密——私钥加密 &amp; 私钥解密 &amp; 私钥签名</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">byte</span>[] encrypt(<span class="type">byte</span>[] data) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">PrivateKey</span> <span class="variable">rsaPrivateKey</span> <span class="operator">=</span> getRSAPrivateKey();</span><br><span class="line">    <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM);</span><br><span class="line">    cipher.init(Cipher.ENCRYPT_MODE, rsaPrivateKey);</span><br><span class="line">    <span class="keyword">return</span> cipher.doFinal(data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">byte</span>[] decrypt(<span class="type">byte</span>[] data) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">PrivateKey</span> <span class="variable">rsaPrivateKey</span> <span class="operator">=</span> getRSAPrivateKey();</span><br><span class="line">    <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM);</span><br><span class="line">    cipher.init(Cipher.DECRYPT_MODE, rsaPrivateKey);</span><br><span class="line">    <span class="keyword">return</span> cipher.update(data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用私钥 对数据进行签名</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> data</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">sign</span><span class="params">(<span class="type">byte</span>[] data)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="type">PrivateKey</span> <span class="variable">rsaPrivateKey</span> <span class="operator">=</span> getRSAPrivateKey();</span><br><span class="line">    <span class="type">Signature</span> <span class="variable">signature</span> <span class="operator">=</span> Signature.getInstance(SIGN_ALGORITHM);</span><br><span class="line">    signature.initSign(rsaPrivateKey);</span><br><span class="line">    signature.update(data);</span><br><span class="line">    <span class="keyword">return</span> encoder(signature.sign());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="RSA-非对称加密——公钥加密-公钥解密-公钥校验签名"><a href="#RSA-非对称加密——公钥加密-公钥解密-公钥校验签名" class="headerlink" title="RSA 非对称加密——公钥加密 &amp; 公钥解密 &amp; 公钥校验签名"></a>RSA 非对称加密——公钥加密 &amp; 公钥解密 &amp; 公钥校验签名</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">byte</span>[] encrypt(<span class="type">byte</span>[] data) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">if</span>(publicKey == <span class="literal">null</span> || <span class="string">&quot;&quot;</span>.equals(publicKey)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Exception</span>(<span class="string">&quot;publicKey is need exists&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">PublicKey</span> <span class="variable">rsaPublicKey</span> <span class="operator">=</span> getRSAPublicKey(publicKey);</span><br><span class="line">    <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM);</span><br><span class="line">    cipher.init(Cipher.ENCRYPT_MODE, rsaPublicKey);</span><br><span class="line">    <span class="keyword">return</span> cipher.doFinal(data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">byte</span>[] decrypt(<span class="type">byte</span>[] data) <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">if</span>(publicKey == <span class="literal">null</span> || <span class="string">&quot;&quot;</span>.equals(publicKey)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Exception</span>(<span class="string">&quot;publicKey is need exists&quot;</span>);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="type">PublicKey</span> <span class="variable">rsaPublicKey</span> <span class="operator">=</span> getRSAPublicKey(publicKey);</span><br><span class="line">    <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(ALGORITHM);</span><br><span class="line">    cipher.init(Cipher.DECRYPT_MODE, rsaPublicKey);</span><br><span class="line">    <span class="keyword">return</span> cipher.doFinal(data);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用公钥校验签名</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> data</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> sign</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">verifySign</span><span class="params">(<span class="type">byte</span>[] data, String sign)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="keyword">if</span>(publicKey == <span class="literal">null</span> || <span class="string">&quot;&quot;</span>.equals(publicKey)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Exception</span>(<span class="string">&quot;publicKey is need exists&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">PublicKey</span> <span class="variable">rsaPublicKey</span> <span class="operator">=</span> getRSAPublicKey(publicKey);</span><br><span class="line">    <span class="type">Signature</span> <span class="variable">signature</span> <span class="operator">=</span> Signature.getInstance(SIGN_ALGORITHM);</span><br><span class="line">    signature.initVerify(rsaPublicKey);</span><br><span class="line">    signature.update(data);</span><br><span class="line">    <span class="keyword">return</span> signature.verify(decoder(sign));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/11/21/%E5%B8%B8%E7%94%A8%E5%8A%A0%E8%A7%A3%E5%AF%86%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%88MD5%E3%80%81SHA%E3%80%81DES%E3%80%81AES%E3%80%81RSA%EF%BC%89/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1295,20 +1292,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-count">35</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1354,7 +1351,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">29k</span>
+    <span title="站点总字数">108k</span>
 </div>
 
 <!--
