@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32px.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_16px.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.2b13c.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="前置准备工作外部软件安装：  JDK：下载JDK (1.8+)，安装并配置 JAVA_HOME 环境变量，并将其下的 bin 目录追加到 PATH 环境变量中。如果你的环境中已存在，可以跳过这步。 二进制包：在下载页面下载 DolphinScheduler 二进制包 数据库：PostgreSQL (8.2.15+) 或者 MySQL (5.7+)，两者任选其一即可，如 MySQL 则需要 JDBC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dolphinscheduler3.2.0安装教程">
+<meta property="og:url" content="http://blog.2b13c.com/2023/11/26/Dolphinscheduler3-2-0%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="逍遥谷">
+<meta property="og:description" content="前置准备工作外部软件安装：  JDK：下载JDK (1.8+)，安装并配置 JAVA_HOME 环境变量，并将其下的 bin 目录追加到 PATH 环境变量中。如果你的环境中已存在，可以跳过这步。 二进制包：在下载页面下载 DolphinScheduler 二进制包 数据库：PostgreSQL (8.2.15+) 或者 MySQL (5.7+)，两者任选其一即可，如 MySQL 则需要 JDBC">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-26T07:19:06.000Z">
+<meta property="article:modified_time" content="2023-11-26T07:37:05.848Z">
+<meta property="article:author" content="微风">
+<meta property="article:tag" content="大数据">
+<meta property="article:tag" content="Dolphinscheduler">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.2b13c.com/2023/11/26/Dolphinscheduler3-2-0%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Dolphinscheduler3.2.0安装教程 | 逍遥谷</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">逍遥谷</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">加油吧，慢慢就会好起来的</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.2b13c.com/2023/11/26/Dolphinscheduler3-2-0%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="微风">
+      <meta itemprop="description" content="收集日常的点点滴滴">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="逍遥谷">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Dolphinscheduler3.2.0安装教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-26 15:19:06 / 修改时间：15:37:05" itemprop="dateCreated datePublished" datetime="2023-11-26T15:19:06+08:00">2023-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">大数据</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/Dolphinscheduler/" itemprop="url" rel="index"><span itemprop="name">Dolphinscheduler</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.1k</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前置准备工作"><a href="#前置准备工作" class="headerlink" title="前置准备工作"></a>前置准备工作</h2><p>外部软件安装：</p>
+<ul>
+<li>JDK：下载<a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK</a> (1.8+)，安装并配置 <code>JAVA_HOME</code> 环境变量，并将其下的 <code>bin</code> 目录追加到 <code>PATH</code> 环境变量中。如果你的环境中已存在，可以跳过这步。</li>
+<li>二进制包：在<a target="_blank" rel="noopener" href="https://dolphinscheduler.apache.org/zh-cn/download">下载页面</a>下载 DolphinScheduler 二进制包</li>
+<li>数据库：<a target="_blank" rel="noopener" href="https://www.postgresql.org/download/">PostgreSQL</a> (8.2.15+) 或者 <a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/mysql/">MySQL</a> (5.7+)，两者任选其一即可，如 MySQL 则需要 JDBC Driver 8.0.16</li>
+<li>注册中心：<a target="_blank" rel="noopener" href="https://zookeeper.apache.org/releases.html">ZooKeeper</a> (3.8.0+)，<a target="_blank" rel="noopener" href="https://zookeeper.apache.org/releases.html">下载地址</a></li>
+<li>进程树分析<ul>
+<li>macOS 安装<code>pstree</code></li>
+<li>Fedora&#x2F;Red&#x2F;Hat&#x2F;CentOS&#x2F;Ubuntu&#x2F;Debian 安装<code>psmisc</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p><strong>注意:</strong> DolphinScheduler 本身不依赖 Hadoop、Hive、Spark，但如果你运行的任务需要依赖他们，就需要有对应的环境支持</p>
+</blockquote>
+<h2 id="准备-DolphinScheduler-启动环境"><a href="#准备-DolphinScheduler-启动环境" class="headerlink" title="准备 DolphinScheduler 启动环境"></a>准备 DolphinScheduler 启动环境</h2><h3 id="配置用户免密及权限"><a href="#配置用户免密及权限" class="headerlink" title="配置用户免密及权限"></a>配置用户免密及权限</h3><p>创建部署用户，并且一定要配置 <code>sudo</code> 免密。以创建 dolphinscheduler 用户为例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建用户需使用 root 登录</span></span><br><span class="line">useradd dolphinscheduler</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加密码</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;dolphinscheduler&quot;</span> | passwd --stdin dolphinscheduler</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置 sudo 免密</span></span><br><span class="line">sed -i <span class="string">&#x27;$adolphinscheduler  ALL=(ALL)  NOPASSWD: NOPASSWD: ALL&#x27;</span> /etc/sudoers</span><br><span class="line">sed -i <span class="string">&#x27;s/Defaults    requirett/#Defaults    requirett/g&#x27;</span> /etc/sudoers</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改目录权限，使得部署用户对二进制包解压后的 apache-dolphinscheduler-*-bin 目录有操作权限</span></span><br><span class="line"><span class="built_in">chown</span> -R dolphinscheduler:dolphinscheduler apache-dolphinscheduler-*-bin</span><br><span class="line"><span class="built_in">chmod</span> -R 755 apache-dolphinscheduler-*-bin</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong></p>
+<ul>
+<li>因为任务执行服务是以 <code>sudo -u &#123;linux-user&#125;</code> 切换不同 linux 用户的方式来实现多租户运行作业，所以部署用户需要有 sudo 权限，而且是免密的。初学习者不理解的话，完全可以暂时忽略这一点</li>
+<li>如果发现 <code>/etc/sudoers</code> 文件中有 “Defaults requirett” 这行，也请注释掉</li>
+</ul>
+</blockquote>
+<h3 id="配置机器-SSH-免密登陆"><a href="#配置机器-SSH-免密登陆" class="headerlink" title="配置机器 SSH 免密登陆"></a>配置机器 SSH 免密登陆</h3><p>由于安装的时候需要向不同机器发送资源，所以要求各台机器间能实现 SSH 免密登陆。配置免密登陆的步骤如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">su dolphinscheduler</span><br><span class="line"></span><br><span class="line">ssh-keygen -t rsa -P <span class="string">&#x27;&#x27;</span> -f ~/.ssh/id_rsa</span><br><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"><span class="built_in">chmod</span> 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意:</strong> 配置完成后，可以通过运行命令 <code>ssh localhost</code> 判断是否成功，如果不需要输入密码就能 ssh 登陆则证明成功</p>
+</blockquote>
+<h3 id="启动-zookeeper"><a href="#启动-zookeeper" class="headerlink" title="启动 zookeeper"></a>启动 zookeeper</h3><p>进入 zookeeper 的安装目录，将 <code>zoo_sample.cfg</code> 配置文件复制到 <code>conf/zoo.cfg</code>，并将 <code>conf/zoo.cfg</code> 中 dataDir 中的值改成 <code>dataDir=./tmp/zookeeper</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动 zookeeper</span></span><br><span class="line">./bin/zkServer.sh start</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改相关配置"><a href="#修改相关配置" class="headerlink" title="修改相关配置"></a>修改相关配置</h2><p>完成基础环境的准备后，需要根据你的机器环境修改配置文件。配置文件可以在目录 <code>bin/env</code> 中找到，他们分别是 并命名为 <code>install_env.sh</code> 和 <code>dolphinscheduler_env.sh</code>。</p>
+<h3 id="修改-install-env-sh-文件"><a href="#修改-install-env-sh-文件" class="headerlink" title="修改 install_env.sh 文件"></a>修改 <code>install_env.sh</code> 文件</h3><p>文件 <code>install_env.sh</code> 描述了哪些机器将被安装 DolphinScheduler 以及每台机器对应安装哪些服务。您可以在路径 <code>bin/env/install_env.sh</code> 中找到此文件，可通过以下方式更改 env 变量,export <ENV_NAME>&#x3D;，配置详情如下。</ENV_NAME></p>
+<p>因为部署脚本会通过 <code>scp</code> 的方式将安装需要的资源传输到各个机器上，所以这一步我们仅需要修改运行<code>install.sh</code>脚本的所在机器的配置即可。配置文件在路径在<code>bin/env/install_env.sh</code>下，此处我们仅需修改<strong>INSTALL MACHINE</strong>，<strong>DolphinScheduler ENV、Database、Registry Server</strong>与伪集群部署保持一致，下面对必须修改参数进行说明</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ---------------------------------------------------------</span></span><br><span class="line"><span class="comment"># INSTALL MACHINE</span></span><br><span class="line"><span class="comment"># ---------------------------------------------------------</span></span><br><span class="line"><span class="comment"># 需要配置master、worker、API server，所在服务器的IP均为机器IP或者localhost</span></span><br><span class="line"><span class="comment"># 如果是配置hostname的话，需要保证机器间可以通过hostname相互链接</span></span><br><span class="line"><span class="comment"># 如下图所示，部署 DolphinScheduler 机器的 hostname 为 ds1,ds2,ds3,ds4,ds5，其中 ds1,ds2 安装 master 服务，ds3,ds4,ds5安装 worker 服务，alert server安装在ds4中，api server 安装在ds5中</span></span><br><span class="line">ips=<span class="string">&quot;ds1,ds2,ds3,ds4,ds5&quot;</span></span><br><span class="line">masters=<span class="string">&quot;ds1,ds2&quot;</span></span><br><span class="line">workers=<span class="string">&quot;ds3:default,ds4:default,ds5:default&quot;</span></span><br><span class="line">alertServer=<span class="string">&quot;ds4&quot;</span></span><br><span class="line">apiServers=<span class="string">&quot;ds5&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-dolphinscheduler-env-sh-文件"><a href="#修改-dolphinscheduler-env-sh-文件" class="headerlink" title="修改 dolphinscheduler_env.sh 文件"></a>修改 <code>dolphinscheduler_env.sh</code> 文件</h3><p>文件 <code>./bin/env/dolphinscheduler_env.sh</code> 描述了下列配置：</p>
+<ul>
+<li>DolphinScheduler 的数据库配置，详细配置方法见[初始化数据库]</li>
+<li>一些任务类型外部依赖路径或库文件，如 <code>JAVA_HOME</code> 和 <code>SPARK_HOME</code>都是在这里定义的</li>
+</ul>
+<p>如果您不使用某些任务类型，您可以忽略任务外部依赖项，但您必须根据您的环境更改 <code>JAVA_HOME</code>、注册中心和数据库相关配置。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># JAVA_HOME, will use it to start DolphinScheduler server</span></span><br><span class="line"><span class="attr">export</span> <span class="string">JAVA_HOME=$&#123;JAVA_HOME:-/opt/soft/java&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Database related configuration, set database type, username and password</span></span><br><span class="line"><span class="attr">export</span> <span class="string">DATABASE=$&#123;DATABASE:-postgresql&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_PROFILES_ACTIVE=$&#123;DATABASE&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_URL=&quot;jdbc:postgresql://127.0.0.1:5432/dolphinscheduler&quot;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_USERNAME=&#123;user&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_PASSWORD=&#123;password&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># DolphinScheduler server related configuration</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_CACHE_TYPE=$&#123;SPRING_CACHE_TYPE:-none&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_JACKSON_TIME_ZONE=$&#123;SPRING_JACKSON_TIME_ZONE:-UTC&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">MASTER_FETCH_COMMAND_NUM=$&#123;MASTER_FETCH_COMMAND_NUM:-10&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Registry center configuration, determines the type and link of the registry center</span></span><br><span class="line"><span class="attr">export</span> <span class="string">REGISTRY_TYPE=$&#123;REGISTRY_TYPE:-zookeeper&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">REGISTRY_ZOOKEEPER_CONNECT_STRING=$&#123;REGISTRY_ZOOKEEPER_CONNECT_STRING:-localhost:2181&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"># Tasks related configurations, need to change the configuration if you use the related tasks.</span></span><br><span class="line"><span class="attr">export</span> <span class="string">HADOOP_HOME=$&#123;HADOOP_HOME:-/opt/soft/hadoop&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">HADOOP_CONF_DIR=$&#123;HADOOP_CONF_DIR:-/opt/soft/hadoop/etc/hadoop&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPARK_HOME=$&#123;SPARK_HOME:-/opt/soft/spark&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">PYTHON_LAUNCHER=$&#123;PYTHON_LAUNCHER:-/opt/soft/python&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">HIVE_HOME=$&#123;HIVE_HOME:-/opt/soft/hive&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">FLINK_HOME=$&#123;FLINK_HOME:-/opt/soft/flink&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">DATAX_LAUNCHER=$&#123;DATAX_LAUNCHER:-/opt/soft/datax/bin/python3&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">export</span> <span class="string">PATH=$HADOOP_HOME/bin:$SPARK_HOME/bin:$PYTHON_LAUNCHER:$JAVA_HOME/bin:$HIVE_HOME/bin:$FLINK_HOME/bin:$DATAX_LAUNCHER:$PATH</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p>DolphinScheduler 元数据存储在关系型数据库中，目前支持 PostgreSQL 和 MySQL。下面分别介绍如何使用 MySQL 和 PostgresQL 初始化数据库。</p>
+<blockquote>
+<p>如果使用 MySQL 需要手动下载 <a target="_blank" rel="noopener" href="https://downloads.mysql.com/archives/c-j/">mysql-connector-java 驱动</a> (8.0.16) 并移动到 DolphinScheduler 的每个模块的 libs 目录下，其中包括 <code>api-server/libs</code> 和 <code>alert-server/libs</code> 和 <code>master-server/libs</code> 和 <code>worker-server/libs</code> 和 <code>tools/libs</code>。</p>
+</blockquote>
+<p>对于mysql 5.6 &#x2F; 5.7：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql <span class="operator">-</span>uroot <span class="operator">-</span>p</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">CREATE</span> DATABASE dolphinscheduler <span class="keyword">DEFAULT</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">DEFAULT</span> <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"></span><br><span class="line"># 修改 &#123;<span class="keyword">user</span>&#125; 和 &#123;password&#125; 为你希望的用户名和密码</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> dolphinscheduler.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;&#123;user&#125;&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;&#123;password&#125;&#x27;</span>;</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> dolphinscheduler.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;&#123;user&#125;&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;&#123;password&#125;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> flush privileges;</span><br></pre></td></tr></table></figure>
+
+<p>对于mysql 8：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql <span class="operator">-</span>uroot <span class="operator">-</span>p</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">CREATE</span> DATABASE dolphinscheduler <span class="keyword">DEFAULT</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">DEFAULT</span> <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"></span><br><span class="line"># 修改 &#123;<span class="keyword">user</span>&#125; 和 &#123;password&#125; 为你希望的用户名和密码</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;&#123;user&#125;&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;&#123;password&#125;&#x27;</span>;</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> dolphinscheduler.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;&#123;user&#125;&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;&#123;user&#125;&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;&#123;password&#125;&#x27;</span>;</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> dolphinscheduler.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;&#123;user&#125;&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">mysql<span class="operator">&gt;</span> FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<p>对于 PostgreSQL：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 采用命令行工具登陆 PostgreSQL</span><br><span class="line">psql</span><br><span class="line"># 创建数据库</span><br><span class="line">postgres<span class="operator">=</span># <span class="keyword">CREATE</span> DATABASE dolphinscheduler;</span><br><span class="line"># 修改 &#123;<span class="keyword">user</span>&#125; 和 &#123;password&#125; 为你希望的用户名和密码</span><br><span class="line">postgres<span class="operator">=</span># <span class="keyword">CREATE</span> <span class="keyword">USER</span> &#123;<span class="keyword">user</span>&#125; PASSWORD &#123;password&#125;;</span><br><span class="line">postgres<span class="operator">=</span># <span class="keyword">ALTER</span> DATABASE dolphinscheduler OWNER <span class="keyword">TO</span> &#123;<span class="keyword">user</span>&#125;;</span><br><span class="line"># 退出 PostgreSQL</span><br><span class="line">postgres<span class="operator">=</span>#\q</span><br><span class="line"># 在终端执行如下命令，向配置文件新增登陆权限，并重载 PostgreSQL 配置，替换 &#123;ip&#125; 为对应的 DS 集群服务器 IP 地址段</span><br><span class="line">echo &quot;host    dolphinscheduler   &#123;user&#125;    &#123;ip&#125;     md5&quot; <span class="operator">&gt;&gt;</span> $PGDATA<span class="operator">/</span>pg_hba.conf</span><br><span class="line">pg_ctl reload</span><br></pre></td></tr></table></figure>
+
+<p>然后设置以下环境变量，将username和password改成你在上一步中设置的用户名{user}和密码{password}</p>
+<p>对于 MySQL：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># for mysql</span></span><br><span class="line"><span class="attr">export</span> <span class="string">DATABASE=$&#123;DATABASE:-mysql&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_PROFILES_ACTIVE=$&#123;DATABASE&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_URL=&quot;jdbc:mysql://127.0.0.1:3306/dolphinscheduler?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false&quot;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_USERNAME=&#123;user&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_PASSWORD=&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于 PostgreSQL：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># for postgresql</span></span><br><span class="line"><span class="attr">export</span> <span class="string">DATABASE=$&#123;DATABASE:-postgresql&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_PROFILES_ACTIVE=$&#123;DATABASE&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_URL=&quot;jdbc:postgresql://127.0.0.1:5432/dolphinscheduler&quot;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_USERNAME=&#123;user&#125;</span></span><br><span class="line"><span class="attr">export</span> <span class="string">SPRING_DATASOURCE_PASSWORD=&#123;password&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>完成上述步骤后，您已经为 DolphinScheduler 创建一个新数据库，现在你可以通过快速的 Shell 脚本来初始化数据库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash tools/bin/upgrade-schema.sh</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动-DolphinScheduler"><a href="#启动-DolphinScheduler" class="headerlink" title="启动 DolphinScheduler"></a>启动 DolphinScheduler</h2><p>使用上面创建的<strong>部署用户</strong>运行以下命令完成部署，部署后的运行日志将存放在 logs 文件夹内</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash ./bin/install.sh</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意:</strong> 第一次部署的话，可能出现 5 次<code>sh: bin/dolphinscheduler-daemon.sh: No such file or directory</code>相关信息，此为非重要信息直接忽略即可</p>
+</blockquote>
+<h2 id="登录-DolphinScheduler"><a href="#登录-DolphinScheduler" class="headerlink" title="登录 DolphinScheduler"></a>登录 DolphinScheduler</h2><p>浏览器访问地址 <a target="_blank" rel="noopener" href="http://localhost:12345/dolphinscheduler/ui">http://localhost:12345/dolphinscheduler/ui</a> 即可登录系统 UI。默认的用户名和密码是 <strong>admin&#x2F;dolphinscheduler123</strong></p>
+<h2 id="启停服务"><a href="#启停服务" class="headerlink" title="启停服务"></a>启停服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一键停止集群所有服务</span></span><br><span class="line">bash ./bin/stop-all.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一键开启集群所有服务</span></span><br><span class="line">bash ./bin/start-all.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启停 Master</span></span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh stop master-server</span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh start master-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启停 Worker</span></span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh start worker-server</span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh stop worker-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启停 Api</span></span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh start api-server</span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh stop api-server</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启停 Alert</span></span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh start alert-server</span><br><span class="line">bash ./bin/dolphinscheduler-daemon.sh stop alert-server</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意 1:</strong> 每个服务在路径 <code>&lt;service&gt;/conf/dolphinscheduler_env.sh</code> 中都有 <code>dolphinscheduler_env.sh</code> 文件，这是可以为微 服务需求提供便利。意味着您可以基于不同的环境变量来启动各个服务，只需要在对应服务中配置 <code>&lt;service&gt;/conf/dolphinscheduler_env.sh</code> 然后通过 <code>&lt;service&gt;/bin/start.sh</code> 命令启动即可。但是如果您使用命令 <code>/bin/dolphinscheduler-daemon.sh start &lt;service&gt;</code> 启动服务器，它将会用文件 <code>bin/env/dolphinscheduler_env.sh</code> 覆盖 <code>&lt;service&gt;/conf/dolphinscheduler_env.sh</code> 然后启动服务，目的是为了减少用户修改配置的成本.</p>
+</blockquote>
+<blockquote>
+<p><strong>注意 2:</strong> 服务用途请具体参见《系统架构设计》小节。Python gateway service 默认与 api-server 一起启动，如果您不想启动 Python gateway service 请通过更改 api-server 配置文件 <code>api-server/conf/application.yaml</code> 中的 <code>python-gateway.enabled : false</code> 来禁用它。</p>
+</blockquote>
+<p><font size="1"><em>参考链接：<a target="_blank" rel="noopener" href="https://dolphinscheduler.apache.org/zh-cn/docs/3.2.0/guide/installation/cluster">https://dolphinscheduler.apache.org/zh-cn/docs/3.2.0/guide/installation/cluster</a></em></font></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>微风
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.2b13c.com/2023/11/26/Dolphinscheduler3-2-0%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" title="Dolphinscheduler3.2.0安装教程">http://blog.2b13c.com/2023/11/26/Dolphinscheduler3-2-0安装教程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" rel="tag"># 大数据</a>
+              <a href="/tags/Dolphinscheduler/" rel="tag"># Dolphinscheduler</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/11/26/Doris1.2%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" rel="prev" title="Doris1.2版本安装文档">
+      <i class="fa fa-chevron-left"></i> Doris1.2版本安装文档
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">前置准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87-DolphinScheduler-%E5%90%AF%E5%8A%A8%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">准备 DolphinScheduler 启动环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%94%A8%E6%88%B7%E5%85%8D%E5%AF%86%E5%8F%8A%E6%9D%83%E9%99%90"><span class="nav-number">2.1.</span> <span class="nav-text">配置用户免密及权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%9C%BA%E5%99%A8-SSH-%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86"><span class="nav-number">2.2.</span> <span class="nav-text">配置机器 SSH 免密登陆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-zookeeper"><span class="nav-number">2.3.</span> <span class="nav-text">启动 zookeeper</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">修改相关配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-install-env-sh-%E6%96%87%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">修改 install_env.sh 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-dolphinscheduler-env-sh-%E6%96%87%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">修改 dolphinscheduler_env.sh 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">初始化数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-DolphinScheduler"><span class="nav-number">5.</span> <span class="nav-text">启动 DolphinScheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BB%E5%BD%95-DolphinScheduler"><span class="nav-number">6.</span> <span class="nav-text">登录 DolphinScheduler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%81%9C%E6%9C%8D%E5%8A%A1"><span class="nav-number">7.</span> <span class="nav-text">启停服务</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">微风</p>
+  <div class="site-description" itemprop="description">收集日常的点点滴滴</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      推荐网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.bejson.com/" title="https:&#x2F;&#x2F;www.bejson.com&#x2F;" rel="noopener" target="_blank">JSON格式化</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">微风</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">28k</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div> -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

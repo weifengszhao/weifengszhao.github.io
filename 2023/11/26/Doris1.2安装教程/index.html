@@ -30,7 +30,7 @@
 <meta property="og:description" content="部署要求Linux操作系统版本需求   Linux系统 版本    CentOS 7.1及以上   Ubuntu 16.04及以上   软件需求   软件 版本    Java 1.8及以上   GCC 4.8.2及以上   操作系统安装要求设置系统最大打开文件句柄数 123vi &#x2F;etc&#x2F;security&#x2F;limits.conf * soft nofile 65536* hard nofile">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-26T06:22:29.000Z">
-<meta property="article:modified_time" content="2023-11-26T07:15:08.716Z">
+<meta property="article:modified_time" content="2023-11-26T07:23:25.558Z">
 <meta property="article:author" content="微风">
 <meta property="article:tag" content="大数据">
 <meta property="article:tag" content="Doris">
@@ -222,7 +222,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-11-26 14:22:29 / 修改时间：15:15:08" itemprop="dateCreated datePublished" datetime="2023-11-26T14:22:29+08:00">2023-11-26</time>
+              <time title="创建时间：2023-11-26 14:22:29 / 修改时间：15:23:25" itemprop="dateCreated datePublished" datetime="2023-11-26T14:22:29+08:00">2023-11-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,7 +263,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="部署要求"><a href="#部署要求" class="headerlink" title="部署要求"></a>部署要求</h2><h4 id="Linux操作系统版本需求"><a href="#Linux操作系统版本需求" class="headerlink" title="Linux操作系统版本需求"></a>Linux操作系统版本需求</h4><table>
+        <h1 id="部署要求"><a href="#部署要求" class="headerlink" title="部署要求"></a>部署要求</h1><h2 id="Linux操作系统版本需求"><a href="#Linux操作系统版本需求" class="headerlink" title="Linux操作系统版本需求"></a>Linux操作系统版本需求</h2><table>
 <thead>
 <tr>
 <th>Linux系统</th>
@@ -279,7 +279,7 @@
 <td>16.04及以上</td>
 </tr>
 </tbody></table>
-<h4 id="软件需求"><a href="#软件需求" class="headerlink" title="软件需求"></a>软件需求</h4><table>
+<h2 id="软件需求"><a href="#软件需求" class="headerlink" title="软件需求"></a>软件需求</h2><table>
 <thead>
 <tr>
 <th>软件</th>
@@ -295,14 +295,14 @@
 <td>4.8.2及以上</td>
 </tr>
 </tbody></table>
-<h4 id="操作系统安装要求"><a href="#操作系统安装要求" class="headerlink" title="操作系统安装要求"></a>操作系统安装要求</h4><p>设置系统最大打开文件句柄数</p>
+<h2 id="操作系统安装要求"><a href="#操作系统安装要求" class="headerlink" title="操作系统安装要求"></a>操作系统安装要求</h2><p>设置系统最大打开文件句柄数</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/security/limits.conf </span><br><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 65536</span><br></pre></td></tr></table></figure>
 
-<h4 id="时钟同步"><a href="#时钟同步" class="headerlink" title="时钟同步"></a>时钟同步</h4><p>Doris 的元数据要求时间精度要小于5000ms，所以所有集群所有机器要进行时钟同步，避免因为时钟问题引发的元数据不一致导致服务出现异常。</p>
-<h4 id="关闭交换分区（swap）"><a href="#关闭交换分区（swap）" class="headerlink" title="关闭交换分区（swap）"></a>关闭交换分区（swap）</h4><p>Linux交换分区会给Doris带来很严重的性能问题，需要在安装之前禁用交换分区。</p>
+<h2 id="时钟同步"><a href="#时钟同步" class="headerlink" title="时钟同步"></a>时钟同步</h2><p>Doris 的元数据要求时间精度要小于5000ms，所以所有集群所有机器要进行时钟同步，避免因为时钟问题引发的元数据不一致导致服务出现异常。</p>
+<h2 id="关闭交换分区（swap）"><a href="#关闭交换分区（swap）" class="headerlink" title="关闭交换分区（swap）"></a>关闭交换分区（swap）</h2><p>Linux交换分区会给Doris带来很严重的性能问题，需要在安装之前禁用交换分区。</p>
 <p>Linux文件系统</p>
 <p>ext4和xfs文件系统均支持。</p>
-<h4 id="开发测试环境"><a href="#开发测试环境" class="headerlink" title="开发测试环境"></a>开发测试环境</h4><table>
+<h2 id="开发测试环境"><a href="#开发测试环境" class="headerlink" title="开发测试环境"></a>开发测试环境</h2><table>
 <thead>
 <tr>
 <th>模块</th>
@@ -330,7 +330,7 @@
 <td>1-3*</td>
 </tr>
 </tbody></table>
-<h4 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h4><table>
+<h2 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h2><table>
 <thead>
 <tr>
 <th>模块</th>
@@ -382,8 +382,8 @@
 <li><strong>当然，Doris的性能与节点数量及配置正相关。在最少4台机器（一台 FE，三台 BE，其中一台 BE 混部一个 Observer FE 提供元数据备份），以及较低配置的情况下，依然可以平稳的运行 Doris。</strong></li>
 <li><strong>如果 FE 和 BE 混部，需注意资源竞争问题，并保证元数据目录和数据目录分属不同磁盘。</strong></li>
 </ul>
-<h4 id="Broker部署"><a href="#Broker部署" class="headerlink" title="Broker部署"></a>Broker部署</h4><p>Broker 是用于访问外部数据源（如 hdfs）的进程。通常，在每台机器上部署一个 broker 实例即可。</p>
-<h4 id="网络需求"><a href="#网络需求" class="headerlink" title="网络需求"></a>网络需求</h4><p>Doris 各个实例直接通过网络进行通讯。以下表格展示了所有需要的端口</p>
+<h2 id="Broker部署"><a href="#Broker部署" class="headerlink" title="Broker部署"></a>Broker部署</h2><p>Broker 是用于访问外部数据源（如 hdfs）的进程。通常，在每台机器上部署一个 broker 实例即可。</p>
+<h2 id="网络需求"><a href="#网络需求" class="headerlink" title="网络需求"></a>网络需求</h2><p>Doris 各个实例直接通过网络进行通讯。以下表格展示了所有需要的端口</p>
 <table>
 <thead>
 <tr>
@@ -465,7 +465,7 @@
 <li>部署前请确保各个端口在应有方向上的访问权限。</li>
 </ol>
 </blockquote>
-<h4 id="IP绑定"><a href="#IP绑定" class="headerlink" title="IP绑定"></a>IP绑定</h4><p>因为有多网卡的存在，或因为安装过 docker 等环境导致的虚拟网卡的存在，同一个主机可能存在多个不同的 ip。当前 Doris 并不能自动识别可用 IP。所以当遇到部署主机上有多个 IP 时，必须通过 priority_networks 配置项来强制指定正确的 IP。</p>
+<h2 id="IP绑定"><a href="#IP绑定" class="headerlink" title="IP绑定"></a>IP绑定</h2><p>因为有多网卡的存在，或因为安装过 docker 等环境导致的虚拟网卡的存在，同一个主机可能存在多个不同的 ip。当前 Doris 并不能自动识别可用 IP。所以当遇到部署主机上有多个 IP 时，必须通过 priority_networks 配置项来强制指定正确的 IP。</p>
 <p>priority_networks 是 FE 和 BE 都有的一个配置，配置项需写在 fe.conf 和 be.conf 中。该配置项用于在 FE 或 BE 启动时，告诉进程应该绑定哪个IP。示例如下：</p>
 <p><code>priority_networks=10.1.3.0/24</code></p>
 <p>这是一种<code>CIDR</code>的表示方法。FE 或 BE 会根据这个配置项来寻找匹配的IP，作为自己的 localIP。</p>
@@ -476,9 +476,9 @@
 <p>这时，必须 DROP 掉这个添加错误的 BE，重新使用正确的 IP 执行 ADD BACKEND。</p>
 <p>FE 同理。</p>
 <p>BROKER 当前没有，也不需要 priority_networks 这个选项。Broker 的服务默认绑定在 0.0.0.0 上。只需在 ADD BROKER 时，执行正确可访问的 BROKER IP 即可。</p>
-<h4 id="表名大小写敏感性设置"><a href="#表名大小写敏感性设置" class="headerlink" title="表名大小写敏感性设置"></a>表名大小写敏感性设置</h4><p>doris默认为表名大小写敏感，如有表名大小写不敏感的需求需在集群初始化时进行设置。表名大小写敏感性在集群初始化完成后不可再修改。</p>
+<h2 id="表名大小写敏感性设置"><a href="#表名大小写敏感性设置" class="headerlink" title="表名大小写敏感性设置"></a>表名大小写敏感性设置</h2><p>doris默认为表名大小写敏感，如有表名大小写不敏感的需求需在集群初始化时进行设置。表名大小写敏感性在集群初始化完成后不可再修改。</p>
 <p>详细参见 <a target="_blank" rel="noopener" href="https://doris.apache.org/zh-CN/docs/1.2/advanced/variables##%E6%94%AF%E6%8C%81%E7%9A%84%E5%8F%98%E9%87%8F">变量</a> 中关于<code>lower_case_table_names</code>变量的介绍。</p>
-<h2 id="集群部署"><a href="#集群部署" class="headerlink" title="集群部署"></a>集群部署</h2><h3 id="手动部署"><a href="#手动部署" class="headerlink" title="手动部署"></a>手动部署</h3><h4 id="FE部署"><a href="#FE部署" class="headerlink" title="FE部署"></a>FE部署</h4><ul>
+<h1 id="集群部署"><a href="#集群部署" class="headerlink" title="集群部署"></a>集群部署</h1><h2 id="手动部署"><a href="#手动部署" class="headerlink" title="手动部署"></a>手动部署</h2><h3 id="FE部署"><a href="#FE部署" class="headerlink" title="FE部署"></a>FE部署</h3><ul>
 <li><p>拷贝 FE 部署文件到指定节点</p>
 <p>将源码编译生成的 output 下的 fe 文件夹拷贝到 FE 的节点指定部署路径下并进入该目录。</p>
 </li>
@@ -498,7 +498,7 @@
 <li><p>如需部署多 FE，请参见官方 “FE 扩容和缩容” 章节</p>
 </li>
 </ul>
-<h4 id="BE部署"><a href="#BE部署" class="headerlink" title="BE部署"></a>BE部署</h4><ul>
+<h3 id="BE部署"><a href="#BE部署" class="headerlink" title="BE部署"></a>BE部署</h3><ul>
 <li><p>拷贝 BE 部署文件到所有要部署 BE 的节点</p>
 <p>将源码编译生成的 output 下的 be 文件夹拷贝到 BE 的节点的指定部署路径下。</p>
 <blockquote>
@@ -556,7 +556,7 @@
 <p>使用 mysql-client 连接到 FE，并执行 <code>SHOW PROC &#39;/backends&#39;;</code> 查看 BE 运行情况。如一切正常，<code>isAlive</code> 列应为 <code>true</code>。</p>
 </li>
 </ul>
-<h4 id="（可选）FS-Broker-部署"><a href="#（可选）FS-Broker-部署" class="headerlink" title="（可选）FS_Broker 部署"></a>（可选）FS_Broker 部署</h4><p>Broker 以插件的形式，独立于 Doris 部署。如果需要从第三方存储系统导入数据，需要部署相应的 Broker，默认提供了读取 HDFS 、对象存储的 fs_broker。fs_broker 是无状态的，建议每一个 FE 和 BE 节点都部署一个 Broker。</p>
+<h3 id="（可选）FS-Broker-部署"><a href="#（可选）FS-Broker-部署" class="headerlink" title="（可选）FS_Broker 部署"></a>（可选）FS_Broker 部署</h3><p>Broker 以插件的形式，独立于 Doris 部署。如果需要从第三方存储系统导入数据，需要部署相应的 Broker，默认提供了读取 HDFS 、对象存储的 fs_broker。fs_broker 是无状态的，建议每一个 FE 和 BE 节点都部署一个 Broker。</p>
 <ul>
 <li><p>拷贝源码 fs_broker 的 output 目录下的相应 Broker 目录到需要部署的所有节点上。建议和 BE 或者 FE 目录保持同级。</p>
 </li>
@@ -569,7 +569,8 @@
 <li><p>添加 Broker</p>
 <p>要让 Doris 的 FE 和 BE 知道 Broker 在哪些节点上，通过 sql 命令添加 Broker 节点列表。</p>
 <p>使用 mysql-client 连接启动的 FE，执行以下命令：</p>
-<p><code>ALTER SYSTEM ADD BROKER broker_name &quot;broker_host1:broker_ipc_port1&quot;,&quot;broker_host2:broker_ipc_port2&quot;,...;</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER SYSTEM ADD BROKER broker_name <span class="string">&quot;broker_host1:broker_ipc_port1&quot;</span>,<span class="string">&quot;broker_host2:broker_ipc_port2&quot;</span>,...;</span><br></pre></td></tr></table></figure>
+
 <p>其中 broker_host 为 Broker 所在节点 ip；broker_ipc_port 在 Broker 配置文件中的conf&#x2F;apache_hdfs_broker.conf。</p>
 </li>
 <li><p>查看 Broker 状态</p>
@@ -617,7 +618,10 @@
     <a href="/2023/11/22/MySQL%E5%88%A0%E9%99%A4%E5%A4%A7%E8%A1%A8/" rel="prev" title="MySQL删除大表">
       <i class="fa fa-chevron-left"></i> MySQL删除大表
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/11/26/Dolphinscheduler3-2-0%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" rel="next" title="Dolphinscheduler3.2.0安装教程">
+      Dolphinscheduler3.2.0安装教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -676,7 +680,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">部署要求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E9%9C%80%E6%B1%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">Linux操作系统版本需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82"><span class="nav-number">1.0.2.</span> <span class="nav-text">软件需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E8%A6%81%E6%B1%82"><span class="nav-number">1.0.3.</span> <span class="nav-text">操作系统安装要求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%B6%E9%92%9F%E5%90%8C%E6%AD%A5"><span class="nav-number">1.0.4.</span> <span class="nav-text">时钟同步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA%EF%BC%88swap%EF%BC%89"><span class="nav-number">1.0.5.</span> <span class="nav-text">关闭交换分区（swap）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="nav-number">1.0.6.</span> <span class="nav-text">开发测试环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83"><span class="nav-number">1.0.7.</span> <span class="nav-text">生产环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker%E9%83%A8%E7%BD%B2"><span class="nav-number">1.0.8.</span> <span class="nav-text">Broker部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%9C%80%E6%B1%82"><span class="nav-number">1.0.9.</span> <span class="nav-text">网络需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IP%E7%BB%91%E5%AE%9A"><span class="nav-number">1.0.10.</span> <span class="nav-text">IP绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E5%90%8D%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F%E6%80%A7%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.0.11.</span> <span class="nav-text">表名大小写敏感性设置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">集群部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.</span> <span class="nav-text">手动部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FE%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.1.</span> <span class="nav-text">FE部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BE%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.2.</span> <span class="nav-text">BE部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89FS-Broker-%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.3.</span> <span class="nav-text">（可选）FS_Broker 部署</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E8%A6%81%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">部署要求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E9%9C%80%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">Linux操作系统版本需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">软件需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E8%A6%81%E6%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">操作系统安装要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E9%92%9F%E5%90%8C%E6%AD%A5"><span class="nav-number">1.4.</span> <span class="nav-text">时钟同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA%EF%BC%88swap%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">关闭交换分区（swap）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="nav-number">1.6.</span> <span class="nav-text">开发测试环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83"><span class="nav-number">1.7.</span> <span class="nav-text">生产环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Broker%E9%83%A8%E7%BD%B2"><span class="nav-number">1.8.</span> <span class="nav-text">Broker部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%9C%80%E6%B1%82"><span class="nav-number">1.9.</span> <span class="nav-text">网络需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E7%BB%91%E5%AE%9A"><span class="nav-number">1.10.</span> <span class="nav-text">IP绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E5%90%8D%E5%A4%A7%E5%B0%8F%E5%86%99%E6%95%8F%E6%84%9F%E6%80%A7%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.11.</span> <span class="nav-text">表名大小写敏感性设置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.</span> <span class="nav-text">集群部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%8A%A8%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.</span> <span class="nav-text">手动部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FE%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.1.</span> <span class="nav-text">FE部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BE%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.2.</span> <span class="nav-text">BE部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89FS-Broker-%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.3.</span> <span class="nav-text">（可选）FS_Broker 部署</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -690,20 +694,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -749,7 +753,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">26k</span>
+    <span title="站点总字数">28k</span>
 </div>
 
 <!--
